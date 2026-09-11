@@ -57,7 +57,7 @@ export async function launch(url, { width = 1440, height = 900, port = 9333, ext
     await sleep(250);
     try {
       const res = await fetch(`http://127.0.0.1:${port}/json`);
-      target = (await res.json()).find(t => t.type === 'page' && t.url.startsWith('file:'));
+      target = (await res.json()).find(t => t.type === 'page' && /^(file|https?):/.test(t.url));
       if (target) break;
     } catch { /* aún no ha arrancado */ }
   }
@@ -96,9 +96,15 @@ export async function launch(url, { width = 1440, height = 900, port = 9333, ext
   await send('Runtime.enable');
   await send('Page.enable');
 
-  // Espera a que la página y TODOS sus scripts estén cargados
-  for (let i = 0; i < 100; i++) {
-    const r = await send('Runtime.evaluate', { expression: `document.readyState === 'complete'`, returnByValue: true });
+  // Navega explícitamente y espera a que la página pedida y TODOS sus scripts
+  // estén cargados. Sin esto, con URLs http:// se evalúa sobre el about:blank
+  // inicial (con file:// no se nota porque la navegación es inmediata).
+  await send('Page.navigate', { url });
+  for (let i = 0; i < 150; i++) {
+    const r = await send('Runtime.evaluate', {
+      expression: `document.readyState === 'complete' && location.href !== 'about:blank'`,
+      returnByValue: true
+    });
     if (r.result.value) break;
     await sleep(100);
   }
