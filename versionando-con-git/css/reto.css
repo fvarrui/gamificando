@@ -1,0 +1,219 @@
+/* ==========================================================
+   Estilos propios de «Versionando con Git»:
+   progreso por fases, pestañas y panel del repositorio.
+   ========================================================== */
+.game-main { --side-w: 410px; }
+
+/* ---------------- Selector de fase de la portada ---------------- */
+.phase-pick {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-panel);
+  padding: 0.9rem 1rem 1rem;
+  margin: 0 0 1.5rem;
+}
+.phase-pick legend {
+  padding: 0 0.4rem;
+  color: var(--white);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.phase-pick .pp-note { margin: 0 0 0.7rem; font-size: 0.8rem; color: var(--text-dim); }
+.phase-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0.5rem;
+}
+.phase-options label {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-start;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.5rem 0.6rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+.phase-options label:has(input:checked) { border-color: var(--green-border); background: var(--green-bg); }
+.phase-options input { accent-color: var(--green); margin-top: 0.2rem; }
+.phase-options b { display: block; color: var(--white); }
+.phase-options span span { color: var(--text-dim); }
+
+/* ---------------- Progreso por fases (barra superior) ---------------- */
+.progress {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  flex: 1 1 auto;
+  justify-content: center;
+  min-width: 0;
+}
+.phases { list-style: none; margin: 0; padding: 0; display: flex; gap: 0.35rem; }
+.phase {
+  border-radius: 6px;
+  border: 1px dashed var(--border-strong);
+  color: var(--text-dim);
+  padding: 0.1rem 0.45rem;
+  font-weight: bold;
+  font-size: 0.76rem;
+  white-space: nowrap;
+}
+.phase.active {
+  border: 1px solid var(--amber);
+  color: var(--amber);
+  background: var(--amber-bg);
+  animation: pipPulse 1.6s ease-in-out infinite;
+}
+.phase.done { border: 1px solid var(--green-border); color: var(--green); background: var(--green-bg); }
+@keyframes pipPulse { 50% { box-shadow: 0 0 0 3px rgba(255, 203, 107, 0.18); } }
+.mbar {
+  width: 110px;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  flex: none;
+}
+.mbar span { display: block; height: 100%; background: var(--green); width: 0; transition: width 0.4s; }
+.mcount { color: var(--text-dim); white-space: nowrap; }
+.mcount b { color: var(--white); }
+
+/* El parpadeo de la terminal en este reto es ámbar (avisos de compañeros) */
+.term-window { --flash: var(--amber); }
+
+/* ---------------- Pestañas del panel lateral ---------------- */
+.side { gap: 0.7rem; overflow: visible; }
+.side-tabs { display: flex; gap: 0.4rem; flex: none; }
+.side-tabs button {
+  flex: 1 1 0;
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: bold;
+  cursor: pointer;
+  background: var(--bg-panel);
+  color: var(--text-dim);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.45rem 0.6rem;
+  position: relative;
+}
+.side-tabs button[aria-selected="true"] { color: var(--green); border-color: var(--green-border); background: var(--green-bg); }
+.side-tabs .tab-dot {
+  position: absolute;
+  top: 0.3rem;
+  right: 0.45rem;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--amber);
+  box-shadow: 0 0 6px var(--amber);
+}
+.side-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  min-height: 0;
+  flex: 1 1 auto;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-color: #2b4a39 transparent;
+  padding-bottom: 0.2rem;
+}
+
+/* ---------------- Panel «Repositorio» ---------------- */
+.repo-card {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.8rem 1rem;
+  flex: none;
+}
+.repo-card h2 {
+  margin: 0 0 0.5rem;
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+.repo-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem; }
+.repo-summary { margin: 0 0 0.6rem; font-size: 0.8rem; color: var(--text); }
+.repo-summary .rs-op { display: block; color: var(--amber); margin-top: 0.25rem; }
+.repo-empty { color: var(--text-dim); font-size: 0.82rem; margin: 0; }
+
+.graph-wrap { position: relative; font-size: 0.78rem; }
+.graph-svg { position: absolute; left: 0; top: 0; overflow: visible; }
+.graph-rows { list-style: none; margin: 0; padding: 0; }
+.g-row {
+  height: var(--row-h);
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  white-space: nowrap;
+  overflow: hidden;
+  min-width: 0;
+}
+.g-row.is-head .g-msg { color: var(--white); }
+.g-hash { color: var(--amber); opacity: 0.85; flex: none; }
+.g-msg { color: var(--text); overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.ref-pill {
+  flex: none;
+  font-size: 0.7rem;
+  font-weight: bold;
+  padding: 0 0.35rem;
+  border-radius: 4px;
+  line-height: 1.5;
+  border: 1px solid;
+}
+.ref-head   { color: #06090d; background: var(--cyan); border-color: var(--cyan); }
+.ref-branch { color: var(--green); border-color: var(--green-border); background: var(--green-bg); }
+.ref-remote { color: var(--red); border-color: var(--red-border); background: var(--red-bg); }
+.ref-tag    { color: var(--amber); border-color: var(--amber); background: var(--amber-bg); }
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.7rem;
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  margin: 0.6rem 0 0;
+}
+.legend span { display: inline-flex; align-items: center; gap: 0.25rem; }
+
+.areas-table { width: 100%; border-collapse: collapse; font-size: 0.76rem; }
+.areas-table th, .areas-table td { border-bottom: 1px solid var(--border); padding: 0.3rem 0.25rem; text-align: center; }
+.areas-table th { color: var(--text-dim); font-weight: normal; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.04em; vertical-align: bottom; }
+.areas-table th:first-child, .areas-table td:first-child { text-align: left; }
+.areas-table td:first-child { color: var(--white); overflow-wrap: anywhere; }
+.st { font-weight: bold; }
+.st-same { color: var(--text-dim); font-weight: normal; }
+.st-mod { color: var(--amber); }
+.st-new { color: var(--green); }
+.st-del { color: var(--red); }
+.st-unt { color: var(--red); }
+.st-ign { color: var(--text-dim); font-weight: normal; font-style: italic; }
+.st-conf { color: var(--red); }
+.areas-note { font-size: 0.72rem; color: var(--text-dim); margin: 0.5rem 0 0; }
+
+.kv { margin: 0; font-size: 0.78rem; }
+.kv div { display: flex; gap: 0.5rem; padding: 0.15rem 0; }
+.kv dt { color: var(--text-dim); min-width: 7.5rem; flex: none; }
+.kv dd { margin: 0; color: var(--text); overflow-wrap: anywhere; min-width: 0; }
+
+.final-graph {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.8rem 1rem;
+  overflow-x: auto;
+}
+
+@media (max-width: 1100px) {
+  .game-main { --side-w: 360px; }
+  .mbar { display: none; }
+}
+@media (max-width: 900px) {
+  .side-panel { overflow: visible; }
+  .progress { justify-content: flex-start; order: 3; flex-basis: 100%; flex-wrap: wrap; }
+}

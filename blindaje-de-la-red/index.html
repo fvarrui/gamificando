@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blindaje de la Red — Operación Escudo Digital</title>
+<link rel="stylesheet" href="../shared/css/tokens.css">
+<link rel="stylesheet" href="../shared/css/base.css">
+<link rel="stylesheet" href="../shared/css/screens.css">
+<link rel="stylesheet" href="../shared/css/game.css">
+<link rel="stylesheet" href="../shared/css/terminal.css">
+<link rel="stylesheet" href="../shared/css/modal.css">
+<link rel="stylesheet" href="css/reto.css">
+</head>
+<body>
+
+<!-- ==========================================================
+     PANTALLA 1 · PORTADA / BRIEFING
+     ========================================================== -->
+<main id="screenIntro" class="screen-intro" aria-labelledby="introTitle">
+  <div class="intro-wrap">
+    <p class="eyebrow">Operación Escudo Digital · Redes · Servicios · Seguridad</p>
+    <h1 id="introTitle" class="intro-title" tabindex="-1">Blindaje<br>de la Red<span class="cursor" aria-hidden="true">▌</span></h1>
+    <p class="intro-sub">Simulador de respuesta a incidentes en una terminal Linux</p>
+
+    <article class="transmission" aria-label="Comunicado de la dirección de seguridad">
+      <div class="transmission-head">
+        <span><b>DE:</b> Dirección de Seguridad (CISO) · TecnoAtlántica</span>
+        <span><b>PARA:</b> Blue Team</span>
+        <span><b>ASUNTO:</b> Incidente activo en srv-tecnoatlantica-01</span>
+      </div>
+      <span class="stamp" aria-hidden="true">URGENTE</span>
+      <p>
+        Esta madrugada hemos detectado tráfico anómalo en nuestro servidor principal y
+        múltiples intentos de acceso desde el exterior. Sospechamos que alguien lleva días
+        buscando una puerta abierta.
+      </p>
+      <p>
+        Necesitamos que entréis por SSH, averigüéis qué está expuesto y lo contengáis
+        <strong>sin tumbar los servicios que la empresa necesita</strong> para seguir funcionando.
+      </p>
+      <p>
+        El SOC os irá enviando las alertas <strong>a medida que las detecte</strong>. No sabemos
+        cuántas llegarán ni por dónde. Mantened la terminal abierta y actuad con cabeza.
+      </p>
+    </article>
+
+    <h2 class="intro-h2">Cómo funciona</h2>
+    <ul class="how-grid">
+      <li>
+        <span class="how-icon" aria-hidden="true">📡</span>
+        <b>Alertas de una en una</b>
+        <span>Cada amenaza llega por sorpresa como una ficha de misión en el lateral. Resuélvela y llegará la siguiente.</span>
+      </li>
+      <li>
+        <span class="how-icon" aria-hidden="true">⌨️</span>
+        <b>Comandos reales</b>
+        <span><code>ss</code>, <code>netstat</code>, <code>ps</code>, <code>systemctl</code>, <code>kill</code>, <code>ufw</code>, <code>iptables</code>… La terminal es tu única herramienta.</span>
+      </li>
+      <li>
+        <span class="how-icon" aria-hidden="true">⚠️</span>
+        <b>No rompas la empresa</b>
+        <span>Detener un servicio legítimo resta XP y queda anotado en el informe final.</span>
+      </li>
+      <li>
+        <span class="how-icon" aria-hidden="true">🏅</span>
+        <b>XP, niveles e insignias</b>
+        <span>Las pistas ayudan, pero reducen la recompensa. ¿Llegarás a «Escudo digital»?</span>
+      </li>
+    </ul>
+
+    <p class="host-line">
+      Host: <code>srv-tecnoatlantica-01</code> · IP: <code>192.168.30.15</code> ·
+      Acceso: <code>root</code> (SSH con clave)
+    </p>
+
+    <div class="intro-actions">
+      <button type="button" class="btn btn-primary btn-big" id="startBtn">▶ Conectar al servidor</button>
+      <button type="button" class="btn js-open-modal" data-modal="helpModal" aria-haspopup="dialog" aria-controls="helpModal">❓ Guía de comandos</button>
+      <a class="btn" href="../index.html">⌂ Otros retos</a>
+    </div>
+
+    <p class="fineprint">Simulación educativa: ningún sistema real es escaneado ni modificado.</p>
+    <p class="credits">
+      Made with <span role="img" aria-label="amor">💖</span> by
+      <a href="https://github.com/fvarrui" target="_blank" rel="noopener noreferrer">@fvarrui</a> &amp;
+      <a href="https://claude.ai" target="_blank" rel="noopener noreferrer">Claude</a>
+    </p>
+  </div>
+</main>
+
+<!-- ==========================================================
+     PANTALLA 2 · JUEGO (terminal + ficha de misión)
+     ========================================================== -->
+<div id="screenGame" class="screen-game" hidden>
+  <header class="topbar">
+    <div class="tb-id" id="tbId">
+      <span class="tb-dot" aria-hidden="true"></span>
+      <b>ESCUDO DIGITAL</b>
+      <span>root@srv-tecnoatlantica-01</span>
+    </div>
+    <ol class="pips" id="pips" aria-label="Progreso de alertas"></ol>
+    <div class="tb-stats">
+      <span class="stat" title="Tiempo desde el inicio de la operación"><span aria-hidden="true">⏱</span> <b id="clock">00:00</b></span>
+      <span class="stat stat-xp"><span aria-hidden="true">⭐</span> <b id="xpValue">0</b> XP</span>
+      <span class="stat stat-level" id="levelName">Nivel 1 · Aprendiz</span>
+    </div>
+    <div class="tb-actions">
+      <button type="button" class="btn btn-sm js-open-modal" data-modal="helpModal" aria-haspopup="dialog" aria-controls="helpModal">❓ Ayuda</button>
+      <button type="button" class="btn btn-sm" id="resetBtn">↺ Reiniciar</button>
+      <button type="button" class="btn btn-sm" id="quitBtn">⌂ Portada</button>
+    </div>
+  </header>
+
+  <main class="game-main">
+    <section class="term-window" id="termWindow" aria-label="Terminal SSH">
+      <div class="term-titlebar">
+        <span class="term-dots" aria-hidden="true"><span></span><span></span><span></span></span>
+        <span class="term-title" id="termTitle">root@srv-tecnoatlantica-01: ~ — ssh</span>
+      </div>
+      <div class="terminal" id="terminal">
+        <div id="terminalOutput" role="log" aria-label="Salida de la terminal"></div>
+        <form id="terminalForm" class="input-line" autocomplete="off">
+          <label for="terminalInput" class="sr-only">Escribe un comando y pulsa Intro</label>
+          <span class="prompt" id="promptLabel" aria-hidden="true"></span>
+          <input type="text" id="terminalInput" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false">
+        </form>
+      </div>
+    </section>
+
+    <aside class="side" aria-label="Misión actual">
+      <div id="missionSlot"></div>
+      <section class="log-card" aria-labelledby="logTitle">
+        <h2 id="logTitle">Registro de alertas</h2>
+        <ol class="mission-log" id="missionLog"></ol>
+      </section>
+    </aside>
+  </main>
+</div>
+
+<!-- ==========================================================
+     PANTALLA 3 · INFORME DE MISIÓN
+     ========================================================== -->
+<main id="screenDebrief" class="screen-debrief" hidden aria-labelledby="debriefTitle">
+  <div class="debrief-wrap">
+    <p class="eyebrow">Informe de misión · SOC TecnoAtlántica</p>
+    <h1 id="debriefTitle" class="debrief-title" tabindex="-1">Red asegurada</h1>
+    <p class="debrief-msg" id="debriefMsg"></p>
+
+    <div class="stats-row">
+      <div class="stat-box xp"><span class="k">Experiencia</span><span class="v" id="dXp">0 XP</span></div>
+      <div class="stat-box lvl"><span class="k">Rango alcanzado</span><span class="v" id="dLevel">Nivel 1 · Aprendiz</span></div>
+      <div class="stat-box"><span class="k">Tiempo</span><span class="v" id="dTime">00:00</span></div>
+      <div class="stat-box"><span class="k">Pistas usadas</span><span class="v" id="dHints">0</span></div>
+    </div>
+
+    <h2>Insignias</h2>
+    <ul class="badge-grid" id="badgeGrid"></ul>
+
+    <h2>Alertas resueltas</h2>
+    <div class="table-wrap">
+      <table class="report-table">
+        <thead>
+          <tr><th scope="col">Alerta</th><th scope="col">Amenaza</th><th scope="col">Cómo se resolvió</th><th scope="col">XP</th></tr>
+        </thead>
+        <tbody id="reportBody"></tbody>
+      </table>
+    </div>
+
+    <h2>Decisiones arriesgadas</h2>
+    <ul class="risky-list" id="riskyList"></ul>
+
+    <div class="debrief-actions">
+      <button type="button" class="btn btn-primary btn-big" id="againBtn">↺ Jugar de nuevo</button>
+      <button type="button" class="btn" id="homeBtn">⌂ Volver a la portada</button>
+    </div>
+  </div>
+</main>
+
+<div class="toasts" id="toasts" aria-hidden="true"></div>
+<p class="sr-only" id="announcer" role="status" aria-live="polite"></p>
+
+<!-- ==========================================================
+     MODAL DE AYUDA (accesible desde portada y juego)
+     ========================================================== -->
+<div class="modal-overlay" id="helpModal" hidden>
+  <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
+    <div class="modal-head">
+      <h2 id="helpTitle">❓ Guía rápida de la terminal</h2>
+      <button type="button" class="btn btn-sm js-close-modal">✕ Cerrar</button>
+    </div>
+
+    <section>
+      <h3>Diagnóstico: ¿qué está pasando?</h3>
+      <dl>
+        <dt><code>ss -tulpn</code> · <code>netstat -tulpn</code></dt>
+        <dd>Listan los puertos en escucha. <code>-t</code> TCP, <code>-u</code> UDP, <code>-l</code> solo en escucha, <code>-p</code> muestra el proceso y su PID, <code>-n</code> muestra los puertos como números. Admiten filtros: <code>ss -tulpn | grep 80</code>.</dd>
+        <dt><code>ps aux</code></dt>
+        <dd>Lista los procesos en ejecución (usuario, PID, consumo y comando). No muestra puertos, pero ayuda a identificar procesos: <code>ps aux | grep ftp</code>.</dd>
+        <dt><code>systemctl status &lt;servicio&gt;</code></dt>
+        <dd>Muestra si un servicio está activo y cuál es su proceso principal.</dd>
+      </dl>
+    </section>
+
+    <section>
+      <h3>Contención: detener servicios</h3>
+      <dl>
+        <dt><code>systemctl stop &lt;servicio&gt;</code></dt>
+        <dd>Detiene el servicio ahora mismo. Si está habilitado, volverá a arrancar tras un reinicio.</dd>
+        <dt><code>systemctl disable --now &lt;servicio&gt;</code></dt>
+        <dd>Lo detiene y además evita que arranque en el próximo reinicio. Ojo: <code>disable</code> sin <code>--now</code> no lo detiene.</dd>
+        <dt><code>service &lt;servicio&gt; stop</code></dt>
+        <dd>Sintaxis clásica equivalente a <code>systemctl stop</code>.</dd>
+        <dt><code>kill &lt;PID&gt;</code> · <code>kill -9 &lt;PID&gt;</code></dt>
+        <dd>Termina un proceso por su identificador. Necesitas el PID exacto (<code>ss -tulpn</code> o <code>ps aux</code>). <code>-9</code> lo fuerza sin cierre limpio.</dd>
+      </dl>
+    </section>
+
+    <section>
+      <h3>Contención: cortafuegos</h3>
+      <dl>
+        <dt><code>ufw deny &lt;puerto&gt;</code> · <code>ufw status</code></dt>
+        <dd>Bloquea el tráfico entrante a ese puerto. El servicio <strong>sigue en marcha</strong> (y en LISTEN), pero desde fuera ya no se llega a él.</dd>
+        <dt><code>iptables -A INPUT -p tcp --dport &lt;puerto&gt; -j DROP</code></dt>
+        <dd>Añade una regla que descarta los paquetes TCP dirigidos a ese puerto. Consulta las reglas con <code>iptables -L -n</code>.</dd>
+      </dl>
+    </section>
+
+    <section>
+      <h3>Otros comandos útiles</h3>
+      <p style="margin:0;font-size:0.87rem;">
+        <code>ls -la</code> · <code>cat &lt;fichero&gt;</code> · <code>man &lt;comando&gt;</code> · <code>history</code> ·
+        <code>whoami</code> · <code>id</code> · <code>uname -a</code> · <code>date</code> · <code>uptime</code> ·
+        <code>clear</code> · <code>exit</code>. Puedes encadenar con <code>&amp;&amp;</code> o <code>;</code> y filtrar con <code>| grep</code>.
+      </p>
+    </section>
+
+    <section>
+      <h3>Puertos habituales (referencia general)</h3>
+      <table class="help-table">
+        <thead><tr><th scope="col">Puerto</th><th scope="col">Servicio</th><th scope="col">Uso</th></tr></thead>
+        <tbody>
+          <tr><td>20, 21</td><td>FTP</td><td>Transferencia de ficheros (sin cifrar)</td></tr>
+          <tr><td>22</td><td>SSH</td><td>Administración remota cifrada, SFTP</td></tr>
+          <tr><td>23</td><td>Telnet</td><td>Administración remota (sin cifrar)</td></tr>
+          <tr><td>25</td><td>SMTP</td><td>Envío de correo</td></tr>
+          <tr><td>53</td><td>DNS</td><td>Resolución de nombres</td></tr>
+          <tr><td>80</td><td>HTTP</td><td>Web sin cifrar</td></tr>
+          <tr><td>443</td><td>HTTPS</td><td>Web cifrada con TLS</td></tr>
+          <tr><td>445</td><td>SMB</td><td>Carpetas e impresoras compartidas</td></tr>
+          <tr><td>3306</td><td>MySQL / MariaDB</td><td>Base de datos</td></tr>
+          <tr><td>3389</td><td>RDP</td><td>Escritorio remoto</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="keys">
+      <h3>Atajos de teclado en la terminal</h3>
+      <p style="margin:0;font-size:0.87rem;">
+        <kbd>↑</kbd> <kbd>↓</kbd> historial de comandos · <kbd>Tab</kbd> autocompletar ·
+        <kbd>Ctrl</kbd>+<kbd>L</kbd> limpiar pantalla · <kbd>Ctrl</kbd>+<kbd>C</kbd> cancelar la línea.
+        Con la línea vacía, <kbd>Tab</kbd> sale de la terminal al resto de la página.
+      </p>
+    </section>
+  </div>
+</div>
+
+<!-- Biblioteca común de los retos -->
+<script src="../shared/js/core.js"></script>
+<script src="../shared/js/terminal.js"></script>
+<script src="../shared/js/shell.js"></script>
+<script src="../shared/js/man.js"></script>
+<script src="../shared/js/modal.js"></script>
+<script src="../shared/js/game.js"></script>
+<!-- Datos del reto -->
+<script src="data/config.js"></script>
+<script src="data/gamification.js"></script>
+<script src="data/man.js"></script>
+<script src="data/missions.js"></script>
+<!-- Simulador y misiones -->
+<script src="js/state.js"></script>
+<script src="js/missions.js"></script>
+<script src="js/commands.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

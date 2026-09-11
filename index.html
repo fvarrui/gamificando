@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gamificando · Juegos para desarrollar tus habilidades digitales</title>
+<link rel="stylesheet" href="shared/css/tokens.css">
+<link rel="stylesheet" href="shared/css/base.css">
+<link rel="stylesheet" href="shared/css/screens.css">
+<style>
+  .retos { list-style: none; padding: 0; margin: 0 0 2rem; display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+  .reto {
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--green-border);
+    border-radius: var(--radius);
+    padding: 1.1rem 1.25rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .reto:nth-child(2) { border-left-color: var(--amber); }
+  .reto h2 { margin: 0; font-size: 1.25rem; color: var(--white); }
+  .reto .tagline { margin: 0; color: var(--text-dim); font-size: 0.88rem; }
+  .reto p { margin: 0; font-size: 0.9rem; }
+  .reto .meta { font-size: 0.78rem; color: var(--text-dim); }
+  .reto .tags { display: flex; flex-wrap: wrap; gap: 0.35rem; margin: 0; }
+  .reto .tags span {
+    font-size: 0.72rem;
+    font-weight: bold;
+    letter-spacing: 0.04em;
+    color: var(--green);
+    background: var(--green-bg);
+    border: 1px solid var(--green-border);
+    border-radius: 999px;
+    padding: 0.1rem 0.55rem;
+  }
+  .reto:nth-child(2) .tags span { color: var(--amber); background: var(--amber-bg); border-color: var(--amber); }
+  /* El texto de entrada ocupa lo mismo que las dos fichas juntas */
+  .intro-lead { text-align: justify; hyphens: auto; }
+  .reto .acciones { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: auto; padding-top: 0.6rem; }
+  .reto .acciones a { text-decoration: none; }
+</style>
+</head>
+<body>
+<main class="screen-intro">
+  <div class="intro-wrap">
+    <p class="eyebrow">Operación Escudo Digital · TecnoAtlántica</p>
+    <h1 class="intro-title">Gamificando<span class="cursor" aria-hidden="true">▌</span></h1>
+    <p class="intro-sub">Juegos para desarrollar tus habilidades digitales</p>
+
+    <p class="intro-lead">
+      Simuladores que se ejecutan en el navegador, sin instalar nada y sin enviar ningún dato:
+      trabajas en una terminal Linux con <strong>comandos reales</strong>, resolviendo misiones
+      que llegan de una en una dentro de la narrativa de la empresa ficticia TecnoAtlántica.
+    </p>
+
+    <h2 class="intro-h2">Retos disponibles</h2>
+    <ul class="retos">
+      <li class="reto">
+        <h2>🛡️ Blindaje de la Red</h2>
+        <p class="tagline">Respuesta a incidentes: contén las amenazas sin tumbar la empresa.</p>
+        <p class="tags"><span>Redes</span><span>Servicios</span><span>Seguridad</span><span>Linux</span></p>
+        <p>
+          El servidor está comprometido. Con <code>ss</code>, <code>ps</code>, <code>systemctl</code>,
+          <code>kill</code>, <code>ufw</code> e <code>iptables</code> hay que descubrir qué servicios sobran
+          y cerrarlos… sin tocar los que el negocio necesita.
+        </p>
+        <p class="meta">7 misiones · 10-20 min</p>
+        <div class="acciones">
+          <a class="btn btn-primary" href="blindaje-de-la-red/index.html">▶ Jugar</a>
+          <a class="btn" href="blindaje-de-la-red/README.md">📄 Guía docente</a>
+        </div>
+      </li>
+      <li class="reto">
+        <h2>🌿 Versionando con Git</h2>
+        <p class="tagline">Control de versiones: de una carpeta sin historial a un repositorio compartido.</p>
+        <p class="tags"><span>Git</span><span>Control de versiones</span><span>Trabajo en equipo</span></p>
+        <p>
+          Git de verdad en la terminal (<code>add</code>, <code>commit</code>, <code>branch</code>,
+          <code>merge</code>, <code>push</code>, <code>pull</code>, <code>revert</code>…), con conflictos que hay
+          que resolver a mano y un panel que dibuja el grafo de ramas y las tres áreas en tiempo real.
+        </p>
+        <p class="meta">30 misiones en 5 fases · 45-70 min</p>
+        <div class="acciones">
+          <a class="btn btn-primary" href="versionando-con-git/index.html">▶ Jugar</a>
+          <a class="btn" href="versionando-con-git/README.md">📄 Guía docente</a>
+        </div>
+      </li>
+    </ul>
+
+    <p class="fineprint">Simulaciones educativas: ningún sistema real se escanea, modifica ni contacta.</p>
+    <p class="credits">
+      Made with <span role="img" aria-label="amor">💖</span> by
+      <a href="https://github.com/fvarrui" target="_blank" rel="noopener noreferrer">@fvarrui</a> &amp;
+      <a href="https://claude.ai" target="_blank" rel="noopener noreferrer">Claude</a>
+    </p>
+  </div>
+</main>
+</body>
+</html>

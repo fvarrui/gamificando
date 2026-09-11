@@ -1,0 +1,41 @@
+/* ==========================================================
+   Estilos propios de «Blindaje de la Red»:
+   indicadores de alerta de la barra superior.
+   ========================================================== */
+.pips {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 0.35rem;
+  flex: 1 1 auto;
+  justify-content: center;
+}
+.pip {
+  position: relative;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 6px;
+  border: 1px dashed var(--border-strong);
+  color: var(--text-dim);
+  display: grid;
+  place-items: center;
+  font-weight: bold;
+  font-size: 0.8rem;
+}
+.pip.active {
+  border: 1px solid var(--amber);
+  color: var(--amber);
+  background: var(--amber-bg);
+  animation: pipPulse 1.6s ease-in-out infinite;
+}
+.pip.done {
+  border: 1px solid var(--green-border);
+  color: var(--green);
+  background: var(--green-bg);
+}
+@keyframes pipPulse { 50% { box-shadow: 0 0 0 3px rgba(255, 203, 107, 0.18); } }
+
+@media (max-width: 900px) {
+  .pips { justify-content: flex-start; order: 3; flex-basis: 100%; }
+}

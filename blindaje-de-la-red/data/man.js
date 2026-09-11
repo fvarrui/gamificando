@@ -1,0 +1,65 @@
+/* ==========================================================
+   Páginas de manual del servidor
+   Formato: [nombre, [sinopsis], descripción, [[opción, texto]], [ejemplos]]
+   ========================================================== */
+(function (global) {
+  "use strict";
+  var BD = global.BD = global.BD || {};
+
+  BD.MAN = {
+    ss: ["ss - inspecciona sockets (sustituto moderno de netstat)",
+      ["ss [opciones]"],
+      "Muestra los sockets del sistema. Con -l y -t/-u se ven los servicios que están a la escucha, y con -p el proceso que ocupa cada puerto.",
+      [["-t", "sockets TCP"], ["-u", "sockets UDP"], ["-l", "solo los que están en escucha"],
+       ["-p", "proceso y PID que usa cada socket"], ["-n", "no resuelve nombres de servicio (muestra números de puerto)"]],
+      ["ss -tulpn", "ss -tulpn | grep 443"]],
+    netstat: ["netstat - muestra conexiones de red y puertos en escucha",
+      ["netstat [-t] [-u] [-l] [-p] [-n]"],
+      "La herramienta clásica equivalente a ss. Con -l muestra solo los puertos en escucha.",
+      [["-t / -u", "TCP / UDP"], ["-l", "solo en escucha"], ["-p", "PID y programa"], ["-n", "direcciones y puertos numéricos"]],
+      ["netstat -tulpn"]],
+    ps: ["ps - informa de los procesos en ejecución",
+      ["ps aux", "ps -ef"],
+      "Muestra usuario, PID, consumo de CPU y memoria y el comando de cada proceso. No muestra puertos: para eso están ss y netstat.",
+      [],
+      ["ps aux", "ps aux | grep smbd"]],
+    systemctl: ["systemctl - controla systemd y sus servicios",
+      ["systemctl stop <unidad>", "systemctl disable [--now] <unidad>", "systemctl status <unidad>"],
+      "Gestiona los servicios del sistema. Detener un servicio y evitar que arranque en el próximo inicio son dos cosas distintas.",
+      [["stop", "detiene el servicio ahora mismo"],
+       ["disable", "evita que arranque en el próximo inicio, pero NO lo detiene"],
+       ["disable --now", "lo deshabilita y además lo detiene"],
+       ["status / is-active", "muestra el estado y el proceso principal"]],
+      ["systemctl status apache2", "systemctl stop vsftpd", "systemctl disable --now xrdp"]],
+    service: ["service - ejecuta un script de servicio (sintaxis clásica SysV)",
+      ["service <nombre> stop|status"],
+      "Forma clásica equivalente a systemctl para arrancar y parar servicios.",
+      [],
+      ["service vsftpd stop"]],
+    kill: ["kill - envía una señal a un proceso",
+      ["kill [-9] <PID>"],
+      "Por defecto envía SIGTERM (15), que pide al proceso que termine de forma ordenada. Con -9 (SIGKILL) lo termina de inmediato, sin darle opción a cerrar ficheros ni conexiones. Necesitas el PID exacto: míralo con ss -tulpn o ps aux.",
+      [["-9", "SIGKILL: termina el proceso sin cierre limpio"]],
+      ["kill 1044", "kill -9 1210"]],
+    ufw: ["ufw - Uncomplicated Firewall, interfaz sencilla sobre iptables",
+      ["ufw deny <puerto>[/tcp]", "ufw status [verbose]"],
+      "Bloquear un puerto NO detiene el servicio: el proceso sigue vivo y en LISTEN, pero el tráfico entrante desde la red se descarta.",
+      [["deny / reject", "descarta / rechaza el tráfico a ese puerto"], ["status", "muestra las reglas activas"]],
+      ["ufw deny 23", "ufw status"]],
+    iptables: ["iptables - administra las reglas de filtrado de paquetes del kernel",
+      ["iptables -A INPUT -p tcp --dport <puerto> -j DROP", "iptables -L -n"],
+      "Igual que ufw, filtra el tráfico pero no detiene el servicio.",
+      [["-A INPUT", "añade una regla al final de la cadena de entrada"], ["--dport <n>", "puerto de destino"],
+       ["-j DROP", "descarta el paquete sin avisar al origen"], ["-L -n", "lista las reglas en formato numérico"]],
+      ["iptables -A INPUT -p tcp --dport 445 -j DROP", "iptables -L -n"]],
+    grep: ["grep - muestra las líneas que coinciden con un patrón",
+      ["<comando> | grep [-i] [-v] <patrón>"],
+      "Filtra la salida de otro comando.",
+      [["-i", "ignora mayúsculas y minúsculas"], ["-v", "muestra las líneas que NO coinciden"]],
+      ["ss -tulpn | grep 3389"]],
+    cat: ["cat - muestra el contenido de ficheros", ["cat <fichero>"], "Concatena ficheros y los muestra por pantalla.", [],
+      ["cat informe_incidente.txt", "cat .bash_history"]],
+    ls: ["ls - lista el contenido de un directorio", ["ls [-a] [-l]"],
+      "Con -a muestra también los ficheros ocultos.", [["-a", "incluye ocultos"], ["-l", "formato largo"]], ["ls -la"]]
+  };
+})(this);

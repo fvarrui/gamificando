@@ -1,0 +1,215 @@
+/* ==========================================================
+   PANTALLAS 1 y 3: PORTADA E INFORME FINAL (contenido centrado)
+   ========================================================== */
+.screen-intro,
+.screen-debrief {
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding-block: 2.5rem 3rem;
+  padding-inline: 1rem;
+  background:
+    radial-gradient(ellipse 80% 45% at 50% -10%, rgba(61, 220, 132, 0.12), transparent 70%),
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.018) 0 1px, transparent 1px 4px),
+    var(--bg);
+}
+
+.intro-wrap,
+.debrief-wrap {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.intro-title {
+  font-size: clamp(2.2rem, 7vw, 4rem);
+  line-height: 1.05;
+  margin: 0 0 0.6rem;
+  color: var(--white);
+  letter-spacing: -0.02em;
+  text-shadow: 0 0 24px rgba(61, 220, 132, 0.25);
+}
+.intro-title:focus { outline: none; }
+.cursor { color: var(--green); animation: blink 1.05s steps(1) infinite; }
+
+.intro-sub {
+  color: var(--text-dim);
+  font-size: 1.05rem;
+  margin: 0 0 2rem;
+}
+
+/* ---------------- COMUNICADO DE LA PORTADA ---------------- */
+.transmission {
+  --stamp: var(--red);
+  --stamp-border: var(--red-border);
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--stamp-border);
+  border-radius: var(--radius);
+  padding: 1.1rem 1.35rem 1.2rem;
+  margin-bottom: 2rem;
+  position: relative;
+}
+.transmission.is-norm { --stamp: var(--amber); --stamp-border: var(--amber); }
+.transmission-head {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  padding-bottom: 0.75rem;
+  margin-bottom: 0.85rem;
+  border-bottom: 1px dashed var(--border-strong);
+  padding-right: 8rem;
+}
+.transmission-head b { color: var(--text); }
+.stamp {
+  position: absolute;
+  top: 1rem;
+  right: 1.1rem;
+  border: 2px solid var(--stamp);
+  color: var(--stamp);
+  padding: 0.15rem 0.55rem;
+  font-weight: bold;
+  letter-spacing: 0.15em;
+  font-size: 0.8rem;
+  transform: rotate(4deg);
+  border-radius: 4px;
+}
+.transmission p { margin: 0 0 0.7rem; }
+.transmission p:last-child { margin-bottom: 0; }
+.transmission strong { color: var(--amber); }
+
+.intro-h2 {
+  font-size: 1rem;
+  color: var(--white);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin: 0 0 0.9rem;
+}
+
+.how-grid {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0.8rem;
+}
+.how-grid li {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.9rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.86rem;
+  color: var(--text-dim);
+}
+.how-grid .how-icon { font-size: 1.5rem; line-height: 1; }
+.how-grid b { color: var(--white); font-size: 0.95rem; }
+
+.host-line { color: var(--text-dim); font-size: 0.88rem; margin: 0 0 1.5rem; }
+
+.intro-actions,
+.debrief-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  align-items: center;
+}
+
+.fineprint { margin-top: 2.5rem; color: var(--text-dim); font-size: 0.78rem; }
+
+.credits {
+  margin: 0.4rem 0 0;
+  padding-top: 0.9rem;
+  border-top: 1px dashed var(--border);
+  color: var(--text-dim);
+  font-size: 0.82rem;
+}
+.credits a {
+  color: var(--green);
+  text-decoration: none;
+  border-bottom: 1px dotted var(--green-border);
+}
+.credits a:hover { color: var(--white); border-bottom-style: solid; }
+
+/* ---------------- INFORME FINAL ---------------- */
+.debrief-title { font-size: clamp(1.7rem, 5vw, 2.6rem); line-height: 1.1; margin: 0 0 0.8rem; color: var(--white); }
+.debrief-title:focus { outline: none; }
+.debrief-msg { color: var(--text); margin: 0 0 1.8rem; max-width: 70ch; }
+.debrief-wrap h2 {
+  font-size: 0.9rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin: 2rem 0 0.8rem;
+}
+
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 0.8rem;
+}
+.stat-box {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.9rem 1rem;
+}
+.stat-box .k { display: block; font-size: 0.72rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em; }
+.stat-box .v { display: block; font-size: 1.6rem; font-weight: bold; color: var(--white); margin-top: 0.2rem; }
+.stat-box.xp .v { color: var(--amber); }
+.stat-box.lvl .v { color: var(--green); font-size: 1.15rem; }
+
+.badge-grid {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 0.7rem;
+}
+.badge {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.75rem 0.9rem;
+}
+.badge .bi { font-size: 1.7rem; line-height: 1; }
+.badge .bn { display: block; font-weight: bold; color: var(--white); font-size: 0.9rem; }
+.badge .bd { display: block; font-size: 0.78rem; color: var(--text-dim); }
+.badge .bs { display: block; font-size: 0.72rem; margin-top: 0.25rem; text-transform: uppercase; letter-spacing: 0.08em; }
+.badge.earned { border-color: var(--green-border); background: var(--green-bg); }
+.badge.earned .bs { color: var(--green); }
+.badge.locked { opacity: 0.55; }
+.badge.locked .bi { filter: grayscale(1); }
+.badge.locked .bs { color: var(--text-dim); }
+
+.table-wrap { overflow-x: auto; }
+.report-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+.report-table th, .report-table td {
+  border-bottom: 1px solid var(--border);
+  padding: 0.5rem 0.6rem;
+  text-align: left;
+  vertical-align: top;
+}
+.report-table th { color: var(--text-dim); font-weight: normal; text-transform: uppercase; font-size: 0.72rem; letter-spacing: 0.08em; }
+.report-table td.xp { color: var(--amber); white-space: nowrap; }
+.report-table .tag { font-size: 0.72rem; color: var(--green); }
+.report-table tr.ph td { color: var(--green); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; padding-top: 1rem; }
+.report-table code { overflow-wrap: anywhere; }
+
+.risky-list { margin: 0; padding-left: 1.2rem; font-size: 0.88rem; }
+.risky-list li { margin-bottom: 0.3rem; }
+.risky-list.bad li { color: var(--amber); }
+.risky-list.good li { color: var(--green); }
+
+.debrief-actions { margin-top: 2.2rem; }
+
+@media (max-width: 900px) {
+  .transmission-head { padding-right: 0; padding-top: 1.8rem; }
+}

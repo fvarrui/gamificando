@@ -1,0 +1,85 @@
+/* ==========================================================
+   BASE: reset, tipografía, foco, botones y utilidades
+   ========================================================== */
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--mono);
+  line-height: 1.5;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+/* La región de anuncios va fija para no alargar la página del juego */
+#announcer { position: fixed; top: 0; left: 0; }
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+code {
+  color: var(--amber);
+  background: rgba(255, 203, 107, 0.08);
+  padding: 0.05rem 0.35rem;
+  border-radius: 4px;
+}
+
+/* ---------------- BOTONES ---------------- */
+.btn {
+  font-family: inherit;
+  cursor: pointer;
+  background: var(--bg-card);
+  color: var(--text);
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  padding: 0.55rem 0.95rem;
+  font-size: 0.9rem;
+  font-weight: bold;
+  white-space: nowrap;
+}
+.btn:hover { border-color: var(--blue); }
+.btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.btn-primary {
+  background: var(--green-bg);
+  border-color: var(--green-border);
+  color: var(--green);
+}
+.btn-primary:hover { border-color: var(--green); box-shadow: 0 0 18px rgba(61, 220, 132, 0.25); }
+.btn-sm { padding: 0.35rem 0.65rem; font-size: 0.8rem; }
+.btn-big { padding: 0.85rem 1.5rem; font-size: 1.05rem; }
+
+.eyebrow {
+  color: var(--green);
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin: 0 0 0.5rem;
+}
+
+@keyframes blink { 50% { opacity: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .cursor, .tb-dot, .mcard-status.wait .dot, .phase.active, .pip.active { animation: none !important; }
+}

@@ -1,0 +1,34 @@
+/* ==========================================================
+   TOKENS DE DISEÑO
+   Estética de consola común a todos los retos: fondo casi negro,
+   tipografía monoespaciada y acentos verde / ámbar / rojo.
+   ========================================================== */
+:root {
+  --bg: #070a0f;
+  --bg-panel: #0d131b;
+  --bg-card: #121a25;
+  --bg-term: #04060a;
+  --border: #1f2c3d;
+  --border-strong: #2d3e55;
+  --text: #d7e2ec;
+  --text-dim: #93a4b7;
+  --white: #ffffff;
+  --green: #3ddc84;
+  --green-bg: #0e2a1c;
+  --green-border: #2fae6d;
+  --red: #ff7a7a;
+  --red-bg: #331214;
+  --red-border: #d1493f;
+  --orange: #ffa05a;
+  --amber: #ffcb6b;
+  --amber-bg: #30250e;
+  --blue: #6ec1ff;
+  --cyan: #56d4dd;
+  --magenta: #ff7ad1;
+  --violet: #b69cff;
+  --focus: #ffcb6b;
+  --radius: 10px;
+  --row-h: 28px;
+  --mono: "Cascadia Mono", "Cascadia Code", Consolas, "DejaVu Sans Mono", "Liberation Mono", "Courier New", ui-monospace, monospace;
+  color-scheme: dark;
+}
