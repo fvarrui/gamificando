@@ -8,18 +8,39 @@ Juegos educativos para desarrollar habilidades digitales, dentro de la experienc
 
 | Carpeta | De qué va | Intérprete |
 |---|---|---|
-| [primeros-pasos-en-linux/](primeros-pasos-en-linux/) (`LX`) | Consola básica: orientarse, leer, crear, buscar, tuberías. 27 tareas | bash |
-| [primeros-pasos-en-powershell/](primeros-pasos-en-powershell/) (`PS`) | Cmdlets y **tubería de objetos**. 27 tareas | PowerShell |
-| [permisos-en-linux/](permisos-en-linux/) (`PL`) | `chmod`, `chown`, SGID, `umask`, ACL y ACL por omisión. 26 tareas | bash |
-| [permisos-en-windows/](permisos-en-windows/) (`PW`) | `Get-Acl`, `icacls`, herencia, denegaciones, `takeown`. 25 tareas | PowerShell |
-| [usuarios-y-grupos-en-linux/](usuarios-y-grupos-en-linux/) (`UG`) | `useradd`, `usermod -aG`, `gpasswd`, `getent`, bloqueo frente a borrado. 25 tareas | bash |
-| [usuarios-y-grupos-en-windows/](usuarios-y-grupos-en-windows/) (`UW`) | `*-LocalUser`, `*-LocalGroup`, `net`, auditoría por objetos. 25 tareas | PowerShell |
-| [servicios-en-linux/](servicios-en-linux/) (`SL`) | `systemctl`, `journalctl`, conflicto de puertos, activo≠habilitado. 24 tareas | bash |
-| [servicios-en-windows/](servicios-en-windows/) (`SW`) | `Get-Service`, `Set-Service -StartupType`, `sc.exe`, *Disabled*. 24 tareas | PowerShell |
-| [contenedores-con-docker/](contenedores-con-docker/) (`DK`) | Imágenes, contenedores, volúmenes, `build` y Compose. 26 tareas | bash + docker |
+| [terminal-implacable/](terminal-implacable/) (`LX`) | Consola básica: orientarse, leer, crear, buscar, tuberías. 27 tareas | bash |
+| [la-jungla-de-objetos/](la-jungla-de-objetos/) (`PS`) | Cmdlets y **tubería de objetos**. 27 tareas | PowerShell |
+| [los-intocables/](los-intocables/) (`PL`) | `chmod`, `chown`, SGID, `umask`, ACL y ACL por omisión. 26 tareas | bash |
+| [control-total/](control-total/) (`PW`) | `Get-Acl`, `icacls`, herencia, denegaciones, `takeown`. 25 tareas | PowerShell |
+| [cuenta-atras/](cuenta-atras/) (`UG`) | `useradd`, `usermod -aG`, `gpasswd`, `getent`, bloqueo frente a borrado. 25 tareas | bash |
+| [cuenta-pendiente/](cuenta-pendiente/) (`UW`) | `*-LocalUser`, `*-LocalGroup`, `net`, auditoría por objetos. 25 tareas | PowerShell |
+| [asalto-al-puerto-80/](asalto-al-puerto-80/) (`SL`) | `systemctl`, `journalctl`, conflicto de puertos, activo≠habilitado. 24 tareas | bash |
+| [arranque-imposible/](arranque-imposible/) (`SW`) | `Get-Service`, `Set-Service -StartupType`, `sc.exe`, *Disabled*. 24 tareas | PowerShell |
+| [carga-critica/](carga-critica/) (`DK`) | Imágenes, contenedores, volúmenes, `build` y Compose. 26 tareas | bash + docker |
 | [blindaje-de-la-red/](blindaje-de-la-red/) (`BD`) | Respuesta a incidentes: `ss`, `systemctl`, `kill`, `ufw`, `iptables`. 7 misiones | simulador propio |
-| [versionando-con-git/](versionando-con-git/) (`VG`) | Git de verdad con grafo de ramas. 30 misiones | simulador propio |
+| [punto-de-retorno/](punto-de-retorno/) (`VG`) | Git de verdad con grafo de ramas. 30 misiones | simulador propio |
 | [shared/](shared/) | Biblioteca común: CSS, JS y datos | — |
+
+## Nomenclatura: títulos épicos y reparto de acción
+
+Los juegos llevan **título de película de acción** (no descriptivo), y el **subtítulo** y las
+**etiquetas de tema** son los que dicen qué se aprende. El nombre de la carpeta es el título en
+minúsculas y con guiones. Los **personajes son siempre los mismos**, con el mismo papel en todos
+los retos, y se llaman como actores y actrices de acción de los 80 y 90. Sus **logins** son el
+apellido.
+
+| Personaje | Papel | Login |
+|---|---|---|
+| Linda Hamilton | La protagonista: quien juega | `hamilton` |
+| Sigourney Weaver | Responsable de sistemas; firma los encargos | `weaver` |
+| Arnold Schwarzenegger | Soporte; el que instaló Apache «para una prueba» | `arnold` |
+| Michelle Yeoh | Coordina proyectos | `yeoh` |
+| Wesley Snipes | Desarrollo | `snipes` |
+| Dolph Lundgren | Ventas | `lundgren` |
+| Milla Jovovich | Dirección | `jovovich` |
+| Jean-Claude Van Damme | La baja de la semana | `vandamme` |
+| Carrie-Anne Moss · Jackie Chan | Las dos altas | `moss`, `chan` |
+| Brigitte Nielsen | La que se fue y dejó ficheros huérfanos | `nielsen` |
 
 No se cita ninguna etapa, ciclo ni módulo concretos (ni «Formación Profesional», ni «1.º DAM», ni nombres de módulos): los retos se etiquetan por **temas** (Linux, Windows, PowerShell, Consola, Ficheros, Permisos, ACL, Usuarios, Grupos, Servicios, systemd, Docker, Redes, Seguridad, Git, Trabajo en equipo) para que sirvan en cualquier contexto que los trabaje.
 
@@ -32,7 +53,7 @@ Todo el texto de la interfaz, los comentarios y la documentación están en espa
 - El JS está escrito en estilo ES5 (`var`, `function`, cada fichero dentro de una IIFE con `"use strict"`); conviene respetarlo.
 - Orden de carga (importa): `shared/js/*` → `shared/data/*` → `data/*` → `js/missions.js` → `js/main.js`. Cada módulo captura en locales lo que necesita de los espacios de nombres al cargarse, así que un módulo solo puede usar lo que definieron los anteriores. El objeto de estado **nunca se sustituye**: se vacía y se rellena (`resetState`), porque los módulos guardan una referencia a él. Por eso el VFS y el modelo de sistema se crean una vez y se vacían al reiniciar, en lugar de construirse de nuevo.
 - En las comprobaciones de las tareas, el estado se consulta siempre a través de una función perezosa (`function S() { return LX.S; }`), porque `js/missions.js` se carga antes de que exista el `Sandbox`.
-- **Verificación**: `node .claude/skills/verificar-reto/scripts/run.mjs` juega partidas completas en Chrome *headless* (CDP). Ejecútalo después de tocar cualquier cosa; si tocas `shared/`, afecta a **todos** los retos. Para uno solo: `run.mjs test-docker`.
+- **Verificación**: `node .claude/skills/verificar-reto/scripts/run.mjs` juega partidas completas en Chrome *headless* (CDP). Ejecútalo después de tocar cualquier cosa; si tocas `shared/`, afecta a **todos** los retos. Para uno solo: `run.mjs test-carga-critica`.
 
 ## Skills del proyecto (`.claude/skills/`)
 
@@ -80,10 +101,10 @@ Reglas al tocar la biblioteca: la salida coloreada se emite con `term.rich([[cla
 - `badgesOf`, `onComplete`, `debriefText`: insignias propias e informe final.
 - `commands(S)`: órdenes extra (así se enchufa el motor de Docker).
 
-Los dos retos antiguos (`blindaje-de-la-red` y `versionando-con-git`) tienen simulador propio y **no** usan `sandbox.js`.
+Los dos retos antiguos (`blindaje-de-la-red` y `punto-de-retorno`) tienen simulador propio y **no** usan `sandbox.js`.
 
 - **blindaje-de-la-red** (`BD`): `data/config.js` define `PORTS_TEMPLATE` (8 servicios con puerto, PID, proceso, `legitimate` y `aliases`). Cada servicio tiene estado `open` | `filtered` | `stopped`. Toda acción de contención pasa por `BD.secure(puerto, método, estado)`.
-- **versionando-con-git** (`VG`): simulador de Git completo. `js/git-core.js` (objetos, refs, `resolveRev`, `.gitignore`, `computeStatus`, `diffLines`/LCS, `merge3`/`mergeTrees`), los comandos repartidos en `git-commands/log/branch/remote/misc.js`, `js/repo-view.js` (grafo SVG) y `js/missions.js`.
+- **punto-de-retorno** (`VG`): simulador de Git completo. `js/git-core.js` (objetos, refs, `resolveRev`, `.gitignore`, `computeStatus`, `diffLines`/LCS, `merge3`/`mergeTrees`), los comandos repartidos en `git-commands/log/branch/remote/misc.js`, `js/repo-view.js` (grafo SVG) y `js/missions.js`.
 
 ## Principios de diseño que condicionan los cambios
 

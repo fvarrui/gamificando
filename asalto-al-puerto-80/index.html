@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Asalto al puerto 80 — TecnoAtlántica</title>
+<link rel="stylesheet" href="../shared/css/tokens.css">
+<link rel="stylesheet" href="../shared/css/base.css">
+<link rel="stylesheet" href="../shared/css/screens.css">
+<link rel="stylesheet" href="../shared/css/game.css">
+<link rel="stylesheet" href="../shared/css/terminal.css">
+<link rel="stylesheet" href="../shared/css/editor.css">
+<link rel="stylesheet" href="../shared/css/modal.css">
+<link rel="stylesheet" href="../shared/css/phases.css">
+<link rel="stylesheet" href="css/reto.css">
+</head>
+<body>
+
+<!-- ==========================================================
+     PANTALLA 1 · PORTADA
+     ========================================================== -->
+<main id="screenIntro" class="screen-intro" aria-labelledby="introTitle">
+  <div class="intro-wrap">
+    <p class="eyebrow">TecnoAtlántica · Linux · systemd · Servicios · Guardia</p>
+    <h1 id="introTitle" class="intro-title" tabindex="-1">Asalto al<br>puerto 80<span class="cursor" aria-hidden="true">▌</span></h1>
+    <p class="intro-sub">Son las 3:12 de la madrugada y la intranet no responde</p>
+
+    <article class="transmission" aria-label="Aviso del centro de guardia">
+      <div class="transmission-head">
+        <span><b>DE:</b> Centro de guardia · TecnoAtlántica</span>
+        <span><b>PARA:</b> Linda Hamilton (guardia de sistemas)</span>
+        <span><b>ASUNTO:</b> Incidencia 4471 · intranet caída</span>
+      </div>
+      <span class="stamp" aria-hidden="true">03:05</span>
+      <p>
+        La intranet corporativa lleva sin responder desde las 03:05. El servidor
+        <code>srv-web</code> está encendido y acepta conexiones SSH, así que la máquina está viva:
+        <strong>el problema es un servicio</strong>.
+      </p>
+      <p>
+        Alguien intentó arrancar <code>nginx</code> hace unos minutos y no levantó. El registro del
+        sistema tiene la respuesta, pero hay que saber dónde mirar.
+      </p>
+      <p>
+        Y ya que estás dentro: aprovecha para dejar el arranque bien configurado.
+        <strong>Que algo funcione ahora no significa que vuelva a funcionar tras un reinicio.</strong>
+      </p>
+    </article>
+
+    <h2 class="intro-h2">Cómo funciona</h2>
+    <ul class="how-grid">
+      <li>
+        <span class="how-icon" aria-hidden="true">🛠</span>
+        <b>24 tareas en 5 fases</b>
+        <span>De leer un <code>status</code> a dejar el servidor listo para el próximo reinicio.</span>
+      </li>
+      <li>
+        <span class="how-icon" aria-hidden="true">⌨️</span>
+        <b>Órdenes reales</b>
+        <span><code>systemctl</code> con <code>status</code>, <code>start</code>, <code>enable</code>, <code>--now</code>, <code>is-active</code>, <code>is-enabled</code>, <code>journalctl -u</code>, <code>ps aux</code>…</span>
+      </li>
+      <li>
+        <span class="how-icon" aria-hidden="true">🔌</span>
+        <b>Un conflicto de verdad</b>
+        <span>Dos servicios quieren el mismo puerto. Mientras uno lo tenga, el otro no arranca. Como en la vida real.</span>
+      </li>
+      <li>
+        <span class="how-icon" aria-hidden="true">⚠️</span>
+        <b>No tumbes la empresa</b>
+        <span>Parar la base de datos o el SSH resta XP y queda anotado en el parte de guardia.</span>
+      </li>
+    </ul>
+
+    <fieldset class="phase-pick">
+      <legend>Empezar desde</legend>
+      <p class="pp-note">Si empiezas en una fase posterior, el servidor se prepara automáticamente con las fases anteriores resueltas (esas tareas no suman XP).</p>
+      <div class="phase-options" id="phaseOptions"></div>
+    </fieldset>
+
+    <p class="host-line">
+      Equipo: <code>srv-web</code> · Usuario: <code>hamilton</code> (grupo <code>sudo</code>) ·
+      Ubuntu 24.04 LTS con systemd
+    </p>
+
+    <div class="intro-actions">
+      <button type="button" class="btn btn-primary btn-big" id="startBtn">▶ Conectar al servidor</button>
+      <button type="button" class="btn js-open-modal" data-modal="helpModal" aria-haspopup="dialog" aria-controls="helpModal">❓ Guía de systemd</button>
+      <a class="btn" href="../index.html">⌂ Otros juegos</a>
+    </div>
+
+    <p class="fineprint">Simulación educativa: ningún sistema real es modificado.</p>
+    <div class="credits">
+      <p>
+        Made with <span role="img" aria-label="amor">💖</span> by
+        <a href="https://github.com/fvarrui" target="_blank" rel="noopener noreferrer">@fvarrui</a> &amp;
+        <a href="https://claude.ai" target="_blank" rel="noopener noreferrer">Claude</a>
+      </p>
+      <a class="repo-link" href="https://github.com/fvarrui/gamificando" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+        GitHub</a>
+    </div>
+  </div>
+</main>
+
+<!-- ==========================================================
+     PANTALLA 2 · JUEGO
+     ========================================================== -->
+<div id="screenGame" class="screen-game" hidden>
+  <header class="topbar">
+    <div class="tb-id warn" id="tbId">
+      <span class="tb-dot" aria-hidden="true"></span>
+      <b>GUARDIA</b>
+      <span>hamilton@srv-web</span>
+    </div>
+    <div class="progress">
+      <ol class="phases" id="phases" aria-label="Progreso por fases"></ol>
+      <span class="mbar" aria-hidden="true"><span id="mbarFill"></span></span>
+      <span class="mcount" id="mcount">Tarea <b>0</b>/24</span>
+    </div>
+    <div class="tb-stats">
+      <span class="stat" title="Tiempo desde el inicio"><span aria-hidden="true">⏱</span> <b id="clock">00:00</b></span>
+      <span class="stat stat-xp"><span aria-hidden="true">⭐</span> <b id="xpValue">0</b> XP</span>
+      <span class="stat stat-level" id="levelName">Nivel 1 · Mira el estado</span>
+    </div>
+    <div class="tb-actions">
+      <button type="button" class="btn btn-sm js-open-modal" data-modal="helpModal" aria-haspopup="dialog" aria-controls="helpModal">❓ Ayuda</button>
+      <button type="button" class="btn btn-sm" id="resetBtn">↺ Reiniciar</button>
+      <button type="button" class="btn btn-sm" id="quitBtn">⌂ Portada</button>
+    </div>
+  </header>
+
+  <main class="game-main">
+    <section class="term-window" id="termWindow" aria-label="Terminal SSH">
+      <div class="term-titlebar">
+        <span class="term-dots" aria-hidden="true"><span></span><span></span><span></span></span>
+        <span class="term-title" id="termTitle">hamilton@srv-web: ~ — ssh</span>
+      </div>
+      <div class="terminal" id="terminal">
+        <div id="terminalOutput" role="log" aria-label="Salida de la terminal"></div>
+        <form id="terminalForm" class="input-line" autocomplete="off">
+          <label for="terminalInput" class="sr-only">Escribe una orden y pulsa Intro</label>
+          <span class="prompt" id="promptLabel" aria-hidden="true"></span>
+          <input type="text" id="terminalInput" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false">
+        </form>
+      </div>
+
+      <div class="nano" id="nano" hidden role="dialog" aria-modal="true" aria-labelledby="nanoFile">
+        <div class="nano-head"><span>GNU nano 7.2</span><b id="nanoFile">fichero</b><span id="nanoMod"></span></div>
+        <label for="nanoText" class="sr-only">Contenido del fichero. Ctrl+O guarda, Ctrl+X sale, Ctrl+K corta la línea, Ctrl+U pega.</label>
+        <textarea id="nanoText" spellcheck="false" autocapitalize="off" autocorrect="off"></textarea>
+        <div class="nano-msg" id="nanoMsg" role="status" aria-live="polite"></div>
+        <div class="nano-keys" id="nanoKeys">
+          <button type="button" data-nano="save"><kbd>^O</kbd>Guardar</button>
+          <button type="button" data-nano="exit"><kbd>^X</kbd>Salir</button>
+          <button type="button" data-nano="cut"><kbd>^K</kbd>Cortar línea</button>
+          <button type="button" data-nano="paste"><kbd>^U</kbd>Pegar</button>
+        </div>
+      </div>
+    </section>
+
+    <aside class="side" aria-label="Tarea actual">
+      <div id="missionSlot"></div>
+      <section class="log-card" aria-labelledby="logTitle">
+        <h2 id="logTitle">Parte de guardia</h2>
+        <ol class="mission-log" id="missionLog"></ol>
+      </section>
+    </aside>
+  </main>
+</div>
+
+<!-- ==========================================================
+     PANTALLA 3 · INFORME FINAL
+     ========================================================== -->
+<main id="screenDebrief" class="screen-debrief" hidden aria-labelledby="debriefTitle">
+  <div class="debrief-wrap">
+    <p class="eyebrow">Parte de guardia · TecnoAtlántica</p>
+    <h1 id="debriefTitle" class="debrief-title" tabindex="-1">Guardia cerrada, intranet en pie</h1>
+    <p class="debrief-msg" id="debriefMsg"></p>
+
+    <div class="stats-row">
+      <div class="stat-box xp"><span class="k">Experiencia</span><span class="v" id="dXp">0 XP</span></div>
+      <div class="stat-box lvl"><span class="k">Nivel alcanzado</span><span class="v" id="dLevel">Nivel 1</span></div>
+      <div class="stat-box"><span class="k">Tiempo</span><span class="v" id="dTime">00:00</span></div>
+      <div class="stat-box"><span class="k">Pistas usadas</span><span class="v" id="dHints">0</span></div>
+      <div class="stat-box"><span class="k">Tareas resueltas</span><span class="v" id="dDone">0</span></div>
+    </div>
+
+    <h2>Insignias</h2>
+    <ul class="badge-grid" id="badgeGrid"></ul>
+
+    <h2>Tareas de la guardia</h2>
+    <div class="table-wrap">
+      <table class="report-table">
+        <thead>
+          <tr><th scope="col">Código</th><th scope="col">Tarea</th><th scope="col">Cómo se resolvió</th><th scope="col">XP</th></tr>
+        </thead>
+        <tbody id="reportBody"></tbody>
+      </table>
+    </div>
+
+    <h2>Decisiones arriesgadas</h2>
+    <ul class="risky-list" id="riskyList"></ul>
+
+    <div class="debrief-actions">
+      <button type="button" class="btn btn-primary btn-big" id="againBtn">↺ Jugar de nuevo</button>
+      <button type="button" class="btn" id="homeBtn">⌂ Volver a la portada</button>
+    </div>
+  </div>
+</main>
+
+<div class="toasts" id="toasts" aria-hidden="true"></div>
+<p class="sr-only" id="announcer" role="status" aria-live="polite"></p>
+
+<!-- ==========================================================
+     MODAL DE AYUDA
+     ========================================================== -->
+<div class="modal-overlay" id="helpModal" hidden>
+  <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
+    <div class="modal-head">
+      <h2 id="helpTitle">❓ Guía rápida de systemd</h2>
+      <button type="button" class="btn btn-sm js-close-modal">✕ Cerrar</button>
+    </div>
+
+    <section>
+      <h3>Las dos preguntas que nunca hay que confundir</h3>
+      <table class="help-table">
+        <thead><tr><th scope="col">Pregunta</th><th scope="col">Orden</th><th scope="col">Qué responde</th></tr></thead>
+        <tbody>
+          <tr><td>¿Está funcionando <strong>ahora</strong>?</td><td><code>systemctl is-active &lt;svc&gt;</code></td><td><code>active</code> / <code>inactive</code> / <code>failed</code></td></tr>
+          <tr><td>¿Arrancará <strong>solo</strong> al reiniciar?</td><td><code>systemctl is-enabled &lt;svc&gt;</code></td><td><code>enabled</code> / <code>disabled</code></td></tr>
+        </tbody>
+      </table>
+      <p style="margin:0.6rem 0 0;font-size:0.87rem;">
+        Son ejes independientes: un servicio puede estar <em>activo y deshabilitado</em> (funciona hoy,
+        no vuelve mañana) o <em>parado y habilitado</em> (no funciona ahora, arrancará al reiniciar).
+        Casi todos los «pero si ayer funcionaba» salen de aquí.
+      </p>
+    </section>
+
+    <section>
+      <h3>Diagnosticar</h3>
+      <dl>
+        <dt><code>systemctl status &lt;servicio&gt;</code></dt>
+        <dd>Estado, si está habilitado, el PID principal y las últimas líneas del registro. Es la primera orden siempre.</dd>
+        <dt><code>systemctl list-units --type=service</code></dt>
+        <dd>Servicios cargados. Con <code>--all</code> se ven también los detenidos; con <code>--failed</code>, solo los que han fallado.</dd>
+        <dt><code>journalctl -u &lt;servicio&gt;</code> · <code>-n 20</code></dt>
+        <dd>El registro de esa unidad. <strong>Aquí está el porqué</strong> de casi todos los fallos de arranque.</dd>
+        <dt><code>ps aux</code></dt>
+        <dd>Procesos en ejecución. Útil para cruzar quién está usando qué.</dd>
+      </dl>
+    </section>
+
+    <section>
+      <h3>Gobernar el estado actual</h3>
+      <dl>
+        <dt><code>systemctl start &lt;servicio&gt;</code> · <code>stop</code> · <code>restart</code></dt>
+        <dd>Arranca, detiene o reinicia <strong>ahora mismo</strong>. No cambia nada de cara al próximo arranque.</dd>
+        <dt><code>service &lt;servicio&gt; &lt;orden&gt;</code></dt>
+        <dd>La sintaxis clásica anterior a systemd. Sigue funcionando porque redirige a <code>systemctl</code>.</dd>
+      </dl>
+    </section>
+
+    <section>
+      <h3>Gobernar el arranque</h3>
+      <dl>
+        <dt><code>systemctl enable &lt;servicio&gt;</code> · <code>disable</code></dt>
+        <dd>Decide si arrancará al iniciar el sistema. <strong>No cambia el estado actual:</strong> <code>disable</code> no detiene nada.</dd>
+        <dt><code>systemctl enable --now</code> · <code>disable --now</code></dt>
+        <dd>Las dos cosas a la vez: habilitar y arrancar, o deshabilitar y detener. Es lo que casi siempre quieres.</dd>
+        <dt><code>systemctl daemon-reload</code></dt>
+        <dd>Recarga las definiciones de las unidades tras editar un fichero <code>.service</code>.</dd>
+      </dl>
+    </section>
+
+    <section>
+      <h3>Cuando un servicio no arranca</h3>
+      <p style="margin:0;font-size:0.87rem;">
+        El orden de trabajo es siempre el mismo: <code>status</code> para ver que ha fallado →
+        <code>journalctl -u</code> para saber por qué → arreglar la causa → <code>start</code> →
+        volver a comprobar. Si el registro habla de <em>Address already in use</em>, hay otro
+        proceso ocupando el puerto: no se arregla reintentando, se arregla liberándolo.
+      </p>
+    </section>
+
+    <section>
+      <h3>Y sobre todo</h3>
+      <p style="margin:0;font-size:0.87rem;">
+        Gestionar servicios requiere privilegios: <code>sudo systemctl …</code>. Consultar, no.
+        Y piensa dos veces antes de detener algo cuyo nombre no reconozcas: en un servidor remoto,
+        <code>sshd</code> es la puerta por la que has entrado.
+      </p>
+    </section>
+
+    <section class="keys">
+      <h3>Atajos de teclado en la terminal</h3>
+      <p style="margin:0;font-size:0.87rem;">
+        <kbd>↑</kbd> <kbd>↓</kbd> historial · <kbd>Tab</kbd> autocompletar ·
+        <kbd>Ctrl</kbd>+<kbd>L</kbd> limpiar pantalla · <kbd>Ctrl</kbd>+<kbd>C</kbd> cancelar la línea.
+      </p>
+    </section>
+  </div>
+</div>
+
+<!-- Biblioteca común de los retos -->
+<script src="../shared/js/core.js"></script>
+<script src="../shared/js/terminal.js"></script>
+<script src="../shared/js/shell.js"></script>
+<script src="../shared/js/man.js"></script>
+<script src="../shared/js/modal.js"></script>
+<script src="../shared/js/editor.js"></script>
+<script src="../shared/js/game.js"></script>
+<script src="../shared/js/vfs.js"></script>
+<script src="../shared/js/sysmodel.js"></script>
+<script src="../shared/js/cmd-posix.js"></script>
+<script src="../shared/js/cmd-posix-admin.js"></script>
+<script src="../shared/js/sandbox.js"></script>
+<script src="../shared/data/man-linux.js"></script>
+<!-- Datos del reto -->
+<script src="data/config.js"></script>
+<script src="data/gamification.js"></script>
+<script src="data/missions.js"></script>
+<!-- Lógica y arranque -->
+<script src="js/missions.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

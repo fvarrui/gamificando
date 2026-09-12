@@ -357,7 +357,7 @@
     };
     /* Crea un árbol a partir de una descripción compacta:
        { "/srv/datos": {dir:true, owner:"root", mode:0o755},
-         "/srv/datos/nota.txt": {content:"…", owner:"ana"} } */
+         "/srv/datos/nota.txt": {content:"…", owner:"hamilton"} } */
     vfs.build = function (spec) {
       Object.keys(spec).forEach(function (p) {
         var d = spec[p];

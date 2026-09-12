@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arranque imposible — TecnoAtlántica</title>
+<link rel="stylesheet" href="../shared/css/tokens.css">
+<link rel="stylesheet" href="../shared/css/base.css">
+<link rel="stylesheet" href="../shared/css/screens.css">
+<link rel="stylesheet" href="../shared/css/game.css">
+<link rel="stylesheet" href="../shared/css/terminal.css">
+<link rel="stylesheet" href="../shared/css/editor.css">
+<link rel="stylesheet" href="../shared/css/modal.css">
+<link rel="stylesheet" href="../shared/css/phases.css">
+<link rel="stylesheet" href="css/reto.css">
+</head>
+<body>
+
+<!-- ==========================================================
+     PANTALLA 1 · PORTADA
+     ========================================================== -->
+<main id="screenIntro" class="screen-intro" aria-labelledby="introTitle">
+  <div class="intro-wrap">
+    <p class="eyebrow">TecnoAtlántica · Windows · Servicios · Guardia</p>
+    <h1 id="introTitle" class="intro-title" tabindex="-1">Arranque<br>imposible<span class="cursor" aria-hidden="true">▌</span></h1>
+    <p class="intro-sub">Son las 7:40, nadie puede fichar y el servicio «no arranca ni a mano»</p>
+
+    <article class="transmission" aria-label="Aviso del centro de guardia">
+      <div class="transmission-head">
+        <span><b>DE:</b> Centro de guardia · TecnoAtlántica</span>
+        <span><b>PARA:</b> Linda Hamilton (guardia de sistemas)</span>
+        <span><b>ASUNTO:</b> Incidencia 4503 · aplicación de nóminas caída</span>
+      </div>
+      <span class="stamp" aria-hidden="true">07:35</span>
+      <p>
+        La aplicación de nóminas no responde y la plantilla no puede fichar. El servidor
+        <code>SRV-APP</code> está encendido y acepta Escritorio remoto, así que la máquina está
+        viva: <strong>el problema es un servicio</strong>.
+      </p>
+      <p>
+        Ya han intentado arrancarlo desde la consola de Servicios y «no hace nada». Antes de
+        reinstalar nada, mira <strong>cómo está configurado su inicio</strong>: en Windows hay un
+        estado en el que un servicio no arranca ni aunque se lo pidas a mano.
+      </p>
+      <p>
+        Y ya que estás dentro, repasa qué más se pone en marcha solo en ese servidor.
+        <strong>Cada servicio que corre sin hacer falta es superficie expuesta.</strong>
+      </p>
+    </article>
+
+    <h2 class="intro-h2">Cómo funciona</h2>
+    <ul class="how-grid">
+      <li>
+        <span class="how-icon" aria-hidden="true">🛠</span>
+        <b>24 tareas en 5 fases</b>
+        <span>De leer un <code>Get-Service</code> a dejar cada tipo de inicio donde corresponde.</span>
+      </li>
+      <li>
+        <span class="how-icon" aria-hidden="true">⌨️</span>
+        <b>Comandos reales</b>
+        <span><code>Get-Service</code>, <code>Start-Service</code>, <code>Set-Service -StartupType</code>, <code>Restart-Service</code>, <code>sc.exe</code>, <code>net stop</code>…</span>
+      </li>
+      <li>
+        <span class="how-icon" aria-hidden="true">🚫</span>
+        <b>Deshabilitado ≠ parado</b>
+        <span>Un servicio en <em>Disabled</em> no arranca ni a mano. Esa es la causa de media docena de incidencias al año.</span>
+      </li>
+      <li>
+        <span class="how-icon" aria-hidden="true">⚠️</span>
+        <b>No tumbes la empresa</b>
+        <span>Parar la base de datos o el Escritorio remoto resta XP y queda anotado en el parte.</span>
+      </li>
+    </ul>
+
+    <fieldset class="phase-pick">
+      <legend>Empezar desde</legend>
+      <p class="pp-note">Si empiezas en una fase posterior, el servidor se prepara automáticamente con las fases anteriores resueltas (esas tareas no suman XP).</p>
+      <div class="phase-options" id="phaseOptions"></div>
+    </fieldset>
+
+    <p class="host-line">
+      Equipo: <code>SRV-APP</code> · Usuario: <code>hamilton</code> (Administradores) ·
+      Consola elevada · Windows Server
+    </p>
+
+    <div class="intro-actions">
+      <button type="button" class="btn btn-primary btn-big" id="startBtn">▶ Conectar al servidor</button>
+      <button type="button" class="btn js-open-modal" data-modal="helpModal" aria-haspopup="dialog" aria-controls="helpModal">❓ Guía de servicios</button>
+      <a class="btn" href="../index.html">⌂ Otros juegos</a>
+    </div>
+
+    <p class="fineprint">Simulación educativa: ningún sistema real es modificado.</p>
+    <div class="credits">
+      <p>
+        Made with <span role="img" aria-label="amor">💖</span> by
+        <a href="https://github.com/fvarrui" target="_blank" rel="noopener noreferrer">@fvarrui</a> &amp;
+        <a href="https://claude.ai" target="_blank" rel="noopener noreferrer">Claude</a>
+      </p>
+      <a class="repo-link" href="https://github.com/fvarrui/gamificando" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+        GitHub</a>
+    </div>
+  </div>
+</main>
+
+<!-- ==========================================================
+     PANTALLA 2 · JUEGO
+     ========================================================== -->
+<div id="screenGame" class="screen-game" hidden>
+  <header class="topbar">
+    <div class="tb-id warn" id="tbId">
+      <span class="tb-dot" aria-hidden="true"></span>
+      <b>GUARDIA</b>
+      <span>hamilton@SRV-APP</span>
+    </div>
+    <div class="progress">
+      <ol class="phases" id="phases" aria-label="Progreso por fases"></ol>
+      <span class="mbar" aria-hidden="true"><span id="mbarFill"></span></span>
+      <span class="mcount" id="mcount">Tarea <b>0</b>/24</span>
+    </div>
+    <div class="tb-stats">
+      <span class="stat" title="Tiempo desde el inicio"><span aria-hidden="true">⏱</span> <b id="clock">00:00</b></span>
+      <span class="stat stat-xp"><span aria-hidden="true">⭐</span> <b id="xpValue">0</b> XP</span>
+      <span class="stat stat-level" id="levelName">Nivel 1 · Mira el estado</span>
+    </div>
+    <div class="tb-actions">
+      <button type="button" class="btn btn-sm js-open-modal" data-modal="helpModal" aria-haspopup="dialog" aria-controls="helpModal">❓ Ayuda</button>
+      <button type="button" class="btn btn-sm" id="resetBtn">↺ Reiniciar</button>
+      <button type="button" class="btn btn-sm" id="quitBtn">⌂ Portada</button>
+    </div>
+  </header>
+
+  <main class="game-main">
+    <section class="term-window" id="termWindow" aria-label="Consola de PowerShell">
+      <div class="term-titlebar">
+        <span class="term-dots" aria-hidden="true"><span></span><span></span><span></span></span>
+        <span class="term-title" id="termTitle">Windows PowerShell (Administrador) — C:\Users\hamilton</span>
+      </div>
+      <div class="terminal" id="terminal">
+        <div id="terminalOutput" role="log" aria-label="Salida de la consola"></div>
+        <form id="terminalForm" class="input-line" autocomplete="off">
+          <label for="terminalInput" class="sr-only">Escribe un comando y pulsa Intro</label>
+          <span class="prompt" id="promptLabel" aria-hidden="true"></span>
+          <input type="text" id="terminalInput" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false">
+        </form>
+      </div>
+
+      <div class="nano" id="nano" hidden role="dialog" aria-modal="true" aria-labelledby="nanoFile">
+        <div class="nano-head"><span>Bloc de notas</span><b id="nanoFile">archivo</b><span id="nanoMod"></span></div>
+        <label for="nanoText" class="sr-only">Contenido del archivo. Ctrl+O guarda, Ctrl+X cierra.</label>
+        <textarea id="nanoText" spellcheck="false" autocapitalize="off" autocorrect="off"></textarea>
+        <div class="nano-msg" id="nanoMsg" role="status" aria-live="polite"></div>
+        <div class="nano-keys" id="nanoKeys">
+          <button type="button" data-nano="save"><kbd>^O</kbd>Guardar</button>
+          <button type="button" data-nano="exit"><kbd>^X</kbd>Cerrar</button>
+          <button type="button" data-nano="cut"><kbd>^K</kbd>Cortar línea</button>
+          <button type="button" data-nano="paste"><kbd>^U</kbd>Pegar</button>
+        </div>
+      </div>
+    </section>
+
+    <aside class="side" aria-label="Tarea actual">
+      <div id="missionSlot"></div>
+      <section class="log-card" aria-labelledby="logTitle">
+        <h2 id="logTitle">Parte de guardia</h2>
+        <ol class="mission-log" id="missionLog"></ol>
+      </section>
+    </aside>
+  </main>
+</div>
+
+<!-- ==========================================================
+     PANTALLA 3 · INFORME FINAL
+     ========================================================== -->
+<main id="screenDebrief" class="screen-debrief" hidden aria-labelledby="debriefTitle">
+  <div class="debrief-wrap">
+    <p class="eyebrow">Parte de guardia · TecnoAtlántica</p>
+    <h1 id="debriefTitle" class="debrief-title" tabindex="-1">Guardia cerrada, nóminas en marcha</h1>
+    <p class="debrief-msg" id="debriefMsg"></p>
+
+    <div class="stats-row">
+      <div class="stat-box xp"><span class="k">Experiencia</span><span class="v" id="dXp">0 XP</span></div>
+      <div class="stat-box lvl"><span class="k">Nivel alcanzado</span><span class="v" id="dLevel">Nivel 1</span></div>
+      <div class="stat-box"><span class="k">Tiempo</span><span class="v" id="dTime">00:00</span></div>
+      <div class="stat-box"><span class="k">Pistas usadas</span><span class="v" id="dHints">0</span></div>
+      <div class="stat-box"><span class="k">Tareas resueltas</span><span class="v" id="dDone">0</span></div>
+    </div>
+
+    <h2>Insignias</h2>
+    <ul class="badge-grid" id="badgeGrid"></ul>
+
+    <h2>Tareas de la guardia</h2>
+    <div class="table-wrap">
+      <table class="report-table">
+        <thead>
+          <tr><th scope="col">Código</th><th scope="col">Tarea</th><th scope="col">Cómo se resolvió</th><th scope="col">XP</th></tr>
+        </thead>
+        <tbody id="reportBody"></tbody>
+      </table>
+    </div>
+
+    <h2>Decisiones arriesgadas</h2>
+    <ul class="risky-list" id="riskyList"></ul>
+
+    <div class="debrief-actions">
+      <button type="button" class="btn btn-primary btn-big" id="againBtn">↺ Jugar de nuevo</button>
+      <button type="button" class="btn" id="homeBtn">⌂ Volver a la portada</button>
+    </div>
+  </div>
+</main>
+
+<div class="toasts" id="toasts" aria-hidden="true"></div>
+<p class="sr-only" id="announcer" role="status" aria-live="polite"></p>
+
+<!-- ==========================================================
+     MODAL DE AYUDA
+     ========================================================== -->
+<div class="modal-overlay" id="helpModal" hidden>
+  <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
+    <div class="modal-head">
+      <h2 id="helpTitle">❓ Guía rápida de servicios de Windows</h2>
+      <button type="button" class="btn btn-sm js-close-modal">✕ Cerrar</button>
+    </div>
+
+    <section>
+      <h3>Estado y tipo de inicio: dos cosas distintas</h3>
+      <table class="help-table">
+        <thead><tr><th scope="col">Propiedad</th><th scope="col">Valores</th><th scope="col">Qué significa</th></tr></thead>
+        <tbody>
+          <tr><td><code>Status</code></td><td>Running / Stopped</td><td>Si está funcionando <strong>ahora mismo</strong></td></tr>
+          <tr><td><code>StartType</code></td><td>Automatic</td><td>Arranca solo al iniciar Windows</td></tr>
+          <tr><td></td><td>Manual</td><td>No arranca solo, pero se puede arrancar a mano o bajo demanda</td></tr>
+          <tr><td></td><td><strong>Disabled</strong></td><td><strong>No arranca. Ni solo, ni a mano.</strong> Hay que cambiar el tipo de inicio antes</td></tr>
+        </tbody>
+      </table>
+      <p style="margin:0.6rem 0 0;font-size:0.87rem;">
+        Esa última fila es la diferencia grande con Linux: allí <code>disable</code> solo afecta al
+        arranque automático y siempre puedes hacer <code>start</code>. Aquí, <em>Disabled</em> lo
+        bloquea del todo.
+      </p>
+    </section>
+
+    <section>
+      <h3>Consultar</h3>
+      <dl>
+        <dt><code>Get-Service</code> · <code>Get-Service -Name &lt;svc&gt;</code></dt>
+        <dd>Estado, nombre corto, nombre para mostrar y tipo de inicio. Devuelve objetos, así que se pueden filtrar.</dd>
+        <dt><code>Get-Service | Where-Object Status -eq Stopped</code></dt>
+        <dd>Filtrar por estado. Con <code>StartType -eq Automatic</code>, por tipo de inicio.</dd>
+        <dt><code>sc.exe query &lt;svc&gt;</code> · <code>sc.exe qc &lt;svc&gt;</code></dt>
+        <dd>La herramienta clásica: <code>query</code> el estado, <code>qc</code> la configuración. <strong>Escribe <code>sc.exe</code></strong>: en PowerShell, <code>sc</code> a secas es el alias de <code>Set-Content</code>.</dd>
+        <dt><code>Get-Process</code></dt>
+        <dd>Los procesos que hay detrás de los servicios, con su <code>Id</code>.</dd>
+      </dl>
+    </section>
+
+    <section>
+      <h3>Gobernar el estado actual</h3>
+      <dl>
+        <dt><code>Start-Service -Name &lt;svc&gt;</code> · <code>Stop-Service</code> · <code>Restart-Service</code></dt>
+        <dd>Arranca, detiene o reinicia ahora mismo. No cambian el tipo de inicio.</dd>
+        <dt><code>net start &lt;svc&gt;</code> · <code>net stop &lt;svc&gt;</code></dt>
+        <dd>Las órdenes clásicas equivalentes. Siguen funcionando en cualquier Windows.</dd>
+        <dt><code>Stop-Process -Id &lt;id&gt;</code></dt>
+        <dd>Mata el proceso. Con servicios es preferible <code>Stop-Service</code>, que los detiene de forma ordenada.</dd>
+      </dl>
+    </section>
+
+    <section>
+      <h3>Gobernar el inicio</h3>
+      <dl>
+        <dt><code>Set-Service -Name &lt;svc&gt; -StartupType Automatic|Manual|Disabled</code></dt>
+        <dd>Cambia cómo arrancará la próxima vez. <strong>No arranca ni detiene nada</strong>: son dos acciones separadas.</dd>
+        <dt><code>sc.exe config &lt;svc&gt; start= auto|demand|disabled</code></dt>
+        <dd>Lo mismo con la herramienta clásica. Ojo a la sintaxis: el espacio va <em>después</em> del signo igual.</dd>
+      </dl>
+    </section>
+
+    <section>
+      <h3>Cuando un servicio no arranca</h3>
+      <p style="margin:0;font-size:0.87rem;">
+        El orden es siempre el mismo: <code>Get-Service</code> para ver estado y tipo de inicio →
+        si está en <em>Disabled</em>, <code>Set-Service -StartupType</code> → <code>Start-Service</code> →
+        volver a comprobar. Si el tipo de inicio es correcto y aun así falla, suele ser una
+        dependencia parada (una base de datos, por ejemplo) o un puerto ocupado.
+      </p>
+    </section>
+
+    <section>
+      <h3>Y sobre todo</h3>
+      <p style="margin:0;font-size:0.87rem;">
+        Gestionar servicios requiere una consola elevada. Y piensa dos veces antes de detener algo
+        cuyo nombre no reconozcas: en un servidor remoto, <code>TermService</code> es la puerta por
+        la que has entrado.
+      </p>
+    </section>
+
+    <section class="keys">
+      <h3>Atajos de teclado en la consola</h3>
+      <p style="margin:0;font-size:0.87rem;">
+        <kbd>↑</kbd> <kbd>↓</kbd> historial · <kbd>Tab</kbd> autocompletar ·
+        <kbd>Ctrl</kbd>+<kbd>L</kbd> limpiar pantalla · <kbd>Ctrl</kbd>+<kbd>C</kbd> cancelar la línea.
+      </p>
+    </section>
+  </div>
+</div>
+
+<!-- Biblioteca común de los retos -->
+<script src="../shared/js/core.js"></script>
+<script src="../shared/js/terminal.js"></script>
+<script src="../shared/js/shell.js"></script>
+<script src="../shared/js/man.js"></script>
+<script src="../shared/js/modal.js"></script>
+<script src="../shared/js/editor.js"></script>
+<script src="../shared/js/game.js"></script>
+<script src="../shared/js/vfs.js"></script>
+<script src="../shared/js/sysmodel.js"></script>
+<script src="../shared/js/cmd-pwsh.js"></script>
+<script src="../shared/js/cmd-pwsh-admin.js"></script>
+<script src="../shared/js/sandbox.js"></script>
+<script src="../shared/data/help-pwsh.js"></script>
+<!-- Datos del reto -->
+<script src="data/config.js"></script>
+<script src="data/gamification.js"></script>
+<script src="data/missions.js"></script>
+<!-- Lógica y arranque -->
+<script src="js/missions.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

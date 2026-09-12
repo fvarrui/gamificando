@@ -10,8 +10,8 @@ import path from 'node:path';
 const destino = path.resolve(process.argv[2] || 'capturas');
 const shot = (b, name) => b.screenshot(path.join(destino, name));
 
-/* ---- Versionando con Git ---- */
-let b = await launch(fileUrl('versionando-con-git/index.html'), { port: 9396 });
+/* ---- Punto de retorno ---- */
+let b = await launch(fileUrl('punto-de-retorno/index.html'), { port: 9396 });
 let g = game(b);
 try {
   await sleep(400);
@@ -58,15 +58,15 @@ try {
    Para cada uno: portada, una partida empezada por la última fase y
    la vista móvil. */
 const SANDBOX = [
-  ['primeros-pasos-en-linux', 'linux', 4, 'LNX-24', ['ls -la', 'grep WARN registros/acceso.log | wc -l']],
-  ['primeros-pasos-en-powershell', 'pwsh', 3, 'PSH-19', ['Get-ChildItem -Recurse | Where-Object Name -like "*.log"']],
-  ['permisos-en-linux', 'permisos-linux', 3, 'ACL-15', ['ls -l', 'getfacl presupuesto.csv']],
-  ['permisos-en-windows', 'permisos-windows', 2, 'NTF-11', ['icacls C:\\Datos', 'Get-Acl C:\\Datos | Format-List']],
-  ['usuarios-y-grupos-en-linux', 'usuarios-linux', 3, 'USR-16', ['getent passwd', 'id elena']],
-  ['usuarios-y-grupos-en-windows', 'usuarios-windows', 3, 'CTA-16', ['Get-LocalUser', 'Get-LocalGroupMember -Group Ventas']],
-  ['servicios-en-linux', 'servicios-linux', 2, 'SVC-11', ['systemctl status nginx', 'systemctl list-units --type=service']],
-  ['servicios-en-windows', 'servicios-windows', 2, 'WSV-11', ['Get-Service', 'sc.exe qc AtlanteApp']],
-  ['contenedores-con-docker', 'docker', 3, 'DKR-18', ['docker ps', 'docker images']]
+  ['terminal-implacable', 'linux', 4, 'LNX-24', ['ls -la', 'grep WARN registros/acceso.log | wc -l']],
+  ['la-jungla-de-objetos', 'pwsh', 3, 'PSH-19', ['Get-ChildItem -Recurse | Where-Object Name -like "*.log"']],
+  ['los-intocables', 'permisos-linux', 3, 'ACL-15', ['ls -l', 'getfacl presupuesto.csv']],
+  ['control-total', 'permisos-windows', 2, 'NTF-11', ['icacls C:\\Datos', 'Get-Acl C:\\Datos | Format-List']],
+  ['cuenta-atras', 'usuarios-linux', 3, 'USR-16', ['getent passwd', 'id moss']],
+  ['cuenta-pendiente', 'usuarios-windows', 3, 'CTA-16', ['Get-LocalUser', 'Get-LocalGroupMember -Group Ventas']],
+  ['asalto-al-puerto-80', 'servicios-linux', 2, 'SVC-11', ['systemctl status nginx', 'systemctl list-units --type=service']],
+  ['arranque-imposible', 'servicios-windows', 2, 'WSV-11', ['Get-Service', 'sc.exe qc AtlanteApp']],
+  ['carga-critica', 'docker', 3, 'DKR-18', ['docker ps', 'docker images']]
 ];
 
 let puerto = 9411;

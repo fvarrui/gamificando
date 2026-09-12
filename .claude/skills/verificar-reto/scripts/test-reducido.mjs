@@ -4,7 +4,7 @@ import { launch, fileUrl, sleep } from './cdp.mjs';
 import { checker, game } from './helpers.mjs';
 
 const t = checker();
-const b = await launch(fileUrl('versionando-con-git/index.html'), { port: 9394, extraArgs: ['--force-prefers-reduced-motion'] });
+const b = await launch(fileUrl('punto-de-retorno/index.html'), { port: 9394, extraArgs: ['--force-prefers-reduced-motion'] });
 const g = game(b);
 const check = t.check;
 
@@ -13,8 +13,8 @@ try {
   await g.start();
   await g.waitMission('GIT-01', 10000);
   check(true, 'el primer ticket llega igualmente (con esperas más cortas)');
-  await g.type('git config --global user.name "Ana"');
-  await g.type('git config --global user.email "ana@x.local"');
+  await g.type('git config --global user.name "Linda"');
+  await g.type('git config --global user.email "hamilton@x.local"');
   await g.waitMission('GIT-02', 10000);
   check(true, 'las misiones encadenan sin animaciones');
   await g.type('git init -b main');

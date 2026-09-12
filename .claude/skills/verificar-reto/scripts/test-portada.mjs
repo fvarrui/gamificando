@@ -9,17 +9,17 @@ const check = t.check;
 
 /* Carpeta del reto → parte del <title> que debe aparecer al abrirlo */
 const RETOS = [
-  ['primeros-pasos-en-linux', 'Primeros pasos en Linux'],
-  ['primeros-pasos-en-powershell', 'Primeros pasos en PowerShell'],
-  ['permisos-en-linux', 'Permisos y ACL en Linux'],
-  ['permisos-en-windows', 'Permisos NTFS en Windows'],
-  ['usuarios-y-grupos-en-linux', 'Usuarios y grupos en Linux'],
-  ['usuarios-y-grupos-en-windows', 'Usuarios y grupos en Windows'],
-  ['servicios-en-linux', 'Servicios en Linux'],
-  ['servicios-en-windows', 'Servicios en Windows'],
+  ['terminal-implacable', 'Terminal implacable'],
+  ['la-jungla-de-objetos', 'La jungla de objetos'],
+  ['los-intocables', 'Los intocables'],
+  ['control-total', 'Control total'],
+  ['cuenta-atras', 'Cuenta atrás'],
+  ['cuenta-pendiente', 'Cuenta pendiente'],
+  ['asalto-al-puerto-80', 'Asalto al puerto 80'],
+  ['arranque-imposible', 'Arranque imposible'],
   ['blindaje-de-la-red', 'Blindaje de la Red'],
-  ['versionando-con-git', 'Versionando con Git'],
-  ['contenedores-con-docker', 'Contenedores con Docker']
+  ['punto-de-retorno', 'Punto de retorno'],
+  ['carga-critica', 'Carga crítica']
 ];
 
 const q = s => JSON.stringify(s);

@@ -8,11 +8,11 @@ description: Añade, cambia o reordena misiones (tickets, alertas o fases) en lo
 En los dos retos el **contenido** de las misiones y su **lógica** viven separados y se emparejan
 por el código del ticket. Para añadir una misión hay que tocar los dos sitios.
 
-| | Versionando con Git | Blindaje de la Red |
+| | Punto de retorno | Blindaje de la Red |
 |---|---|---|
-| Contenido | `versionando-con-git/data/missions.js` (`VG.MISSION_CONTENT`) | `blindaje-de-la-red/data/missions.js` (`BD.MISSION_CONTENT`) |
-| Lógica | `versionando-con-git/js/missions.js` (objeto `LOGIC`, por código) | `blindaje-de-la-red/js/missions.js` (se deriva de `kind` y `port`) |
-| Fases | `versionando-con-git/data/gamification.js` (`VG.PHASES`) | — (no hay fases) |
+| Contenido | `punto-de-retorno/data/missions.js` (`VG.MISSION_CONTENT`) | `blindaje-de-la-red/data/missions.js` (`BD.MISSION_CONTENT`) |
+| Lógica | `punto-de-retorno/js/missions.js` (objeto `LOGIC`, por código) | `blindaje-de-la-red/js/missions.js` (se deriva de `kind` y `port`) |
+| Fases | `punto-de-retorno/data/gamification.js` (`VG.PHASES`) | — (no hay fases) |
 
 El código (`GIT-07`, `SOC-1043`…) se asigna solo por la posición, así que **insertar una misión
 en medio renumera las siguientes**: revisa las referencias cruzadas (por ejemplo, el ticket que
@@ -40,7 +40,7 @@ Reglas de escritura (son las que hacen que el reto enseñe):
 - Cada pista cuesta 25 XP, así que deben aportar algo distinto entre sí.
 - Tono profesional y en español correcto; el objetivo es una sola frase y es lo que se anuncia a
   los lectores de pantalla.
-- Si la misión la provoca un compañero (Iker o Nayra), el `source` es esa persona.
+- Si la misión la provoca un compañero (Arnold o Sigourney), el `source` es esa persona.
 
 ## 2. La lógica
 
@@ -79,7 +79,7 @@ En `js/missions.js`, dentro de `LOGIC`, con el código como clave:
 
 1. Comprueba que la `solution` deja la misión en verde: si empiezas el juego en la fase siguiente y
    el repositorio no queda como esperas, la solución está mal.
-2. Añade o ajusta la misión en las pruebas (`SOLUCIONES` de `test-git.mjs`) y ejecuta la *skill*
+2. Añade o ajusta la misión en las pruebas (`SOLUCIONES` de `test-punto-de-retorno.mjs`) y ejecuta la *skill*
    `verificar-reto`.
 3. Actualiza la **tabla de misiones del README** del reto (y el número de misiones si ha cambiado:
    aparece también en la portada del repositorio y en el `index.html` del reto).

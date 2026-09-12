@@ -13,7 +13,7 @@ comportarse como fuera**. Si un comando miente, el reto enseña algo falso.
 | Reto | Fichero |
 |---|---|
 | Blindaje | `blindaje-de-la-red/js/commands.js` (objeto `BD.commands`) |
-| Versionando | `versionando-con-git/js/shell-commands.js` (shell) y `js/git-*.js` (objeto `VG.GIT`, por familias: `commands` básicos, `log`, `branch`, `remote`, `misc`) |
+| Versionando | `punto-de-retorno/js/shell-commands.js` (shell) y `js/git-*.js` (objeto `VG.GIT`, por familias: `commands` básicos, `log`, `branch`, `remote`, `misc`) |
 
 Firma: `function (args, name) { … }`, donde `args` ya viene sin el nombre del comando, con las
 comillas resueltas y los comodines expandidos.

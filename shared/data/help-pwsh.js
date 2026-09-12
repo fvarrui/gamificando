@@ -297,13 +297,13 @@
       ["Disable-LocalUser [-Name] <String>"],
       "Deja la cuenta sin poder iniciar sesión, pero la conserva con sus permisos y su perfil. Es lo que se hace cuando alguien se va de baja temporal, en lugar de borrarla.",
       [],
-      ["Disable-LocalUser -Name bruno"]],
+      ["Disable-LocalUser -Name lundgren"]],
 
     "Enable-LocalUser": ["Enable-LocalUser - habilita una cuenta local",
       ["Enable-LocalUser [-Name] <String>"],
       "Vuelve a permitir el inicio de sesión de una cuenta deshabilitada.",
       [],
-      ["Enable-LocalUser -Name bruno"]],
+      ["Enable-LocalUser -Name lundgren"]],
 
     "Get-LocalGroup": ["Get-LocalGroup - obtiene los grupos locales",
       ["Get-LocalGroup [[-Name] <String>]"],
@@ -334,7 +334,7 @@
       ["Remove-LocalGroupMember [-Group] <String> [-Member] <String>"],
       "Saca una cuenta de un grupo sin borrar ni la cuenta ni el grupo.",
       [],
-      ["Remove-LocalGroupMember -Group proyectos -Member bruno"]],
+      ["Remove-LocalGroupMember -Group proyectos -Member lundgren"]],
 
     "Get-Service": ["Get-Service - obtiene los servicios del equipo",
       ["Get-Service [[-Name] <String>]"],

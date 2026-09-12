@@ -9,17 +9,17 @@ import { fileURLToPath } from 'node:url';
 const here = path.dirname(fileURLToPath(import.meta.url));
 const SUITES = [
   ['Blindaje de la Red', 'test-blindaje.mjs'],
-  ['Versionando con Git · recorrido completo', 'test-git.mjs'],
-  ['Versionando con Git · caminos alternativos', 'test-git-avanzado.mjs'],
-  ['Primeros pasos en Linux', 'test-linux-basico.mjs'],
-  ['Primeros pasos en PowerShell', 'test-pwsh-basico.mjs'],
-  ['Permisos y ACL en Linux', 'test-permisos-linux.mjs'],
-  ['Permisos NTFS en Windows', 'test-permisos-windows.mjs'],
-  ['Usuarios y grupos en Linux', 'test-usuarios-linux.mjs'],
-  ['Usuarios y grupos en Windows', 'test-usuarios-windows.mjs'],
-  ['Servicios en Linux', 'test-servicios-linux.mjs'],
-  ['Servicios en Windows', 'test-servicios-windows.mjs'],
-  ['Contenedores con Docker', 'test-docker.mjs'],
+  ['Punto de retorno · recorrido completo', 'test-punto-de-retorno.mjs'],
+  ['Punto de retorno · caminos alternativos', 'test-punto-de-retorno-avanzado.mjs'],
+  ['Terminal implacable', 'test-terminal-implacable.mjs'],
+  ['La jungla de objetos', 'test-jungla-de-objetos.mjs'],
+  ['Los intocables', 'test-los-intocables.mjs'],
+  ['Control total', 'test-control-total.mjs'],
+  ['Cuenta atrás', 'test-cuenta-atras.mjs'],
+  ['Cuenta pendiente', 'test-cuenta-pendiente.mjs'],
+  ['Asalto al puerto 80', 'test-asalto-al-puerto-80.mjs'],
+  ['Arranque imposible', 'test-arranque-imposible.mjs'],
+  ['Carga crítica', 'test-carga-critica.mjs'],
   ['Movimiento reducido', 'test-reducido.mjs'],
   ['Portada del repositorio', 'test-portada.mjs']
 ];

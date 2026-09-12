@@ -14,37 +14,37 @@ aplican de verdad y las decisiones arriesgadas quedan anotadas en el informe fin
 
 | Reto | De qué va | Temas | Duración |
 |---|---|---|---|
-| 🐧 [Primeros pasos en Linux](primeros-pasos-en-linux/) | El primer día ante una terminal: orientarse, leer ficheros sin estropearlos, crear y ordenar, buscar y encadenar órdenes con tuberías (`pwd`, `ls`, `cd`, `cat`, `grep`, `find`, `cp`, `mv`, `rm`, `>`, `\|`) | Linux · Consola · Ficheros | 27 tareas en 5 fases · 20-35 min |
-| 🪟 [Primeros pasos en PowerShell](primeros-pasos-en-powershell/) | El mismo primer día en Windows, donde los cmdlets devuelven **objetos** y no texto: `Get-ChildItem`, `Get-Content`, `New-Item`, `Where-Object`, `Sort-Object`, `Measure-Object`, `Get-Member` | Windows · PowerShell · Ficheros | 27 tareas en 5 fases · 20-35 min |
+| 🐧 [Terminal implacable](terminal-implacable/) | El primer día ante una terminal: orientarse, leer ficheros sin estropearlos, crear y ordenar, buscar y encadenar órdenes con tuberías (`pwd`, `ls`, `cd`, `cat`, `grep`, `find`, `cp`, `mv`, `rm`, `>`, `\|`) | Linux · Consola · Ficheros | 27 tareas en 5 fases · 20-35 min |
+| 🪟 [La jungla de objetos](la-jungla-de-objetos/) | El mismo primer día en Windows, donde los cmdlets devuelven **objetos** y no texto: `Get-ChildItem`, `Get-Content`, `New-Item`, `Where-Object`, `Sort-Object`, `Measure-Object`, `Get-Member` | Windows · PowerShell · Ficheros | 27 tareas en 5 fases · 20-35 min |
 
 ### Permisos
 
 | Reto | De qué va | Temas | Duración |
 |---|---|---|---|
-| 🔐 [Permisos y ACL en Linux](permisos-en-linux/) | Bastionar una carpeta compartida que quedó a 777: `chmod`, `chown`, `chgrp`, `umask`, SGID, `getfacl` y `setfacl`, incluidas las ACL por omisión para los ficheros que aún no existen | Linux · Permisos · ACL · Seguridad | 26 tareas en 5 fases · 25-40 min |
-| 🔒 [Permisos NTFS en Windows](permisos-en-windows/) | Quitar el «Todos · Control total» de la carpeta de toda la empresa: `Get-Acl`, `icacls` con `/grant`, `/deny`, `/remove` y `/inheritance`, y `takeown` | Windows · NTFS · ACL · Seguridad | 25 tareas en 5 fases · 25-40 min |
+| 🔐 [Los intocables](los-intocables/) | Bastionar una carpeta compartida que quedó a 777: `chmod`, `chown`, `chgrp`, `umask`, SGID, `getfacl` y `setfacl`, incluidas las ACL por omisión para los ficheros que aún no existen | Linux · Permisos · ACL · Seguridad | 26 tareas en 5 fases · 25-40 min |
+| 🔒 [Control total](control-total/) | Quitar el «Todos · Control total» de la carpeta de toda la empresa: `Get-Acl`, `icacls` con `/grant`, `/deny`, `/remove` y `/inheritance`, y `takeown` | Windows · NTFS · ACL · Seguridad | 25 tareas en 5 fases · 25-40 min |
 
 ### Identidades
 
 | Reto | De qué va | Temas | Duración |
 |---|---|---|---|
-| 👥 [Usuarios y grupos en Linux](usuarios-y-grupos-en-linux/) | Una semana de altas y bajas: `useradd`, `usermod`, `userdel`, `passwd`, `groupadd`, `gpasswd`, `getent`, con la trampa de `-G` sin `-a` y la norma de bloquear en vez de borrar | Linux · Usuarios · Grupos | 25 tareas en 5 fases · 25-40 min |
-| 🧑‍💼 [Usuarios y grupos en Windows](usuarios-y-grupos-en-windows/) | La misma semana con cuentas locales y SID: cmdlets `*-LocalUser` y `*-LocalGroup`, `net user`, y una auditoría de cuentas inactivas resuelta con la tubería de objetos | Windows · Cuentas locales · Grupos | 25 tareas en 5 fases · 25-40 min |
+| 👥 [Cuenta atrás](cuenta-atras/) | Una semana de altas y bajas: `useradd`, `usermod`, `userdel`, `passwd`, `groupadd`, `gpasswd`, `getent`, con la trampa de `-G` sin `-a` y la norma de bloquear en vez de borrar | Linux · Usuarios · Grupos | 25 tareas en 5 fases · 25-40 min |
+| 🧑‍💼 [Cuenta pendiente](cuenta-pendiente/) | La misma semana con cuentas locales y SID: cmdlets `*-LocalUser` y `*-LocalGroup`, `net user`, y una auditoría de cuentas inactivas resuelta con la tubería de objetos | Windows · Cuentas locales · Grupos | 25 tareas en 5 fases · 25-40 min |
 
 ### Servicios y seguridad
 
 | Reto | De qué va | Temas | Duración |
 |---|---|---|---|
-| 🌙 [Servicios en Linux](servicios-en-linux/) | Guardia nocturna con la intranet caída: `systemctl` y `journalctl` con un conflicto de puertos real, y la diferencia entre «activo ahora» y «arrancará al reiniciar» | Linux · systemd · Servicios | 24 tareas en 5 fases · 20-35 min |
-| 🛠 [Servicios en Windows](servicios-en-windows/) | Un servicio que «no arranca ni a mano»: `Get-Service`, `Set-Service -StartupType`, `sc.exe` y `net`, con la lección de por qué *Disabled* no es lo mismo que parado | Windows · Servicios · Tipos de inicio | 24 tareas en 5 fases · 20-35 min |
+| 🌙 [Asalto al puerto 80](asalto-al-puerto-80/) | Guardia nocturna con la intranet caída: `systemctl` y `journalctl` con un conflicto de puertos real, y la diferencia entre «activo ahora» y «arrancará al reiniciar» | Linux · systemd · Servicios | 24 tareas en 5 fases · 20-35 min |
+| 🛠 [Arranque imposible](arranque-imposible/) | Un servicio que «no arranca ni a mano»: `Get-Service`, `Set-Service -StartupType`, `sc.exe` y `net`, con la lección de por qué *Disabled* no es lo mismo que parado | Windows · Servicios · Tipos de inicio | 24 tareas en 5 fases · 20-35 min |
 | 🛡️ [Blindaje de la Red](blindaje-de-la-red/) | Respuesta a incidentes: descubrir qué servicios sobran en un servidor comprometido y contenerlos (`ss`, `ps`, `systemctl`, `kill`, `ufw`, `iptables`) sin tumbar los que la empresa necesita | Redes · Servicios · Seguridad · Linux | 7 misiones · 10-20 min |
 
 ### Herramientas del oficio
 
 | Reto | De qué va | Temas | Duración |
 |---|---|---|---|
-| 🌿 [Versionando con Git](versionando-con-git/) | Llevar una carpeta de scripts a un repositorio compartido con Git de verdad (`add`, `commit`, `branch`, `merge`, `push`, `pull`, `revert`…), con conflictos reales y un panel que dibuja el grafo de ramas | Git · Control de versiones · Trabajo en equipo | 30 misiones en 5 fases · 45-70 min |
-| 🐳 [Contenedores con Docker](contenedores-con-docker/) | Migrar la intranet a contenedores: `pull`, `run`, `ps`, `logs`, `exec`, volúmenes, `build` desde un Dockerfile y toda la pila con `docker compose` | Docker · Contenedores · Despliegue | 26 tareas en 5 fases · 30-45 min |
+| 🌿 [Punto de retorno](punto-de-retorno/) | Llevar una carpeta de scripts a un repositorio compartido con Git de verdad (`add`, `commit`, `branch`, `merge`, `push`, `pull`, `revert`…), con conflictos reales y un panel que dibuja el grafo de ramas | Git · Control de versiones · Trabajo en equipo | 30 misiones en 5 fases · 45-70 min |
+| 🐳 [Carga crítica](carga-critica/) | Migrar la intranet a contenedores: `pull`, `run`, `ps`, `logs`, `exec`, volúmenes, `build` desde un Dockerfile y toda la pila con `docker compose` | Docker · Contenedores · Despliegue | 26 tareas en 5 fases · 30-45 min |
 
 Cada reto tiene su propio `README.md` con la guía docente: objetivos de aprendizaje, tareas,
 elementos de gamificación, accesibilidad y propuestas de uso en el aula.
@@ -103,7 +103,7 @@ dependencias (solo Node ≥ 22 y Chrome o Edge):
 
 ```bash
 node .claude/skills/verificar-reto/scripts/run.mjs               # toda la batería
-node .claude/skills/verificar-reto/scripts/run.mjs test-docker   # solo un reto
+node .claude/skills/verificar-reto/scripts/run.mjs test-carga-critica   # solo un reto
 node .claude/skills/verificar-reto/scripts/capturas.mjs          # capturas de pantalla
 ```
 

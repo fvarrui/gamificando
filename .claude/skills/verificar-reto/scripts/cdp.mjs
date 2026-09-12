@@ -12,7 +12,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 /* Raíz del repositorio: .claude/skills/verificar-reto/scripts → cuatro niveles arriba */
 export const REPO = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../../..');
 
-/* URL file:// de una página del repositorio, p. ej. fileUrl('versionando-con-git/index.html') */
+/* URL file:// de una página del repositorio, p. ej. fileUrl('punto-de-retorno/index.html') */
 export function fileUrl(relative) {
   return pathToFileURL(path.join(REPO, relative)).href;
 }

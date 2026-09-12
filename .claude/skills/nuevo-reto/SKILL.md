@@ -16,8 +16,8 @@ clic (`file://`). CSS con `<link>`, JS con `<script src>` clásicos y datos en `
 **Si el reto va de manejar una consola** (ficheros, permisos, cuentas, servicios, herramientas de
 línea de órdenes), **no escribas motor**: usa `RG.Sandbox` y aporta solo datos. Es lo que hacen
 los nueve retos de consola, y te ahorra el estado, la terminal, el intérprete, el editor, las
-fases, el informe y los botones. Copia `primeros-pasos-en-linux/` (bash) o
-`primeros-pasos-en-powershell/` (PowerShell) y cambia los datos.
+fases, el informe y los botones. Copia `terminal-implacable/` (bash) o
+`la-jungla-de-objetos/` (PowerShell) y cambia los datos.
 
 ```js
 // js/main.js — el reto entero, con RG.Sandbox
@@ -41,7 +41,7 @@ Solo necesitas dos ficheros de lógica: `data/missions.js` (textos y pistas) y `
 
 **Si el reto necesita un simulador propio** (como Git o Docker), escribe el motor como un módulo
 de `shared/js/` con su propio espacio de nombres dentro de `RG`, y móntalo con `commands` o
-—si no encaja con `Sandbox`— a mano, como `versionando-con-git/`. El resto de esta guía describe
+—si no encaja con `Sandbox`— a mano, como `punto-de-retorno/`. El resto de esta guía describe
 ese camino largo.
 
 ## 1. Estructura y espacio de nombres
@@ -107,7 +107,7 @@ XX.afterLine    = function () { game.render(); XX.term.setLocked(false); };
 `labels` son los textos de la ficha (franja, metadatos, estado) y `on` los enganches:
 `broadcast` (el mensaje que anuncia la misión), `complete`, `levelUp`, `finish`, `render` y
 `report`. Mira `blindaje-de-la-red/js/main.js` como ejemplo corto y
-`versionando-con-git/js/main.js` como ejemplo con fases.
+`punto-de-retorno/js/main.js` como ejemplo con fases.
 
 ## 4. Diseño del reto (lo que hace que funcione en el aula)
 

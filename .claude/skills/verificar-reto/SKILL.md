@@ -14,7 +14,7 @@ Los retos no tienen *tests* unitarios: se verifican **jugándolos** en un Chrome
 ```bash
 node .claude/skills/verificar-reto/scripts/run.mjs             # toda la batería (~15 min)
 node .claude/skills/verificar-reto/scripts/run.mjs git         # solo las que lleven «git» en el nombre
-node .claude/skills/verificar-reto/scripts/run.mjs test-docker # un reto concreto
+node .claude/skills/verificar-reto/scripts/run.mjs test-carga-critica # un reto concreto
 node .claude/skills/verificar-reto/scripts/capturas.mjs docs/capturas
 ```
 
@@ -25,17 +25,17 @@ Cada guion devuelve código de salida 1 si falla alguna comprobación e imprime
 | Guion | Qué cubre |
 |---|---|
 | `test-blindaje.mjs` | Partida completa de Blindaje: SSH, reconocimiento obligatorio, las 5 amenazas (incluida una resolución proactiva), daño colateral, informe, exploración y 400 px |
-| `test-git.mjs` | Partida completa de las 30 misiones de Git, arranque desde cada una de las 5 fases, panel visual, informe y accesibilidad |
-| `test-git-avanzado.mjs` | Caminos alternativos: errores típicos, stash, HEAD desacoplada, rebase con conflicto y `--abort`, cherry-pick, revert, `branch -D`, `push --force`, `reset --hard`, alias y ayuda |
-| `test-linux-basico.mjs` | Las 27 tareas de Primeros pasos en Linux, permisos respetados, errores de bash y arranque por fase |
-| `test-pwsh-basico.mjs` | Las 27 tareas de Primeros pasos en PowerShell, alias, abreviaturas de parámetro y tubería de objetos |
-| `test-permisos-linux.mjs` | Las 26 tareas de permisos y ACL: SGID, ACL por omisión heredada, credenciales protegidas |
-| `test-permisos-windows.mjs` | Las 25 tareas de NTFS: herencia cortada y restaurada, denegación explícita, propietario |
-| `test-usuarios-linux.mjs` | Las 25 tareas de cuentas y grupos, y que `usermod -G` sin `-a` se anota como riesgo |
-| `test-usuarios-windows.mjs` | Las 25 tareas de cuentas locales y la auditoría por objetos |
-| `test-servicios-linux.mjs` | Las 24 tareas de systemd y el conflicto de puertos en los dos sentidos |
-| `test-servicios-windows.mjs` | Las 24 tareas de servicios y que *Disabled* impide arrancar incluso a mano |
-| `test-docker.mjs` | Las 26 tareas de contenedores: volúmenes, puertos ocupados, `build` y Compose |
+| `test-punto-de-retorno.mjs` | Partida completa de las 30 misiones de Git, arranque desde cada una de las 5 fases, panel visual, informe y accesibilidad |
+| `test-punto-de-retorno-avanzado.mjs` | Caminos alternativos: errores típicos, stash, HEAD desacoplada, rebase con conflicto y `--abort`, cherry-pick, revert, `branch -D`, `push --force`, `reset --hard`, alias y ayuda |
+| `test-terminal-implacable.mjs` | Las 27 tareas de Terminal implacable, permisos respetados, errores de bash y arranque por fase |
+| `test-jungla-de-objetos.mjs` | Las 27 tareas de La jungla de objetos, alias, abreviaturas de parámetro y tubería de objetos |
+| `test-los-intocables.mjs` | Las 26 tareas de permisos y ACL: SGID, ACL por omisión heredada, credenciales protegidas |
+| `test-control-total.mjs` | Las 25 tareas de NTFS: herencia cortada y restaurada, denegación explícita, propietario |
+| `test-cuenta-atras.mjs` | Las 25 tareas de cuentas y grupos, y que `usermod -G` sin `-a` se anota como riesgo |
+| `test-cuenta-pendiente.mjs` | Las 25 tareas de cuentas locales y la auditoría por objetos |
+| `test-asalto-al-puerto-80.mjs` | Las 24 tareas de systemd y el conflicto de puertos en los dos sentidos |
+| `test-arranque-imposible.mjs` | Las 24 tareas de servicios y que *Disabled* impide arrancar incluso a mano |
+| `test-carga-critica.mjs` | Las 26 tareas de contenedores: volúmenes, puertos ocupados, `build` y Compose |
 | `test-reducido.mjs` | `prefers-reduced-motion` activado y la pregunta de guardado de nano |
 | `test-portada.mjs` | La portada de GitHub Pages: que estén todos los retos y que cada uno cargue con rutas relativas |
 | `capturas.mjs` | Capturas de portada, juego y vista móvil de todos los retos |
