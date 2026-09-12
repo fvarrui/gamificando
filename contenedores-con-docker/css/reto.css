@@ -1,0 +1,8 @@
+/* ==========================================================
+   Estilos propios de «Contenedores con Docker».
+   El progreso por fases está en ../shared/css/phases.css
+   ========================================================== */
+.game-main { --side-w: 400px; }
+
+/* Los avisos del equipo llegan en ámbar */
+.term-window { --flash: var(--amber); }

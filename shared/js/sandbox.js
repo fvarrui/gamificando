@@ -175,6 +175,8 @@
         : "Manual de una orden:  man <orden>   ·   Limpiar la pantalla:  clear");
       term.pre("");
     };
+    /* En PowerShell, «help» es alias de Get-Help: sin nombre, muestra esta guía */
+    S.ctx.onHelpOverview = S.commands.help;
     S.commands.exit = function () {
       term.sys("warn", win ? "No se puede cerrar esta consola durante la práctica." : "No puedes cerrar la sesión durante la práctica.");
     };

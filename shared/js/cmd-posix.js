@@ -163,6 +163,45 @@
         emit({ type: "wc", path: p, lines: ls.length, onlyLines: !!o.lines });
       });
     };
+    /* sort y uniq existen también como órdenes sobre ficheros, no solo
+       como filtros de tubería */
+    C.sort = function (args) {
+      var o = parseArgs(args, { short: { r: "rev", n: "num", u: "uniq", f: "x" }, long: { reverse: "rev", numeric: "num", unique: "uniq" } });
+      if (!o._.length) { fail("sort: (simulador) indica un fichero, o úsalo detrás de una tubería"); return; }
+      var lineas = [];
+      o._.forEach(function (p) {
+        var n = readOrFail("sort", p);
+        if (n) { lineas = lineas.concat(util.linesOf(n.content)); }
+      });
+      lineas.sort(function (a, b) {
+        if (o.num) { return (parseFloat(a) || 0) - (parseFloat(b) || 0); }
+        return a < b ? -1 : a > b ? 1 : 0;
+      });
+      if (o.rev) { lineas.reverse(); }
+      if (o.uniq) {
+        lineas = lineas.filter(function (l, i) { return i === 0 || l !== lineas[i - 1]; });
+      }
+      pre(lineas.join("\n"));
+      emit({ type: "sort", files: o._, reverse: !!o.rev });
+    };
+    C.uniq = function (args) {
+      var o = parseArgs(args, { short: { c: "count", d: "dup", u: "solo" }, long: { count: "count", repeated: "dup", unique: "solo" } });
+      if (!o._.length) { fail("uniq: (simulador) indica un fichero, o úsalo detrás de una tubería"); return; }
+      var n = readOrFail("uniq", o._[0]);
+      if (!n) { return; }
+      var grupos = [];
+      util.linesOf(n.content).forEach(function (l) {
+        var ultimo = grupos[grupos.length - 1];
+        if (ultimo && ultimo.linea === l) { ultimo.veces++; } else { grupos.push({ linea: l, veces: 1 }); }
+      });
+      grupos.forEach(function (g) {
+        if (o.dup && g.veces < 2) { return; }
+        if (o.solo && g.veces > 1) { return; }
+        pre(o.count ? util.lpad(g.veces, 7) + " " + g.linea : g.linea);
+      });
+      emit({ type: "uniq", path: o._[0] });
+    };
+
     C.file = function (args) {
       args.forEach(function (p) {
         var loc = locate(p);

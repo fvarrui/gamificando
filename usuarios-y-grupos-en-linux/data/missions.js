@@ -292,7 +292,7 @@
       objective: "Guarda la salida de getent passwd en el fichero /home/ana/cuentas.txt.",
       hints: [
         "Puedes redirigir la salida de cualquier orden a un fichero con >.",
-        "Se escribe: getent passwd > /home/ana/cuentas.txt",
+        "El fichero se crea aunque no exista, y si existía se sobrescribe. Compruébalo después con cat.",
         "Escribe: getent passwd > cuentas.txt"
       ]
     }

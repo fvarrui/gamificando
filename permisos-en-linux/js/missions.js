@@ -212,16 +212,17 @@
       S.game.addRisky("chmod:otros",
         "has ampliado los permisos del resto del sistema sobre " + ev.path + ", que es justo lo que veníamos a cerrar.");
     }
-    if (ev.type === "setfacl" && ev.kind === "group" && ev.name === "ventas" &&
-        /claves|privado/.test(ev.path || "")) {
-      S.game.addRisky("acl:claves", "has dado acceso a las credenciales de servicio a gente que no las necesita.");
+    /* Las credenciales de servicio no las necesita nadie más */
+    if (ev.type === "setfacl" && ev.name && /claves|privado/.test(ev.path || "")) {
+      S.game.addRisky("acl:claves",
+        "has dado acceso a las credenciales de servicio a «" + ev.name + "», que no las necesita.");
     }
     if (ev.type === "rm" && /claves\.txt$/.test(ev.path || "")) {
       S.game.addRisky("rm:claves", "has borrado el fichero de credenciales en vez de protegerlo.");
     }
   };
 
-  /* La umask por omisión del reto no cuenta como comprobada */
+  /* Contenido + lógica = tareas del juego */
   PL.MISSIONS = PL.MISSION_CONTENT.map(function (m, i) {
     var code = "ACL-" + util.pad2(i + 1);
     var logic = LOGIC[code] || {};

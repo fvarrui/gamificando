@@ -15,7 +15,7 @@
     sys.addUser = function (u) {
       var user = {
         name: u.name,
-        uid: u.uid !== undefined ? u.uid : sys.nextUid(),
+        uid: u.uid !== undefined ? u.uid : sys.nextUid(u.system),
         group: u.group || u.name,
         groups: (u.groups || []).slice(),
         home: u.home !== undefined ? u.home : (cfg.homeBase || "/home/") + u.name,
@@ -31,7 +31,16 @@
       if (!sys.groups[user.group]) { sys.addGroup({ name: user.group, gid: user.uid }); }
       return user;
     };
-    sys.nextUid = function () {
+    /* Las cuentas de sistema se numeran por debajo de 1000, como en Linux */
+    sys.nextUid = function (system) {
+      if (system) {
+        var top = 100;
+        Object.keys(sys.users).forEach(function (n) {
+          var u = sys.users[n];
+          if (u.system && u.uid >= top && u.uid < 1000) { top = u.uid + 1; }
+        });
+        return top;
+      }
       var max = 1000;
       Object.keys(sys.users).forEach(function (n) {
         if (!sys.users[n].system && sys.users[n].uid >= max) { max = sys.users[n].uid + 1; }
@@ -116,6 +125,8 @@
         pid: s.pid || null,
         user: s.user || "root",
         unit: s.unit || (s.name + ".service"),
+        cmd: s.cmd || ("/usr/sbin/" + s.name),
+        aliases: (s.aliases || []).slice(),
         log: (s.log || []).slice(),
         failReason: s.failReason || null,     // motivo por el que falla al arrancar
         since: s.since || null

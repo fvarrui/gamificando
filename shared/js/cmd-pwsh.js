@@ -836,7 +836,12 @@
     };
     C["Get-Help"] = function (args) {
       var o = P(args, { Name: "v", Examples: "s", Full: "s", Detailed: "s", Online: "s" }, ["Name"]);
-      if (!o.Name) { fail("Get-Help : Indica el nombre del comando del que quieres ayuda."); return; }
+      /* Sin nombre, Get-Help (y su alias help) muestra una visión general */
+      if (!o.Name) {
+        if (ctx.onHelpOverview) { ctx.onHelpOverview(); }
+        else { fail("Get-Help : Indica el nombre del comando del que quieres ayuda."); }
+        return;
+      }
       var key = canonical(o.Name);
       var page = (ctx.man || {})[key] || (ctx.man || {})[o.Name];
       if (!page) { fail("Get-Help : No se encuentra la Ayuda para el tema '" + o.Name + "'."); return; }

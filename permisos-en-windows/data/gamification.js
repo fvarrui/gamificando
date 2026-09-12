@@ -8,7 +8,7 @@
   PW.HINT_COST = 25;
   PW.RISKY_PENALTY = 50;
   PW.PROACTIVE_BONUS = 25;
-  PW.FAST_TIME_MS = 16 * 60 * 1000;
+  PW.FAST_TIME_MS = 26 * 60 * 1000;
 
   PW.PHASES = [
     { n: 1, name: "Radiografía",   desc: "Ver quién tiene qué con Get-Acl e icacls" },
@@ -20,9 +20,9 @@
 
   PW.LEVELS = [
     { min: 0,    n: 1, name: "Lee una ACL" },
-    { min: 450,  n: 2, name: "Maneja icacls" },
-    { min: 900,  n: 3, name: "Controla la herencia" },
-    { min: 1400, n: 4, name: "Administra NTFS" }
+    { min: 1000,  n: 2, name: "Maneja icacls" },
+    { min: 1950,  n: 3, name: "Controla la herencia" },
+    { min: 2800, n: 4, name: "Administra NTFS" }
   ];
 
   PW.BADGES = [
@@ -31,6 +31,6 @@
     { id: "rtfm",    icon: "📚", name: "Get-Help",          desc: "Consultaste la ayuda integrada de un comando." },
     { id: "minimal", icon: "🎯", name: "Mínimo privilegio", desc: "Cada grupo acabó solo con los permisos que necesitaba." },
     { id: "inherit", icon: "🧬", name: "Herencia bajo control", desc: "Rompiste la herencia en Privado y la restauraste en Ventas." },
-    { id: "fast",    icon: "⚡", name: "Buen ritmo",        desc: "Completaste el bastionado en menos de 16 minutos." }
+    { id: "fast",    icon: "⚡", name: "Buen ritmo",        desc: "Completaste el bastionado en menos de 26 minutos." }
   ];
 })(this);

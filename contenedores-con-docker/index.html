@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contenedores con Docker — TecnoAtlántica</title>
+<link rel="stylesheet" href="../shared/css/tokens.css">
+<link rel="stylesheet" href="../shared/css/base.css">
+<link rel="stylesheet" href="../shared/css/screens.css">
+<link rel="stylesheet" href="../shared/css/game.css">
+<link rel="stylesheet" href="../shared/css/terminal.css">
+<link rel="stylesheet" href="../shared/css/editor.css">
+<link rel="stylesheet" href="../shared/css/modal.css">
+<link rel="stylesheet" href="../shared/css/phases.css">
+<link rel="stylesheet" href="css/reto.css">
+</head>
+<body>
+
+<!-- ==========================================================
+     PANTALLA 1 · PORTADA
+     ========================================================== -->
+<main id="screenIntro" class="screen-intro" aria-labelledby="introTitle">
+  <div class="intro-wrap">
+    <p class="eyebrow">TecnoAtlántica · Docker · Contenedores · Despliegue</p>
+    <h1 id="introTitle" class="intro-title" tabindex="-1">Contenedores<br>con Docker<span class="cursor" aria-hidden="true">▌</span></h1>
+    <p class="intro-sub">Sacar la intranet de un servidor artesanal y meterla en contenedores</p>
+
+    <article class="transmission is-norm" aria-label="Encargo de la responsable de sistemas">
+      <div class="transmission-head">
+        <span><b>DE:</b> Nayra Suárez · Responsable de Sistemas</span>
+        <span><b>PARA:</b> Ana Betancor</span>
+        <span><b>ASUNTO:</b> Migración de la intranet a contenedores</span>
+      </div>
+      <span class="stamp" aria-hidden="true">PROYECTO</span>
+      <p>
+        La intranet funciona, sí. Pero está montada a mano sobre el servidor: paquetes instalados
+        en su día, configuración retocada por tres personas distintas y <strong>nadie capaz de
+        reproducirla</strong> si mañana hay que moverla.
+      </p>
+      <p>
+        Te he preparado <code>srv-docker</code> con el motor recién instalado y sin una sola imagen
+        descargada. Empieza por lo pequeño: una imagen oficial, un contenedor, y de ahí hacia
+        arriba hasta levantar toda la pila con un solo fichero.
+      </p>
+      <p>
+        Y hay una cosa que quiero que te quede grabada: <strong>lo que un contenedor escribe dentro
+        de sí mismo desaparece con él</strong>. Los datos van en volúmenes, siempre.
+      </p>
+    </article>
+
+    <h2 class="intro-h2">Cómo funciona</h2>
+    <ul class="how-grid">
+      <li>
+        <span class="how-icon" aria-hidden="true">🐳</span>
+        <b>26 tareas en 5 fases</b>
+        <span>De <code>docker pull</code> a <code>docker compose up</code>, pasando por construir tu propia imagen.</span>
+      </li>
+      <li>
+        <span class="how-icon" aria-hidden="true">⌨️</span>
+        <b>Órdenes reales</b>
+        <span><code>run</code>, <code>ps</code>, <code>logs</code>, <code>exec</code>, <code>build</code>, <code>volume</code>, <code>compose</code>… con sus opciones y sus errores de verdad.</span>
+      </li>
+      <li>
+        <span class="how-icon" aria-hidden="true">💾</span>
+        <b>Errores que enseñan</b>
+        <span>La base de datos que no arranca por falta de una variable, el puerto ya ocupado, el volumen que salva los datos.</span>
+      </li>
+      <li>
+        <span class="how-icon" aria-hidden="true">⚠️</span>
+        <b>No pierdas los datos</b>
+        <span>Borrar un volumen o levantar una base de datos sin él resta XP y queda anotado.</span>
+      </li>
+    </ul>
+
+    <fieldset class="phase-pick">
+      <legend>Empezar desde</legend>
+      <p class="pp-note">Si empiezas en una fase posterior, el servidor se prepara automáticamente con las fases anteriores resueltas (esas tareas no suman XP).</p>
+      <div class="phase-options" id="phaseOptions"></div>
+    </fieldset>
+
+    <p class="host-line">
+      Equipo: <code>srv-docker</code> · Usuario: <code>ana</code> (grupo <code>docker</code>) ·
+      Docker Engine 27.3 · Proyecto en <code>~/intranet</code>
+    </p>
+
+    <div class="intro-actions">
+      <button type="button" class="btn btn-primary btn-big" id="startBtn">▶ Empezar la migración</button>
+      <button type="button" class="btn js-open-modal" data-modal="helpModal" aria-haspopup="dialog" aria-controls="helpModal">❓ Guía de Docker</button>
+      <a class="btn" href="../index.html">⌂ Otros juegos</a>
+    </div>
+
+    <p class="fineprint">Simulación educativa: ningún sistema real es modificado.</p>
+    <div class="credits">
+      <p>
+        Made with <span role="img" aria-label="amor">💖</span> by
+        <a href="https://github.com/fvarrui" target="_blank" rel="noopener noreferrer">@fvarrui</a> &amp;
+        <a href="https://claude.ai" target="_blank" rel="noopener noreferrer">Claude</a>
+      </p>
+      <a class="repo-link" href="https://github.com/fvarrui/gamificando" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+        GitHub</a>
+    </div>
+  </div>
+</main>
+
+<!-- ==========================================================
+     PANTALLA 2 · JUEGO
+     ========================================================== -->
+<div id="screenGame" class="screen-game" hidden>
+  <header class="topbar">
+    <div class="tb-id warn" id="tbId">
+      <span class="tb-dot" aria-hidden="true"></span>
+      <b>MIGRACIÓN</b>
+      <span>ana@srv-docker</span>
+    </div>
+    <div class="progress">
+      <ol class="phases" id="phases" aria-label="Progreso por fases"></ol>
+      <span class="mbar" aria-hidden="true"><span id="mbarFill"></span></span>
+      <span class="mcount" id="mcount">Tarea <b>0</b>/26</span>
+    </div>
+    <div class="tb-stats">
+      <span class="stat" title="Tiempo desde el inicio"><span aria-hidden="true">⏱</span> <b id="clock">00:00</b></span>
+      <span class="stat stat-xp"><span aria-hidden="true">⭐</span> <b id="xpValue">0</b> XP</span>
+      <span class="stat stat-level" id="levelName">Nivel 1 · Primer contenedor</span>
+    </div>
+    <div class="tb-actions">
+      <button type="button" class="btn btn-sm js-open-modal" data-modal="helpModal" aria-haspopup="dialog" aria-controls="helpModal">❓ Ayuda</button>
+      <button type="button" class="btn btn-sm" id="resetBtn">↺ Reiniciar</button>
+      <button type="button" class="btn btn-sm" id="quitBtn">⌂ Portada</button>
+    </div>
+  </header>
+
+  <main class="game-main">
+    <section class="term-window" id="termWindow" aria-label="Terminal">
+      <div class="term-titlebar">
+        <span class="term-dots" aria-hidden="true"><span></span><span></span><span></span></span>
+        <span class="term-title" id="termTitle">ana@srv-docker: ~ — bash</span>
+      </div>
+      <div class="terminal" id="terminal">
+        <div id="terminalOutput" role="log" aria-label="Salida de la terminal"></div>
+        <form id="terminalForm" class="input-line" autocomplete="off">
+          <label for="terminalInput" class="sr-only">Escribe una orden y pulsa Intro</label>
+          <span class="prompt" id="promptLabel" aria-hidden="true"></span>
+          <input type="text" id="terminalInput" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false">
+        </form>
+      </div>
+
+      <div class="nano" id="nano" hidden role="dialog" aria-modal="true" aria-labelledby="nanoFile">
+        <div class="nano-head"><span>GNU nano 7.2</span><b id="nanoFile">fichero</b><span id="nanoMod"></span></div>
+        <label for="nanoText" class="sr-only">Contenido del fichero. Ctrl+O guarda, Ctrl+X sale, Ctrl+K corta la línea, Ctrl+U pega.</label>
+        <textarea id="nanoText" spellcheck="false" autocapitalize="off" autocorrect="off"></textarea>
+        <div class="nano-msg" id="nanoMsg" role="status" aria-live="polite"></div>
+        <div class="nano-keys" id="nanoKeys">
+          <button type="button" data-nano="save"><kbd>^O</kbd>Guardar</button>
+          <button type="button" data-nano="exit"><kbd>^X</kbd>Salir</button>
+          <button type="button" data-nano="cut"><kbd>^K</kbd>Cortar línea</button>
+          <button type="button" data-nano="paste"><kbd>^U</kbd>Pegar</button>
+        </div>
+      </div>
+    </section>
+
+    <aside class="side" aria-label="Tarea actual">
+      <div id="missionSlot"></div>
+      <section class="log-card" aria-labelledby="logTitle">
+        <h2 id="logTitle">Registro de la migración</h2>
+        <ol class="mission-log" id="missionLog"></ol>
+      </section>
+    </aside>
+  </main>
+</div>
+
+<!-- ==========================================================
+     PANTALLA 3 · INFORME FINAL
+     ========================================================== -->
+<main id="screenDebrief" class="screen-debrief" hidden aria-labelledby="debriefTitle">
+  <div class="debrief-wrap">
+    <p class="eyebrow">Informe de la migración · TecnoAtlántica</p>
+    <h1 id="debriefTitle" class="debrief-title" tabindex="-1">Intranet en contenedores</h1>
+    <p class="debrief-msg" id="debriefMsg"></p>
+
+    <div class="stats-row">
+      <div class="stat-box xp"><span class="k">Experiencia</span><span class="v" id="dXp">0 XP</span></div>
+      <div class="stat-box lvl"><span class="k">Nivel alcanzado</span><span class="v" id="dLevel">Nivel 1</span></div>
+      <div class="stat-box"><span class="k">Tiempo</span><span class="v" id="dTime">00:00</span></div>
+      <div class="stat-box"><span class="k">Pistas usadas</span><span class="v" id="dHints">0</span></div>
+      <div class="stat-box"><span class="k">Tareas resueltas</span><span class="v" id="dDone">0</span></div>
+    </div>
+
+    <h2>Insignias</h2>
+    <ul class="badge-grid" id="badgeGrid"></ul>
+
+    <h2>Tareas de la migración</h2>
+    <div class="table-wrap">
+      <table class="report-table">
+        <thead>
+          <tr><th scope="col">Código</th><th scope="col">Tarea</th><th scope="col">Cómo se resolvió</th><th scope="col">XP</th></tr>
+        </thead>
+        <tbody id="reportBody"></tbody>
+      </table>
+    </div>
+
+    <h2>Decisiones arriesgadas</h2>
+    <ul class="risky-list" id="riskyList"></ul>
+
+    <div class="debrief-actions">
+      <button type="button" class="btn btn-primary btn-big" id="againBtn">↺ Jugar de nuevo</button>
+      <button type="button" class="btn" id="homeBtn">⌂ Volver a la portada</button>
+    </div>
+  </div>
+</main>
+
+<div class="toasts" id="toasts" aria-hidden="true"></div>
+<p class="sr-only" id="announcer" role="status" aria-live="polite"></p>
+
+<!-- ==========================================================
+     MODAL DE AYUDA
+     ========================================================== -->
+<div class="modal-overlay" id="helpModal" hidden>
+  <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
+    <div class="modal-head">
+      <h2 id="helpTitle">❓ Guía rápida de Docker</h2>
+      <button type="button" class="btn btn-sm js-close-modal">✕ Cerrar</button>
+    </div>
+
+    <section>
+      <h3>Las tres palabras que hay que separar</h3>
+      <table class="help-table">
+        <thead><tr><th scope="col">Concepto</th><th scope="col">Qué es</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Imagen</strong></td><td>La plantilla, de solo lectura. Se descarga o se construye. <code>nginx:1.27</code></td></tr>
+          <tr><td><strong>Contenedor</strong></td><td>Una instancia en marcha de una imagen. Efímero: lo que escribe dentro muere con él</td></tr>
+          <tr><td><strong>Volumen</strong></td><td>Almacenamiento que vive fuera del contenedor y <strong>sobrevive</strong> a su borrado</td></tr>
+        </tbody>
+      </table>
+      <p style="margin:0.6rem 0 0;font-size:0.87rem;">
+        Y una regla: <strong>pon siempre la etiqueta de versión</strong>. <code>nginx:1.27</code> es
+        reproducible; <code>nginx</code> (es decir, <code>nginx:latest</code>) es una ruleta.
+      </p>
+    </section>
+
+    <section>
+      <h3>Imágenes</h3>
+      <dl>
+        <dt><code>docker images</code> · <code>docker image ls</code></dt>
+        <dd>Las imágenes descargadas, con su repositorio, etiqueta, ID y tamaño.</dd>
+        <dt><code>docker pull &lt;imagen&gt;:&lt;etiqueta&gt;</code></dt>
+        <dd>La descarga del registro, capa a capa. Las capas que ya tengas no se vuelven a bajar.</dd>
+        <dt><code>docker build -t &lt;nombre&gt;:&lt;versión&gt; .</code></dt>
+        <dd>Construye una imagen a partir del <code>Dockerfile</code> del directorio. Ese punto final es el <strong>contexto</strong>: la carpeta que se envía al motor.</dd>
+        <dt><code>docker rmi &lt;imagen&gt;</code></dt>
+        <dd>Borra una imagen. Falla si algún contenedor la está usando.</dd>
+      </dl>
+    </section>
+
+    <section>
+      <h3>Contenedores</h3>
+      <dl>
+        <dt><code>docker run [opciones] &lt;imagen&gt; [orden]</code></dt>
+        <dd>Crea y arranca. <strong>Las opciones van antes de la imagen.</strong></dd>
+        <dt><code>-d</code> · <code>--name &lt;n&gt;</code> · <code>--rm</code></dt>
+        <dd>Segundo plano, nombre reconocible y borrado automático al terminar.</dd>
+        <dt><code>-p &lt;anfitrión&gt;:&lt;contenedor&gt;</code></dt>
+        <dd>Publica un puerto. El del anfitrión va primero. Un mismo puerto del anfitrión solo lo puede tener un contenedor.</dd>
+        <dt><code>-e CLAVE=valor</code></dt>
+        <dd>Variable de entorno. Muchas imágenes oficiales no arrancan sin las suyas.</dd>
+        <dt><code>-v &lt;volumen&gt;:&lt;ruta&gt;</code></dt>
+        <dd>Monta un volumen dentro del contenedor. Es lo que salva los datos.</dd>
+        <dt><code>docker ps</code> · <code>docker ps -a</code></dt>
+        <dd>Los que están en marcha, o <strong>todos</strong>, incluidos los parados. Un contenedor parado sigue existiendo.</dd>
+        <dt><code>docker logs &lt;c&gt;</code> · <code>--tail 20</code></dt>
+        <dd>La salida del contenedor. <strong>Aquí está el porqué</strong> de casi todos los contenedores que se caen al arrancar.</dd>
+        <dt><code>docker exec &lt;c&gt; &lt;orden&gt;</code> · <code>-it</code></dt>
+        <dd>Ejecuta algo dentro de un contenedor en marcha. Con <code>-it … sh</code> entras a una sesión interactiva.</dd>
+        <dt><code>docker stop / start / restart / rm</code></dt>
+        <dd>Ciclo de vida. <code>rm</code> se niega si está en marcha (salvo con <code>-f</code>).</dd>
+      </dl>
+    </section>
+
+    <section>
+      <h3>Datos y redes</h3>
+      <dl>
+        <dt><code>docker volume create &lt;n&gt;</code> · <code>ls</code> · <code>rm</code></dt>
+        <dd>Volúmenes con nombre. <code>rm</code> falla si algún contenedor lo está usando, pero si lo borras, <strong>los datos no vuelven</strong>.</dd>
+        <dt><code>docker network create &lt;n&gt;</code> · <code>ls</code></dt>
+        <dd>Redes propias. Los contenedores de una misma red se ven entre sí por su nombre.</dd>
+      </dl>
+    </section>
+
+    <section>
+      <h3>El Dockerfile</h3>
+      <p style="margin:0 0 0.6rem;font-size:0.87rem;">
+        La receta de la imagen. Las instrucciones más habituales:
+      </p>
+      <table class="help-table">
+        <thead><tr><th scope="col">Instrucción</th><th scope="col">Qué hace</th></tr></thead>
+        <tbody>
+          <tr><td><code>FROM</code></td><td>Imagen de partida</td></tr>
+          <tr><td><code>COPY</code></td><td>Copia ficheros del contexto dentro de la imagen</td></tr>
+          <tr><td><code>RUN</code></td><td>Ejecuta una orden al construir (crea una capa)</td></tr>
+          <tr><td><code>EXPOSE</code></td><td>Documenta el puerto que usa (no lo publica)</td></tr>
+          <tr><td><code>CMD</code></td><td>Qué se ejecuta al arrancar el contenedor</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h3>Docker Compose</h3>
+      <p style="margin:0;font-size:0.87rem;">
+        Un fichero <code>compose.yaml</code> describe varios servicios con sus imágenes, puertos,
+        variables y volúmenes. <code>docker compose up -d</code> los levanta todos con una red
+        propia; <code>docker compose ps</code> los muestra y <code>docker compose down</code> los
+        recoge. <strong>Los volúmenes con nombre no se borran</strong> con <code>down</code>: por eso
+        los datos siguen ahí la próxima vez.
+      </p>
+    </section>
+
+    <section class="keys">
+      <h3>Atajos de teclado en la terminal</h3>
+      <p style="margin:0;font-size:0.87rem;">
+        <kbd>↑</kbd> <kbd>↓</kbd> historial · <kbd>Tab</kbd> autocompletar ·
+        <kbd>Ctrl</kbd>+<kbd>L</kbd> limpiar pantalla · <kbd>Ctrl</kbd>+<kbd>C</kbd> cancelar la línea.
+      </p>
+    </section>
+  </div>
+</div>
+
+<!-- Biblioteca común de los retos -->
+<script src="../shared/js/core.js"></script>
+<script src="../shared/js/terminal.js"></script>
+<script src="../shared/js/shell.js"></script>
+<script src="../shared/js/man.js"></script>
+<script src="../shared/js/modal.js"></script>
+<script src="../shared/js/editor.js"></script>
+<script src="../shared/js/game.js"></script>
+<script src="../shared/js/vfs.js"></script>
+<script src="../shared/js/sysmodel.js"></script>
+<script src="../shared/js/cmd-posix.js"></script>
+<script src="../shared/js/docker.js"></script>
+<script src="../shared/js/sandbox.js"></script>
+<script src="../shared/data/man-linux.js"></script>
+<!-- Datos del reto -->
+<script src="data/config.js"></script>
+<script src="data/gamification.js"></script>
+<script src="data/missions.js"></script>
+<!-- Lógica y arranque -->
+<script src="js/missions.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

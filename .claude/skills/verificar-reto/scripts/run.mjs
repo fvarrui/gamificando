@@ -11,6 +11,15 @@ const SUITES = [
   ['Blindaje de la Red', 'test-blindaje.mjs'],
   ['Versionando con Git · recorrido completo', 'test-git.mjs'],
   ['Versionando con Git · caminos alternativos', 'test-git-avanzado.mjs'],
+  ['Primeros pasos en Linux', 'test-linux-basico.mjs'],
+  ['Primeros pasos en PowerShell', 'test-pwsh-basico.mjs'],
+  ['Permisos y ACL en Linux', 'test-permisos-linux.mjs'],
+  ['Permisos NTFS en Windows', 'test-permisos-windows.mjs'],
+  ['Usuarios y grupos en Linux', 'test-usuarios-linux.mjs'],
+  ['Usuarios y grupos en Windows', 'test-usuarios-windows.mjs'],
+  ['Servicios en Linux', 'test-servicios-linux.mjs'],
+  ['Servicios en Windows', 'test-servicios-windows.mjs'],
+  ['Contenedores con Docker', 'test-docker.mjs'],
   ['Movimiento reducido', 'test-reducido.mjs'],
   ['Portada del repositorio', 'test-portada.mjs']
 ];

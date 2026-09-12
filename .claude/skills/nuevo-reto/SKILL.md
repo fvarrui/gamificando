@@ -6,11 +6,43 @@ description: Crea un reto gamificado nuevo en este repositorio (Docker, SQL, red
 # Crear un reto nuevo
 
 Un reto es una carpeta con `index.html` (solo marcado), `css/reto.css`, `data/*.js` (datos puros)
-y `js/*.js` (lógica), montada sobre la biblioteca `shared/` (espacio de nombres `RG`). Copia la
-estructura de `blindaje-de-la-red/`, que es el más pequeño, y adapta.
+y `js/*.js` (lógica), montada sobre la biblioteca `shared/` (espacio de nombres `RG`).
 
 **Restricción innegociable**: nada de módulos ES ni `fetch`, para que siga funcionando con doble
 clic (`file://`). CSS con `<link>`, JS con `<script src>` clásicos y datos en `.js`.
+
+## Empieza por elegir el camino
+
+**Si el reto va de manejar una consola** (ficheros, permisos, cuentas, servicios, herramientas de
+línea de órdenes), **no escribas motor**: usa `RG.Sandbox` y aporta solo datos. Es lo que hacen
+los nueve retos de consola, y te ahorra el estado, la terminal, el intérprete, el editor, las
+fases, el informe y los botones. Copia `primeros-pasos-en-linux/` (bash) o
+`primeros-pasos-en-powershell/` (PowerShell) y cambia los datos.
+
+```js
+// js/main.js — el reto entero, con RG.Sandbox
+XX.S = RG.Sandbox({
+  shell: "bash",              // o "pwsh"
+  cfg: XX.cfg,                // equipo, usuario, rutas, reloj
+  build: XX.build,            // rellena S.sys (cuentas, grupos, servicios) y S.vfs (ficheros)
+  missions: XX.MISSIONS, phases: XX.PHASES, levels: XX.LEVELS, badges: XX.BADGES,
+  man: RG.manPages("ls", "chmod", …),      // o RG.helpPages(…) en PowerShell
+  helpGroups: [ … ],          // lo que muestra la orden «help»
+  labels: { … }, boot: [ … ], // textos e inicio de sesión
+  watch: XX.watch,            // decisiones arriesgadas, mirando todos los eventos
+  badgesOf: …, debriefText: …,
+  commands: function (S) { return { … }; }  // órdenes extra (así se enchufa Docker)
+}).init();
+```
+
+Solo necesitas dos ficheros de lógica: `data/missions.js` (textos y pistas) y `js/missions.js`
+(la comprobación y la `solution` de cada tarea). Consulta el estado con una función perezosa
+(`function S() { return XX.S; }`), porque `js/missions.js` se carga antes que el `Sandbox`.
+
+**Si el reto necesita un simulador propio** (como Git o Docker), escribe el motor como un módulo
+de `shared/js/` con su propio espacio de nombres dentro de `RG`, y móntalo con `commands` o
+—si no encaja con `Sandbox`— a mano, como `versionando-con-git/`. El resto de esta guía describe
+ese camino largo.
 
 ## 1. Estructura y espacio de nombres
 
@@ -91,6 +123,18 @@ XX.afterLine    = function () { game.render(); XX.term.setLocked(false); };
 ## 5. Al terminar
 
 1. Añade el reto a la portada `index.html` del repositorio y a la tabla del `README.md` raíz.
-2. Escribe su `README.md` con la skill `guia-docente`.
-3. Crea su guion de pruebas y ejecútalo con la skill `verificar-reto`.
-4. Repasa la skill `publicar` antes de subirlo.
+2. Añádelo también a `CLAUDE.md`, a `SUITES` en `run.mjs`, a `RETOS` en `test-portada.mjs` y a
+   `SANDBOX` en `capturas.mjs`.
+3. Escribe su `README.md` con la skill `guia-docente`.
+4. Crea su guion de pruebas y ejecuta **toda la batería** con la skill `verificar-reto`: si has
+   tocado `shared/`, afecta a todos los retos.
+5. Repasa la skill `publicar` antes de subirlo.
+
+## 6. Comprueba que los umbrales tienen sentido
+
+Dos errores fáciles de cometer al copiar la gamificación de otro reto:
+
+- El **último nivel** debe quedar cerca del 80 % de la XP que da una partida completa, no al 40 %:
+  si se alcanza a mitad, la progresión se queda plana. Mira el XP final que imprime la prueba.
+- La insignia de **ritmo** debe estar por encima del extremo bajo de la duración estimada, o será
+  inalcanzable para quien está aprendiendo.

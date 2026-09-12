@@ -8,7 +8,7 @@
   UG.HINT_COST = 25;
   UG.RISKY_PENALTY = 50;
   UG.PROACTIVE_BONUS = 25;
-  UG.FAST_TIME_MS = 15 * 60 * 1000;
+  UG.FAST_TIME_MS = 26 * 60 * 1000;
 
   UG.PHASES = [
     { n: 1, name: "Quién hay",          desc: "Consultar cuentas, grupos y pertenencias" },
@@ -20,9 +20,9 @@
 
   UG.LEVELS = [
     { min: 0,    n: 1, name: "Consulta cuentas" },
-    { min: 400,  n: 2, name: "Da de alta" },
-    { min: 850,  n: 3, name: "Reparte grupos" },
-    { min: 1300, n: 4, name: "Administra identidades" }
+    { min: 900,  n: 2, name: "Da de alta" },
+    { min: 1750,  n: 3, name: "Reparte grupos" },
+    { min: 2500, n: 4, name: "Administra identidades" }
   ];
 
   UG.BADGES = [
@@ -31,6 +31,6 @@
     { id: "rtfm",    icon: "📚", name: "Lee el manual",     desc: "Consultaste al menos una página de man." },
     { id: "nolog",   icon: "🚫", name: "Sin inicio de sesión", desc: "La cuenta de servicio quedó con /usr/sbin/nologin." },
     { id: "soft",    icon: "🔒", name: "Bloquear antes que borrar", desc: "Bloqueaste la cuenta de la baja en vez de eliminarla a la ligera." },
-    { id: "fast",    icon: "⚡", name: "Buen ritmo",        desc: "Completaste la jornada en menos de 15 minutos." }
+    { id: "fast",    icon: "⚡", name: "Buen ritmo",        desc: "Completaste la jornada en menos de 26 minutos." }
   ];
 })(this);

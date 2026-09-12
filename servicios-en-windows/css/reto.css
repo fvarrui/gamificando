@@ -1,0 +1,19 @@
+/* ==========================================================
+   Estilos propios de «Servicios en Windows».
+   El progreso por fases está en ../shared/css/phases.css
+   ========================================================== */
+.game-main { --side-w: 400px; }
+
+/* La consola de Windows, con su fondo azul característico */
+.terminal, .term-titlebar { --term-bg: #0b1a33; }
+.term-window { --flash: var(--amber); }
+
+/* Etiquetas de alias dentro de la ayuda */
+.modal-dialog dt .tag {
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0 0.3rem;
+  margin-left: 0.3rem;
+}

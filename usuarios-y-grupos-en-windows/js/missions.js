@@ -162,8 +162,10 @@
         "has eliminado la cuenta de Darío en vez de deshabilitarla: su identificador de seguridad no vuelve, " +
         "y con él se pierden sus permisos sobre los archivos.");
     }
-    if (ev.type === "userdel" && ["ana", "bruno", "carla", "Administrador"].indexOf(ev.name) !== -1) {
-      S.game.addRisky("remove:activa", "has eliminado la cuenta de " + ev.name + ", que sigue en activo.");
+    /* Eliminar cualquier cuenta que siga en activo se anota: su SID no vuelve */
+    if (ev.type === "userdel" && ["temporal", "svc-viejo", "dario"].indexOf(ev.name) === -1) {
+      S.game.addRisky("remove:activa",
+        "has eliminado la cuenta de " + ev.name + ", que sigue en activo: su identificador de seguridad no vuelve.");
     }
     if (ev.type === "group-add" && /administradores/i.test(ev.group || "") &&
         ["elena", "hugo", "dario", "temporal"].indexOf(ev.user) !== -1) {

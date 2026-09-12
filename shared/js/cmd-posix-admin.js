@@ -226,13 +226,47 @@
         emit({ type: "systemctl", sub: "status", service: s.name });
         return;
       }
-      if (sub === "is-active") { pre(s.state === "running" ? "active" : s.state === "failed" ? "failed" : "inactive"); term.status.code = s.state === "running" ? 0 : 3; return; }
-      if (sub === "is-enabled") { pre(s.startup === "auto" ? "enabled" : "disabled"); term.status.code = s.startup === "auto" ? 0 : 1; return; }
+      if (sub === "is-active") {
+        pre(s.state === "running" ? "active" : s.state === "failed" ? "failed" : "inactive");
+        term.status.code = s.state === "running" ? 0 : 3;
+        emit({ type: "systemctl", sub: "is-active", service: s.name, state: s.state });
+        return;
+      }
+      if (sub === "is-enabled") {
+        pre(s.startup === "auto" ? "enabled" : "disabled");
+        term.status.code = s.startup === "auto" ? 0 : 1;
+        emit({ type: "systemctl", sub: "is-enabled", service: s.name, startup: s.startup });
+        return;
+      }
       if (["start", "stop", "restart", "reload", "enable", "disable", "mask", "unmask"].indexOf(sub) === -1) {
         fail("Unknown command verb " + sub + ".");
         return;
       }
       if (needRootSvc()) { return; }
+      /* mask deja la unidad enlazada a /dev/null: ni arranca ni se puede arrancar */
+      if (sub === "mask" || sub === "unmask") {
+        s.startup = sub === "mask" ? "disabled" : "manual";
+        s.masked = sub === "mask";
+        pre(sub === "mask"
+          ? "Created symlink /etc/systemd/system/" + s.unit + " → /dev/null."
+          : "Removed \"/etc/systemd/system/" + s.unit + "\".");
+        if (sub === "mask" && o.now) { sys.stop(s.name); }
+        emit({ type: "systemctl", sub: sub, service: s.name, startup: s.startup });
+        return;
+      }
+      if (sub === "reload") {
+        if (s.state !== "running") {
+          fail("Failed to reload " + s.unit + ": Job type reload is not applicable for unit " + s.unit + ".");
+          return;
+        }
+        emit({ type: "systemctl", sub: "reload", service: s.name, state: s.state });
+        return;
+      }
+      if (s.masked && (sub === "start" || sub === "restart")) {
+        fail("Failed to start " + s.unit + ": Unit " + s.unit + " is masked.");
+        term.status.code = 1;
+        return;
+      }
       if (sub === "enable" || sub === "disable") {
         s.startup = sub === "enable" ? "auto" : "manual";
         pre(sub === "enable"
@@ -292,7 +326,7 @@
       });
       if (!lines.length) { pre("-- No entries --"); return; }
       pre(lines.slice(-n).join("\n"));
-      emit({ type: "journalctl", unit: unit });
+      emit({ type: "journalctl", unit: unit, lines: o.lines ? n : null });
     };
 
     /* ---------------- Procesos ---------------- */

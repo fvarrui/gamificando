@@ -400,13 +400,13 @@
         ["start | stop", "Inicia o detiene un servicio."]],
       ["net user", "net localgroup Administradores", "net user alicia /add"]],
 
-    sc: ["sc - comunica con el Administrador de control de servicios",
-      ["sc query <servicio>", "sc qc <servicio>", "sc config <servicio> start= auto|demand|disabled"],
-      "Herramienta clásica para consultar y configurar servicios. Ojo con la sintaxis: en start= el espacio va DESPUÉS del signo igual.",
+    sc: ["sc.exe - comunica con el Administrador de control de servicios",
+      ["sc.exe query <servicio>", "sc.exe qc <servicio>", "sc.exe config <servicio> start= auto|demand|disabled"],
+      "Herramienta clásica para consultar y configurar servicios. Dos trampas conocidas: en PowerShell hay que escribir sc.exe, porque sc a secas es el alias de Set-Content; y en start= el espacio va DESPUÉS del signo igual.",
       [["query", "Estado actual del servicio."],
         ["qc", "Configuración del servicio, incluido su tipo de inicio."],
         ["config start=", "Cambia el tipo de inicio: auto, demand (manual) o disabled."]],
-      ["sc query Spooler", "sc qc Spooler", "sc config Spooler start= disabled"]]
+      ["sc.exe query Spooler", "sc.exe qc Spooler", "sc.exe config Spooler start= disabled"]]
   };
 
   /* Devuelve un objeto de páginas con solo los comandos indicados */
@@ -415,6 +415,8 @@
     Array.prototype.slice.call(arguments).forEach(function (k) {
       if (RG.HELP_PWSH[k]) { out[k] = RG.HELP_PWSH[k]; }
     });
+    /* En PowerShell la herramienta de servicios se invoca como sc.exe */
+    if (out.sc) { out["sc.exe"] = out.sc; }
     return out;
   };
 })(this);

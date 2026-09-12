@@ -54,4 +54,37 @@ try {
   await shot(b, 'blindaje-03-movil.png');
 } finally { b.close(); }
 
+/* ---- Retos de consola montados sobre shared/js/sandbox.js ----
+   Para cada uno: portada, una partida empezada por la última fase y
+   la vista móvil. */
+const SANDBOX = [
+  ['primeros-pasos-en-linux', 'linux', 4, 'LNX-24', ['ls -la', 'grep WARN registros/acceso.log | wc -l']],
+  ['primeros-pasos-en-powershell', 'pwsh', 3, 'PSH-19', ['Get-ChildItem -Recurse | Where-Object Name -like "*.log"']],
+  ['permisos-en-linux', 'permisos-linux', 3, 'ACL-15', ['ls -l', 'getfacl presupuesto.csv']],
+  ['permisos-en-windows', 'permisos-windows', 2, 'NTF-11', ['icacls C:\\Datos', 'Get-Acl C:\\Datos | Format-List']],
+  ['usuarios-y-grupos-en-linux', 'usuarios-linux', 3, 'USR-16', ['getent passwd', 'id elena']],
+  ['usuarios-y-grupos-en-windows', 'usuarios-windows', 3, 'CTA-16', ['Get-LocalUser', 'Get-LocalGroupMember -Group Ventas']],
+  ['servicios-en-linux', 'servicios-linux', 2, 'SVC-11', ['systemctl status nginx', 'systemctl list-units --type=service']],
+  ['servicios-en-windows', 'servicios-windows', 2, 'WSV-11', ['Get-Service', 'sc.exe qc AtlanteApp']],
+  ['contenedores-con-docker', 'docker', 3, 'DKR-18', ['docker ps', 'docker images']]
+];
+
+let puerto = 9411;
+for (const [carpeta, prefijo, fase, tarea, ordenes] of SANDBOX) {
+  b = await launch(fileUrl(carpeta + '/index.html'), { port: puerto++ });
+  g = game(b);
+  try {
+    await sleep(400);
+    await shot(b, prefijo + '-01-portada.png');
+    await g.start(fase);
+    await g.waitMission(tarea);
+    for (const orden of ordenes) { await g.type(orden); }
+    await sleep(400);
+    await shot(b, prefijo + '-02-juego.png');
+    await b.setViewport(400, 820);
+    await sleep(400);
+    await shot(b, prefijo + '-03-movil.png');
+  } finally { b.close(); }
+}
+
 console.log('Capturas guardadas en ' + destino);

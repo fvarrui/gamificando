@@ -10,17 +10,22 @@
 <style>
   .retos { list-style: none; padding: 0; margin: 0 0 2rem; display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
   .reto {
+    --acc: var(--green);
+    --acc-bg: var(--green-bg);
+    --acc-bd: var(--green-border);
     background: var(--bg-panel);
     border: 1px solid var(--border);
-    border-left: 4px solid var(--green-border);
+    border-left: 4px solid var(--acc-bd);
     border-radius: var(--radius);
     padding: 1.1rem 1.25rem 1.25rem;
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
   }
-  .reto:nth-child(2) { border-left-color: var(--amber); }
-  .reto h2 { margin: 0; font-size: 1.25rem; color: var(--white); }
+  /* Cada familia de retos tiene su color */
+  .reto.win { --acc: var(--blue, #82aaff); --acc-bg: rgba(130, 170, 255, 0.12); --acc-bd: rgba(130, 170, 255, 0.45); }
+  .reto.tool { --acc: var(--amber); --acc-bg: var(--amber-bg); --acc-bd: var(--amber); }
+  .reto h2 { margin: 0; font-size: 1.2rem; color: var(--white); }
   .reto .tagline { margin: 0; color: var(--text-dim); font-size: 0.88rem; }
   .reto p { margin: 0; font-size: 0.9rem; }
   .reto .meta { font-size: 0.78rem; color: var(--text-dim); }
@@ -29,34 +34,175 @@
     font-size: 0.72rem;
     font-weight: bold;
     letter-spacing: 0.04em;
-    color: var(--green);
-    background: var(--green-bg);
-    border: 1px solid var(--green-border);
+    color: var(--acc);
+    background: var(--acc-bg);
+    border: 1px solid var(--acc-bd);
     border-radius: 999px;
     padding: 0.1rem 0.55rem;
   }
-  .reto:nth-child(2) .tags span { color: var(--amber); background: var(--amber-bg); border-color: var(--amber); }
-  /* El texto de entrada ocupa lo mismo que las dos fichas juntas */
-  .intro-lead { text-align: justify; hyphens: auto; }
   .reto .acciones { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: auto; padding-top: 0.6rem; }
   .reto .acciones a { text-decoration: none; }
+  /* El texto de entrada ocupa lo mismo que las fichas */
+  .intro-lead { text-align: justify; hyphens: auto; }
+  .grupo { margin: 0 0 0.6rem; font-size: 1.05rem; color: var(--white); }
+  .grupo small { display: block; font-size: 0.82rem; font-weight: normal; color: var(--text-dim); margin-top: 0.15rem; }
 </style>
 </head>
 <body>
 <main class="screen-intro">
   <div class="intro-wrap">
-    <p class="eyebrow">Operación Escudo Digital · TecnoAtlántica</p>
+    <p class="eyebrow">TecnoAtlántica · Simuladores de consola</p>
     <h1 class="intro-title">Gamificando<span class="cursor" aria-hidden="true">▌</span></h1>
     <p class="intro-sub">Juegos para desarrollar tus habilidades digitales</p>
 
     <p class="intro-lead">
       Simuladores que se ejecutan en el navegador, sin instalar nada y sin enviar ningún dato:
-      trabajas en una terminal Linux con <strong>comandos reales</strong>, resolviendo misiones
-      que llegan de una en una dentro de la narrativa de la empresa ficticia TecnoAtlántica.
+      trabajas en una terminal de Linux o en una consola de PowerShell con <strong>comandos
+      reales</strong>, resolviendo tareas que llegan de una en una dentro de la narrativa de la
+      empresa ficticia TecnoAtlántica. Los errores son los de verdad, los permisos se aplican de
+      verdad y las decisiones arriesgadas quedan anotadas en el informe final.
     </p>
 
-    <h2 class="intro-h2">Retos disponibles</h2>
+    <h2 class="intro-h2">Empezar por aquí</h2>
+    <p class="grupo">Primeros pasos<small>Moverse por una consola sin miedo. No hacen falta conocimientos previos.</small></p>
     <ul class="retos">
+      <li class="reto">
+        <h2>🐧 Primeros pasos en Linux</h2>
+        <p class="tagline">Tu primer día delante de una terminal, sin ratón.</p>
+        <p class="tags"><span>Linux</span><span>Consola</span><span>Ficheros</span></p>
+        <p>
+          De «¿dónde estoy?» a encadenar órdenes con tuberías: <code>pwd</code>, <code>ls</code>,
+          <code>cd</code>, <code>cat</code>, <code>grep</code>, <code>find</code>, <code>cp</code>,
+          <code>mv</code>, <code>rm</code> y las redirecciones.
+        </p>
+        <p class="meta">27 tareas en 5 fases · 20-35 min</p>
+        <div class="acciones">
+          <a class="btn btn-primary" href="primeros-pasos-en-linux/index.html">▶ Jugar</a>
+          <a class="btn" href="https://github.com/fvarrui/gamificando/blob/main/primeros-pasos-en-linux/README.md"
+             target="_blank" rel="noopener noreferrer">📄 Guía docente</a>
+        </div>
+      </li>
+      <li class="reto win">
+        <h2>🪟 Primeros pasos en PowerShell</h2>
+        <p class="tagline">El mismo primer día, pero donde todo son objetos.</p>
+        <p class="tags"><span>Windows</span><span>PowerShell</span><span>Ficheros</span></p>
+        <p>
+          Cmdlets <code>Verbo-Nombre</code> y la tubería de objetos: <code>Get-ChildItem</code>,
+          <code>Get-Content</code>, <code>New-Item</code>, <code>Where-Object</code>,
+          <code>Sort-Object</code>, <code>Measure-Object</code> y <code>Get-Member</code>.
+        </p>
+        <p class="meta">27 tareas en 5 fases · 20-35 min</p>
+        <div class="acciones">
+          <a class="btn btn-primary" href="primeros-pasos-en-powershell/index.html">▶ Jugar</a>
+          <a class="btn" href="https://github.com/fvarrui/gamificando/blob/main/primeros-pasos-en-powershell/README.md"
+             target="_blank" rel="noopener noreferrer">📄 Guía docente</a>
+        </div>
+      </li>
+    </ul>
+
+    <p class="grupo">Permisos<small>Quién puede hacer qué, y por qué «a mí no me deja».</small></p>
+    <ul class="retos">
+      <li class="reto">
+        <h2>🔐 Permisos y ACL en Linux</h2>
+        <p class="tagline">Una carpeta compartida abierta de par en par y una mañana para cerrarla.</p>
+        <p class="tags"><span>Linux</span><span>Permisos</span><span>ACL</span><span>Seguridad</span></p>
+        <p>
+          <code>chmod</code>, <code>chown</code>, <code>chgrp</code>, <code>umask</code>,
+          <code>getfacl</code> y <code>setfacl</code>, con SGID y ACL por omisión para que los
+          ficheros de mañana también funcionen.
+        </p>
+        <p class="meta">26 tareas en 5 fases · 25-40 min</p>
+        <div class="acciones">
+          <a class="btn btn-primary" href="permisos-en-linux/index.html">▶ Jugar</a>
+          <a class="btn" href="https://github.com/fvarrui/gamificando/blob/main/permisos-en-linux/README.md"
+             target="_blank" rel="noopener noreferrer">📄 Guía docente</a>
+        </div>
+      </li>
+      <li class="reto win">
+        <h2>🔒 Permisos NTFS en Windows</h2>
+        <p class="tagline">«Todos · Control total» en la carpeta de toda la empresa.</p>
+        <p class="tags"><span>Windows</span><span>NTFS</span><span>ACL</span><span>Seguridad</span></p>
+        <p>
+          <code>Get-Acl</code> e <code>icacls</code> con <code>/grant</code>, <code>/deny</code>,
+          <code>/remove</code> y <code>/inheritance</code>, más <code>takeown</code> para lo que
+          dejó su dueño anterior.
+        </p>
+        <p class="meta">25 tareas en 5 fases · 25-40 min</p>
+        <div class="acciones">
+          <a class="btn btn-primary" href="permisos-en-windows/index.html">▶ Jugar</a>
+          <a class="btn" href="https://github.com/fvarrui/gamificando/blob/main/permisos-en-windows/README.md"
+             target="_blank" rel="noopener noreferrer">📄 Guía docente</a>
+        </div>
+      </li>
+    </ul>
+
+    <p class="grupo">Identidades<small>Altas, bajas y grupos: la gestión que nunca deja de hacerse.</small></p>
+    <ul class="retos">
+      <li class="reto">
+        <h2>👥 Usuarios y grupos en Linux</h2>
+        <p class="tagline">Dos altas, una baja y una cuenta compartida sin dueño.</p>
+        <p class="tags"><span>Linux</span><span>Usuarios</span><span>Grupos</span></p>
+        <p>
+          <code>useradd</code>, <code>usermod</code>, <code>userdel</code>, <code>passwd</code>,
+          <code>groupadd</code>, <code>gpasswd</code> y <code>getent</code>, con la trampa clásica
+          de <code>-G</code> sin <code>-a</code>.
+        </p>
+        <p class="meta">25 tareas en 5 fases · 25-40 min</p>
+        <div class="acciones">
+          <a class="btn btn-primary" href="usuarios-y-grupos-en-linux/index.html">▶ Jugar</a>
+          <a class="btn" href="https://github.com/fvarrui/gamificando/blob/main/usuarios-y-grupos-en-linux/README.md"
+             target="_blank" rel="noopener noreferrer">📄 Guía docente</a>
+        </div>
+      </li>
+      <li class="reto win">
+        <h2>🧑‍💼 Usuarios y grupos en Windows</h2>
+        <p class="tagline">La misma semana, con cuentas locales y SID.</p>
+        <p class="tags"><span>Windows</span><span>Cuentas locales</span><span>Grupos</span></p>
+        <p>
+          Cmdlets <code>*-LocalUser</code> y <code>*-LocalGroup</code>, la herramienta clásica
+          <code>net</code>, y una auditoría de cuentas inactivas resuelta con la tubería de objetos.
+        </p>
+        <p class="meta">25 tareas en 5 fases · 25-40 min</p>
+        <div class="acciones">
+          <a class="btn btn-primary" href="usuarios-y-grupos-en-windows/index.html">▶ Jugar</a>
+          <a class="btn" href="https://github.com/fvarrui/gamificando/blob/main/usuarios-y-grupos-en-windows/README.md"
+             target="_blank" rel="noopener noreferrer">📄 Guía docente</a>
+        </div>
+      </li>
+    </ul>
+
+    <p class="grupo">Servicios y seguridad<small>Lo que arranca solo, lo que no debería estar y lo que hay que contener.</small></p>
+    <ul class="retos">
+      <li class="reto">
+        <h2>🌙 Servicios en Linux</h2>
+        <p class="tagline">Son las 3:12 de la madrugada y la intranet no responde.</p>
+        <p class="tags"><span>Linux</span><span>systemd</span><span>Servicios</span></p>
+        <p>
+          <code>systemctl</code> y <code>journalctl</code> con un conflicto de puertos de verdad, y
+          la diferencia entre «activo ahora» y «arrancará al reiniciar».
+        </p>
+        <p class="meta">24 tareas en 5 fases · 20-35 min</p>
+        <div class="acciones">
+          <a class="btn btn-primary" href="servicios-en-linux/index.html">▶ Jugar</a>
+          <a class="btn" href="https://github.com/fvarrui/gamificando/blob/main/servicios-en-linux/README.md"
+             target="_blank" rel="noopener noreferrer">📄 Guía docente</a>
+        </div>
+      </li>
+      <li class="reto win">
+        <h2>🛠 Servicios en Windows</h2>
+        <p class="tagline">Nadie puede fichar y el servicio «no arranca ni a mano».</p>
+        <p class="tags"><span>Windows</span><span>Servicios</span><span>Tipos de inicio</span></p>
+        <p>
+          <code>Get-Service</code>, <code>Set-Service -StartupType</code>, <code>sc.exe</code> y
+          <code>net</code>, con la lección de por qué <em>Disabled</em> no es lo mismo que parado.
+        </p>
+        <p class="meta">24 tareas en 5 fases · 20-35 min</p>
+        <div class="acciones">
+          <a class="btn btn-primary" href="servicios-en-windows/index.html">▶ Jugar</a>
+          <a class="btn" href="https://github.com/fvarrui/gamificando/blob/main/servicios-en-windows/README.md"
+             target="_blank" rel="noopener noreferrer">📄 Guía docente</a>
+        </div>
+      </li>
       <li class="reto">
         <h2>🛡️ Blindaje de la Red</h2>
         <p class="tagline">Respuesta a incidentes: contén las amenazas sin tumbar la empresa.</p>
@@ -73,19 +219,39 @@
              target="_blank" rel="noopener noreferrer">📄 Guía docente</a>
         </div>
       </li>
-      <li class="reto">
+    </ul>
+
+    <p class="grupo">Herramientas del oficio<small>Lo que se usa todos los días en cualquier equipo de desarrollo y sistemas.</small></p>
+    <ul class="retos">
+      <li class="reto tool">
         <h2>🌿 Versionando con Git</h2>
-        <p class="tagline">Control de versiones: de una carpeta sin historial a un repositorio compartido.</p>
+        <p class="tagline">De una carpeta sin historial a un repositorio compartido.</p>
         <p class="tags"><span>Git</span><span>Control de versiones</span><span>Trabajo en equipo</span></p>
         <p>
           Git de verdad en la terminal (<code>add</code>, <code>commit</code>, <code>branch</code>,
           <code>merge</code>, <code>push</code>, <code>pull</code>, <code>revert</code>…), con conflictos que hay
-          que resolver a mano y un panel que dibuja el grafo de ramas y las tres áreas en tiempo real.
+          que resolver a mano y un panel que dibuja el grafo de ramas en tiempo real.
         </p>
         <p class="meta">30 misiones en 5 fases · 45-70 min</p>
         <div class="acciones">
           <a class="btn btn-primary" href="versionando-con-git/index.html">▶ Jugar</a>
           <a class="btn" href="https://github.com/fvarrui/gamificando/blob/main/versionando-con-git/README.md"
+             target="_blank" rel="noopener noreferrer">📄 Guía docente</a>
+        </div>
+      </li>
+      <li class="reto tool">
+        <h2>🐳 Contenedores con Docker</h2>
+        <p class="tagline">Sacar la intranet de un servidor artesanal y meterla en contenedores.</p>
+        <p class="tags"><span>Docker</span><span>Contenedores</span><span>Despliegue</span></p>
+        <p>
+          <code>pull</code>, <code>run</code>, <code>ps</code>, <code>logs</code>, <code>exec</code>,
+          <code>volume</code>, <code>build</code> a partir de un Dockerfile y toda la pila levantada
+          con <code>docker compose</code>.
+        </p>
+        <p class="meta">26 tareas en 5 fases · 30-45 min</p>
+        <div class="acciones">
+          <a class="btn btn-primary" href="contenedores-con-docker/index.html">▶ Jugar</a>
+          <a class="btn" href="https://github.com/fvarrui/gamificando/blob/main/contenedores-con-docker/README.md"
              target="_blank" rel="noopener noreferrer">📄 Guía docente</a>
         </div>
       </li>

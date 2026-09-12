@@ -66,7 +66,7 @@
        Cuentas locales
        ========================================================== */
     C["Get-LocalUser"] = function (args) {
-      var o = P(args, { Name: "v", SID: "v" }, ["Name"]);
+      var o = P(args, { Name: "v" }, ["Name"]);
       var names = util.sortedKeys(sys.users);
       if (o.Name) {
         var re = util.globToRe(String(o.Name).toLowerCase());
@@ -244,6 +244,7 @@
       if (s.startup === "disabled") {
         fail("Start-Service : No se puede iniciar el servicio '" + s.display + "' en el equipo '.'.");
         term.note("El servicio está deshabilitado. Cambia su tipo de inicio con Set-Service -StartupType Manual|Automatic.");
+        emit({ type: "service-start", name: s.name, refused: true, reason: "disabled" });
         return;
       }
       if (s.state === "running") { emit({ type: "service-start", name: s.name, already: true }); return; }
@@ -309,8 +310,10 @@
        ========================================================== */
     C["Get-Process"] = function (args) {
       var o = P(args, { Name: "v", Id: "v" }, ["Name"]);
+      /* El nombre del proceso es el del ejecutable, no el del servicio */
       var list = sys.processList().map(function (p) {
-        return { Id: p.pid, ProcessName: p.name || p.cmd.split(/[\\/]/).pop(), WS: (p.pid * 7 % 900 + 100) * 1024, __proc: p };
+        var exe = String(p.cmd || "").split(/\s+/)[0].split(/[\\/]/).pop().replace(/\.exe$/i, "");
+        return { Id: p.pid, ProcessName: exe || p.name, WS: (p.pid * 7 % 900 + 100) * 1024, __proc: p };
       });
       if (o.Name) {
         var re = util.globToRe(String(o.Name).toLowerCase());
@@ -437,11 +440,31 @@
       if (!s) { fail("No se ha iniciado el servicio.\n\nEl nombre de servicio no es válido."); return; }
       if (needAdmin("net " + sub)) { return; }
       if (sub === "start") {
+        if (s.state === "running") {
+          fail("Se ha producido un error del sistema 1056.");
+          fail("");
+          fail("Ya hay una instancia del servicio en ejecución.");
+          return;
+        }
+        if (s.startup === "disabled") {
+          fail("Se ha producido un error del sistema 1058.");
+          fail("");
+          fail("No se puede iniciar el servicio porque está deshabilitado o porque no tiene dispositivos habilitados asociados.");
+          emit({ type: "service-start", name: s.name, refused: true, reason: "disabled", tool: "net" });
+          return;
+        }
         sys.start(s.name);
         if (s.state === "failed") { fail("El servicio " + s.display + " no se ha podido iniciar."); return; }
         pre("El servicio " + s.display + " se ha iniciado correctamente.");
         emit({ type: "service-start", name: s.name, tool: "net" });
       } else {
+        if (s.state !== "running") {
+          fail("Se ha producido un error del sistema 3521.");
+          fail("");
+          fail("El servicio " + s.display + " no se ha iniciado.");
+          emit({ type: "service-stop", name: s.name, tool: "net", already: true });
+          return;
+        }
         sys.stop(s.name);
         pre("El servicio " + s.display + " se ha detenido correctamente.");
         emit({ type: "service-stop", name: s.name, tool: "net" });

@@ -8,7 +8,7 @@
   PS.HINT_COST = 20;
   PS.RISKY_PENALTY = 40;
   PS.PROACTIVE_BONUS = 20;
-  PS.FAST_TIME_MS = 15 * 60 * 1000;
+  PS.FAST_TIME_MS = 22 * 60 * 1000;
 
   PS.PHASES = [
     { n: 1, name: "Orientación",       desc: "Dónde estás y qué hay a tu alrededor" },
@@ -20,9 +20,9 @@
 
   PS.LEVELS = [
     { min: 0,    n: 1, name: "Primer día" },
-    { min: 400,  n: 2, name: "Verbo-Nombre" },
-    { min: 800,  n: 3, name: "Se defiende en la consola" },
-    { min: 1200, n: 4, name: "Piensa en objetos" }
+    { min: 850,  n: 2, name: "Verbo-Nombre" },
+    { min: 1600,  n: 3, name: "Se defiende en la consola" },
+    { min: 2300, n: 4, name: "Piensa en objetos" }
   ];
 
   PS.BADGES = [
@@ -31,6 +31,6 @@
     { id: "rtfm",    icon: "📚", name: "Get-Help",          desc: "Consultaste la ayuda integrada de un cmdlet." },
     { id: "objects", icon: "🧩", name: "Todo son objetos",  desc: "Usaste Get-Member para ver las propiedades de un objeto." },
     { id: "pipes",   icon: "🪈", name: "Fontanería",        desc: "Encadenaste cmdlets con la tubería." },
-    { id: "fast",    icon: "⚡", name: "Buen ritmo",        desc: "Completaste la jornada en menos de 15 minutos." }
+    { id: "fast",    icon: "⚡", name: "Buen ritmo",        desc: "Completaste la jornada en menos de 22 minutos." }
   ];
 })(this);

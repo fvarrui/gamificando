@@ -8,7 +8,7 @@
   LX.HINT_COST = 20;
   LX.RISKY_PENALTY = 40;
   LX.PROACTIVE_BONUS = 20;
-  LX.FAST_TIME_MS = 14 * 60 * 1000;
+  LX.FAST_TIME_MS = 22 * 60 * 1000;
 
   LX.PHASES = [
     { n: 1, name: "Orientación",      desc: "Dónde estás y qué hay a tu alrededor" },
@@ -20,9 +20,9 @@
 
   LX.LEVELS = [
     { min: 0,    n: 1, name: "Primer día" },
-    { min: 400,  n: 2, name: "Manos en el teclado" },
-    { min: 800,  n: 3, name: "Se defiende en consola" },
-    { min: 1200, n: 4, name: "Ya no pregunta dónde está" }
+    { min: 800,  n: 2, name: "Manos en el teclado" },
+    { min: 1500,  n: 3, name: "Se defiende en consola" },
+    { min: 2200, n: 4, name: "Ya no pregunta dónde está" }
   ];
 
   LX.BADGES = [
@@ -30,7 +30,7 @@
     { id: "self",   icon: "🧠", name: "Autosuficiente",    desc: "Terminaste la jornada sin pedir pistas." },
     { id: "rtfm",   icon: "📚", name: "Lee el manual",     desc: "Consultaste al menos una página de man." },
     { id: "pipes",  icon: "🪈", name: "Fontanería",        desc: "Encadenaste órdenes con una tubería." },
-    { id: "fast",   icon: "⚡", name: "Buen ritmo",        desc: "Completaste la jornada en menos de 14 minutos." },
+    { id: "fast",   icon: "⚡", name: "Buen ritmo",        desc: "Completaste la jornada en menos de 22 minutos." },
     { id: "tab",    icon: "↹",  name: "Manos vagas",       desc: "Usaste el tabulador para autocompletar." }
   ];
 })(this);

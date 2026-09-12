@@ -241,7 +241,7 @@
       <h3>Leer sin modificar</h3>
       <dl>
         <dt><code>cat &lt;fichero&gt;</code> · <code>less &lt;fichero&gt;</code></dt>
-        <dd>Vuelcan el contenido. <code>less</code> lo muestra por partes.</dd>
+        <dd>Vuelcan el contenido. En un sistema real <code>less</code> lo pagina y se sale con <kbd>q</kbd>; en este simulador se comporta igual que <code>cat</code>.</dd>
         <dt><code>head -n 5 &lt;fichero&gt;</code> · <code>tail -n 5 &lt;fichero&gt;</code></dt>
         <dd>Las primeras o las últimas líneas. En un registro, lo reciente está al final.</dd>
         <dt><code>wc -l &lt;fichero&gt;</code></dt>
@@ -269,7 +269,7 @@
         <dt><code>cp &lt;origen&gt; &lt;destino&gt;</code> · <code>mv &lt;origen&gt; &lt;destino&gt;</code></dt>
         <dd>Copiar y mover (o renombrar). Con carpetas, <code>cp</code> necesita <code>-r</code>.</dd>
         <dt><code>rm &lt;fichero&gt;</code></dt>
-        <dd>Borrar. <strong>No hay papelera.</strong> <code>-r</code> borra carpetas enteras y <code>-i</code> pregunta antes.</dd>
+        <dd>Borrar. <strong>No hay papelera.</strong> <code>-r</code> borra carpetas enteras. En un sistema real, <code>-i</code> pide confirmación de cada fichero; aquí no hay diálogo, así que comprueba antes con <code>ls</code>.</dd>
         <dt><code>nano &lt;fichero&gt;</code></dt>
         <dd>Editor dentro de la terminal: <kbd>Ctrl</kbd>+<kbd>O</kbd> guarda y <kbd>Ctrl</kbd>+<kbd>X</kbd> sale.</dd>
       </dl>

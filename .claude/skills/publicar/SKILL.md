@@ -31,7 +31,7 @@ Qué esperar:
 
 1. **Abrir con doble clic** `index.html` de la raíz y de cada reto, y jugar un par de misiones.
 2. **Abrir por HTTP** (`npx serve`, `python -m http.server` o la propia Pages) y repetir.
-3. Ejecutar la skill `verificar-reto` completa: las cinco suites en verde.
+3. Ejecutar la skill `verificar-reto` completa: **toda la batería en verde**, sin errores de consola.
 4. Comprobar que **`.nojekyll` sigue existiendo** en la raíz (sin él, Pages pasa el sitio por
    Jekyll y puede alterar lo que se sirve).
 5. Revisar los enlaces de la portada y de los README: que apunten a ficheros que existen.
