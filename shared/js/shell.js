@@ -7,8 +7,10 @@
   "use strict";
   var RG = global.RG, util = RG.util;
 
-  /* ---------------- Analizador léxico ---------------- */
-  function lex(str) {
+  /* ---------------- Analizador léxico ----------------
+     winPaths: en PowerShell la barra invertida es separador de rutas
+     (C:\Datos), no un carácter de escape. */
+  function lex(str, winPaths) {
     var toks = [], cur = null, i = 0;
     function ensure() { if (!cur) { cur = { w: true, v: "", q: false, glob: false }; } return cur; }
     function push() { if (cur) { toks.push(cur); cur = null; } }
@@ -28,13 +30,13 @@
         ensure().q = true;
         i++;
         while (i < str.length && str.charAt(i) !== '"') {
-          if (str.charAt(i) === "\\" && "\"\\$`".indexOf(str.charAt(i + 1)) >= 0) { cur.v += str.charAt(i + 1); i += 2; }
+          if (!winPaths && str.charAt(i) === "\\" && "\"\\$`".indexOf(str.charAt(i + 1)) >= 0) { cur.v += str.charAt(i + 1); i += 2; }
           else { cur.v += str.charAt(i); i++; }
         }
         i++;
         continue;
       }
-      if (ch === "\\") { ensure(); if (i + 1 < str.length) { cur.v += str.charAt(i + 1); i += 2; } else { i++; } continue; }
+      if (ch === "\\" && !winPaths) { ensure(); if (i + 1 < str.length) { cur.v += str.charAt(i + 1); i += 2; } else { i++; } continue; }
       if ("|&;><".indexOf(ch) >= 0) {
         push();
         var two = str.substr(i, 2);
@@ -59,7 +61,7 @@
     sh.currentText = "";
 
     function parseLine(raw) {
-      var toks = lex(raw);
+      var toks = lex(raw, cfg.winPaths);
       var items = [], pipeline = [], cur = { words: [], redir: null }, prevSep = null, text = "";
       function endPipeline() {
         if (cur.words.length) { pipeline.push(cur); }
@@ -167,7 +169,7 @@
     function applyFilter(words, rows) {
       var cmd = words[0], args = words.slice(1);
       var fn = (cfg.filters && cfg.filters[cmd]) || FILTERS[cmd];
-      if (!fn) { term.fail("bash: " + cmd + ": orden no encontrada"); return []; }
+      if (!fn) { notFound(cmd); return []; }
       var o = RG.parseArgs(args, {
         short: { i: "ic", v: "inv", n: "num", c: "count", w: "word", E: "x", r: "x", l: "x" },
         long: { "ignore-case": "ic", "invert-match": "inv", count: "count" }
@@ -176,21 +178,45 @@
     }
 
     /* ---------------- Ejecución ---------------- */
+    /* cfg.notFound permite el mensaje propio de cada intérprete */
+    function notFound(name) {
+      if (cfg.notFound) { cfg.notFound(name); return; }
+      term.fail("bash: " + name + ": orden no encontrada");
+    }
     function execCommand(words) {
       if (!words.length) { return; }
       var name = words[0], args = words.slice(1);
-      var fn = cfg.commands[name];
+      /* cfg.resolve permite alias y nombres sin distinguir mayúsculas (PowerShell) */
+      var fn = cfg.resolve ? cfg.resolve(name) : cfg.commands[name];
       if (fn) { fn(args, name); return; }
       if (cfg.unknown) { cfg.unknown(name, args); return; }
-      term.fail("bash: " + name + ": orden no encontrada");
+      notFound(name);
+    }
+
+    /* ---------------- Canal de objetos (pipeline de PowerShell) ----------------
+       Una orden puede emitir objetos en vez de texto con sh.emit(objetos). Si la
+       siguiente etapa es un filtro de objetos (Where-Object, Select-Object…) los
+       recibe tal cual; si no, se convierten a texto. Lo que quede sin consumir al
+       final del pipeline se formatea como hace PowerShell. */
+    sh.objects = null;
+    sh.emit = function (objects) { sh.objects = objects; };
+    function objectsToRows(objects) {
+      if (cfg.objectsToRows) { return cfg.objectsToRows(objects); }
+      return objects.map(function (o) { return { cls: "", pre: true, segs: [["", String(o)]] }; });
     }
 
     function runPipeline(item) {
       term.status.code = 0;
       sh.currentText = item.text;
+      sh.objects = null;
       var cmds = item.pipeline;
       var redir = cmds[cmds.length - 1].redir;
-      if (cmds.length === 1 && !redir) { execCommand(expandGlobs(cmds[0].words)); return; }
+      if (cmds.length === 1 && !redir) {
+        execCommand(expandGlobs(cmds[0].words));
+        if (sh.objects && cfg.renderObjects) { cfg.renderObjects(sh.objects); }
+        sh.objects = null;
+        return;
+      }
       var rows, pending;
       term.beginCapture();
       try { execCommand(expandGlobs(cmds[0].words)); }
@@ -199,8 +225,28 @@
         rows = res.rows;
         pending = res.deferred;
       }
+      var objects = sh.objects;
+      sh.objects = null;
       for (var k = 1; k < cmds.length; k++) {
-        rows = applyFilter(expandGlobs(cmds[k].words), rows) || [];
+        var words = expandGlobs(cmds[k].words);
+        var objFilter = objects && (cfg.resolveFilter ? cfg.resolveFilter(words[0])
+          : (cfg.objectFilters && cfg.objectFilters[words[0]]));
+        if (objFilter) {
+          var out = objFilter(words.slice(1), objects, term);
+          if (out && out.rows) { rows = out.rows; objects = null; }
+          else { objects = out || []; }
+          continue;
+        }
+        if (objects) { rows = objectsToRows(objects); objects = null; }
+        rows = applyFilter(words, rows) || [];
+      }
+      if (objects) {
+        if (redir) { rows = objectsToRows(objects); }
+        else {
+          if (cfg.renderObjects) { cfg.renderObjects(objects); }
+          pending.forEach(function (d) { term.sys(d.cls, d.text); });
+          return;
+        }
       }
       if (redir) {
         var text = rows.map(term.rowText).join("\n");

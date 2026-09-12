@@ -28,6 +28,40 @@
         page[4].forEach(function (e) { lines.push("       $ " + e); });
       }
       term.pre(lines.join("\n"));
+    },
+    /* La misma página, con el aspecto de Get-Help en PowerShell */
+    renderPs: function (term, key, page, opts) {
+      opts = opts || {};
+      var sep = page[0].indexOf(" - ");
+      var synopsis = sep === -1 ? page[0] : page[0].slice(sep + 3);
+      var lines = [];
+      if (opts.examples) {
+        lines.push("", "NOMBRE", "    " + key, "", "SINOPSIS", "    " + synopsis, "");
+        (page[4] || []).forEach(function (e, i) {
+          lines.push("    -------------------------- EJEMPLO " + (i + 1) + " --------------------------", "",
+            "    PS> " + e, "");
+        });
+        term.pre(lines.join("\n"));
+        return;
+      }
+      lines.push("", "NOMBRE", "    " + key, "", "SINOPSIS", "    " + synopsis, "", "SINTAXIS");
+      page[1].forEach(function (s) { lines.push("    " + s); });
+      lines.push("", "DESCRIPCIÓN");
+      util.wrapText(page[2], 70).forEach(function (l) { lines.push("    " + l); });
+      if (page[3] && page[3].length) {
+        lines.push("", "PARÁMETROS");
+        page[3].forEach(function (o) {
+          lines.push("    " + o[0]);
+          util.wrapText(o[1], 66).forEach(function (l) { lines.push("        " + l); });
+          lines.push("");
+        });
+      }
+      if (page[4] && page[4].length) {
+        lines.push("EJEMPLOS");
+        page[4].forEach(function (e) { lines.push("    PS> " + e); });
+      }
+      lines.push("", "OBSERVACIONES", "    Para ver los ejemplos, escribe: Get-Help " + key + " -Examples", "");
+      term.pre(lines.join("\n"));
     }
   };
 })(this);

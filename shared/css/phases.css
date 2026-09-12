@@ -1,0 +1,82 @@
+/* ==========================================================
+   Progreso por fases: selector de la portada, indicadores de
+   la barra superior y barra de avance. Lo comparten los retos
+   organizados en fases.
+   ========================================================== */
+
+/* ---------------- Selector de fase de la portada ---------------- */
+.phase-pick {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-panel);
+  padding: 0.9rem 1rem 1rem;
+  margin: 0 0 1.5rem;
+}
+.phase-pick legend {
+  padding: 0 0.4rem;
+  color: var(--white);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.phase-pick .pp-note { margin: 0 0 0.7rem; font-size: 0.8rem; color: var(--text-dim); }
+.phase-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0.5rem;
+}
+.phase-options label {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-start;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.5rem 0.6rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+.phase-options label:has(input:checked) { border-color: var(--green-border); background: var(--green-bg); }
+.phase-options input { accent-color: var(--green); margin-top: 0.2rem; }
+.phase-options b { display: block; color: var(--white); }
+.phase-options span span { color: var(--text-dim); }
+
+/* ---------------- Progreso por fases (barra superior) ---------------- */
+.progress {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  flex: 1 1 auto;
+  justify-content: center;
+  min-width: 0;
+}
+.phases { list-style: none; margin: 0; padding: 0; display: flex; gap: 0.35rem; }
+.phase {
+  border-radius: 6px;
+  border: 1px dashed var(--border-strong);
+  color: var(--text-dim);
+  padding: 0.1rem 0.45rem;
+  font-weight: bold;
+  font-size: 0.76rem;
+  white-space: nowrap;
+}
+.phase.active {
+  border: 1px solid var(--amber);
+  color: var(--amber);
+  background: var(--amber-bg);
+  animation: pipPulse 1.6s ease-in-out infinite;
+}
+.phase.done { border: 1px solid var(--green-border); color: var(--green); background: var(--green-bg); }
+@keyframes pipPulse { 50% { box-shadow: 0 0 0 3px rgba(255, 203, 107, 0.18); } }
+.mbar {
+  width: 110px;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  flex: none;
+}
+.mbar span { display: block; height: 100%; background: var(--green); width: 0; transition: width 0.4s; }
+.mcount { color: var(--text-dim); white-space: nowrap; }
+.mcount b { color: var(--white); }

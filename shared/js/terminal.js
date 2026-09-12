@@ -129,6 +129,7 @@
 
     /* ---------------- Autocompletado ---------------- */
     function complete() {
+      if (cfg.onComplete) { cfg.onComplete(); }
       var v = els.input.value;
       var parts = v.split(/\s+/);
       var lastPart = parts[parts.length - 1];
