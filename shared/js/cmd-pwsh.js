@@ -188,6 +188,8 @@
        ========================================================== */
     function compare(value, op, target) {
       var a = value === undefined || value === null ? "" : value;
+      /* $true y $false son literales de PowerShell */
+      if (/^\$(true|false)$/i.test(String(target))) { target = String(target).slice(1).toLowerCase(); }
       var numA = parseFloat(a), numB = parseFloat(target);
       var bothNum = !isNaN(numA) && !isNaN(numB) && String(a).trim() !== "" && String(target).trim() !== "";
       switch (String(op).toLowerCase()) {
@@ -756,14 +758,23 @@
       pre("archivo procesado: " + path);
       pre("Se procesaron correctamente 1 archivos; error al procesar 0 archivos");
     };
+    /* takeown usa la sintaxis clásica con barra: /F ruta [/R] [/A] */
     C.takeown = function (args) {
-      var o = P(args, { F: "v", R: "s", A: "s" }, []);
-      var target = o.F || o._[0];
+      var target = null, alGrupo = false, rec = false;
+      for (var i = 0; i < args.length; i++) {
+        if (/^\/f$/i.test(args[i])) { target = args[++i]; }
+        else if (/^\/a$/i.test(args[i])) { alGrupo = true; }
+        else if (/^\/r$/i.test(args[i])) { rec = true; }
+        else if (args[i].charAt(0) !== "/" && !target) { target = args[i]; }
+      }
       if (!target) { fail("takeown : sintaxis: takeown /F <ruta> [/R] [/A]"); return; }
       if (!isAdmin()) { errAdmin("takeown"); return; }
       var loc = locate(target);
       if (!loc.node) { fail("ERROR: no se encuentra el archivo \"" + target + "\"."); return; }
-      loc.node.owner = o.A ? "Administradores" : user().name;
+      loc.node.owner = alGrupo ? "Administradores" : user().name;
+      if (rec && loc.node.type === "dir") {
+        vfs.walk(loc.segs, function (n) { n.owner = loc.node.owner; });
+      }
       pre("CORRECTO: el archivo (o carpeta) \"" + vfs.join(loc.segs) + "\" pertenece ahora al usuario \"" + loc.node.owner + "\".");
       emit({ type: "owner", path: vfs.join(loc.segs), owner: loc.node.owner, tool: "takeown" });
     };

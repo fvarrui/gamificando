@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Usuarios y grupos en Linux — TecnoAtlántica</title>
+<link rel="stylesheet" href="../shared/css/tokens.css">
+<link rel="stylesheet" href="../shared/css/base.css">
+<link rel="stylesheet" href="../shared/css/screens.css">
+<link rel="stylesheet" href="../shared/css/game.css">
+<link rel="stylesheet" href="../shared/css/terminal.css">
+<link rel="stylesheet" href="../shared/css/editor.css">
+<link rel="stylesheet" href="../shared/css/modal.css">
+<link rel="stylesheet" href="../shared/css/phases.css">
+<link rel="stylesheet" href="css/reto.css">
+</head>
+<body>
+
+<!-- ==========================================================
+     PANTALLA 1 · PORTADA
+     ========================================================== -->
+<main id="screenIntro" class="screen-intro" aria-labelledby="introTitle">
+  <div class="intro-wrap">
+    <p class="eyebrow">TecnoAtlántica · Linux · Cuentas · Grupos · Identidades</p>
+    <h1 id="introTitle" class="intro-title" tabindex="-1">Usuarios y grupos<br>en Linux<span class="cursor" aria-hidden="true">▌</span></h1>
+    <p class="intro-sub">Dos altas, una baja y una cuenta compartida que lleva años sin dueño</p>
+
+    <article class="transmission is-norm" aria-label="Encargo de la responsable de sistemas">
+      <div class="transmission-head">
+        <span><b>DE:</b> Nayra Suárez · Responsable de Sistemas</span>
+        <span><b>PARA:</b> Ana Betancor</span>
+        <span><b>ASUNTO:</b> Altas y bajas de esta semana</span>
+      </div>
+      <span class="stamp" aria-hidden="true">SEMANA 38</span>
+      <p>
+        Esta semana entran Elena y Hugo, y el viernes se va Darío. Te he dejado el parte completo
+        en <code>~/altas.txt</code>, pero hay dos cosas que quiero que hagas <strong>como se deben
+        hacer</strong>, no como se hacen con prisa.
+      </p>
+      <p>
+        La primera: cuando alguien se va, <strong>la cuenta se bloquea, no se borra</strong>. Si la
+        borras, sus ficheros se quedan sin dueño y no hay vuelta atrás.
+      </p>
+      <p>
+        La segunda: hay una cuenta <code>visitas</code> que usa medio edificio con la misma
+        contraseña. Esa sí se elimina. Y ojo con <code>usermod -G</code>: sin la <code>-a</code> deja a la
+        persona fuera de todos sus grupos, y eso lo hemos sufrido ya.
+      </p>
+    </article>
+
+    <h2 class="intro-h2">Cómo funciona</h2>
+    <ul class="how-grid">
+      <li>
+        <span class="how-icon" aria-hidden="true">👥</span>
+        <b>25 tareas en 5 fases</b>
+        <span>De consultar quién hay a dejar una cuenta de servicio sin inicio de sesión.</span>
+      </li>
+      <li>
+        <span class="how-icon" aria-hidden="true">⌨️</span>
+        <b>Órdenes reales</b>
+        <span><code>useradd</code>, <code>usermod</code>, <code>userdel</code>, <code>passwd</code>, <code>groupadd</code>, <code>gpasswd</code>, <code>getent</code>… con sus opciones y sus trampas.</span>
+      </li>
+      <li>
+        <span class="how-icon" aria-hidden="true">⚠️</span>
+        <b>Errores que cuestan caro</b>
+        <span><code>usermod -G</code> sin <code>-a</code>, borrar en vez de bloquear, dar shell a un servicio: restan XP y quedan anotados.</span>
+      </li>
+      <li>
+        <span class="how-icon" aria-hidden="true">🏅</span>
+        <b>XP, niveles e insignias</b>
+        <span>Las pistas ayudan, pero reducen la recompensa de cada tarea.</span>
+      </li>
+    </ul>
+
+    <fieldset class="phase-pick">
+      <legend>Empezar desde</legend>
+      <p class="pp-note">Si empiezas en una fase posterior, el sistema se prepara automáticamente con las fases anteriores resueltas (esas tareas no suman XP).</p>
+      <div class="phase-options" id="phaseOptions"></div>
+    </fieldset>
+
+    <p class="host-line">
+      Equipo: <code>srv-datos</code> · Usuario: <code>ana</code> (grupo <code>sudo</code>) ·
+      Parte de la semana: <code>~/altas.txt</code>
+    </p>
+
+    <div class="intro-actions">
+      <button type="button" class="btn btn-primary btn-big" id="startBtn">▶ Empezar la jornada</button>
+      <button type="button" class="btn js-open-modal" data-modal="helpModal" aria-haspopup="dialog" aria-controls="helpModal">❓ Guía de cuentas y grupos</button>
+      <a class="btn" href="../index.html">⌂ Otros juegos</a>
+    </div>
+
+    <p class="fineprint">Simulación educativa: ningún sistema real es modificado.</p>
+    <div class="credits">
+      <p>
+        Made with <span role="img" aria-label="amor">💖</span> by
+        <a href="https://github.com/fvarrui" target="_blank" rel="noopener noreferrer">@fvarrui</a> &amp;
+        <a href="https://claude.ai" target="_blank" rel="noopener noreferrer">Claude</a>
+      </p>
+      <a class="repo-link" href="https://github.com/fvarrui/gamificando" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+        GitHub</a>
+    </div>
+  </div>
+</main>
+
+<!-- ==========================================================
+     PANTALLA 2 · JUEGO
+     ========================================================== -->
+<div id="screenGame" class="screen-game" hidden>
+  <header class="topbar">
+    <div class="tb-id warn" id="tbId">
+      <span class="tb-dot" aria-hidden="true"></span>
+      <b>ALTAS Y BAJAS</b>
+      <span>ana@srv-datos</span>
+    </div>
+    <div class="progress">
+      <ol class="phases" id="phases" aria-label="Progreso por fases"></ol>
+      <span class="mbar" aria-hidden="true"><span id="mbarFill"></span></span>
+      <span class="mcount" id="mcount">Tarea <b>0</b>/25</span>
+    </div>
+    <div class="tb-stats">
+      <span class="stat" title="Tiempo desde el inicio"><span aria-hidden="true">⏱</span> <b id="clock">00:00</b></span>
+      <span class="stat stat-xp"><span aria-hidden="true">⭐</span> <b id="xpValue">0</b> XP</span>
+      <span class="stat stat-level" id="levelName">Nivel 1 · Consulta cuentas</span>
+    </div>
+    <div class="tb-actions">
+      <button type="button" class="btn btn-sm js-open-modal" data-modal="helpModal" aria-haspopup="dialog" aria-controls="helpModal">❓ Ayuda</button>
+      <button type="button" class="btn btn-sm" id="resetBtn">↺ Reiniciar</button>
+      <button type="button" class="btn btn-sm" id="quitBtn">⌂ Portada</button>
+    </div>
+  </header>
+
+  <main class="game-main">
+    <section class="term-window" id="termWindow" aria-label="Terminal">
+      <div class="term-titlebar">
+        <span class="term-dots" aria-hidden="true"><span></span><span></span><span></span></span>
+        <span class="term-title" id="termTitle">ana@srv-datos: ~ — bash</span>
+      </div>
+      <div class="terminal" id="terminal">
+        <div id="terminalOutput" role="log" aria-label="Salida de la terminal"></div>
+        <form id="terminalForm" class="input-line" autocomplete="off">
+          <label for="terminalInput" class="sr-only">Escribe una orden y pulsa Intro</label>
+          <span class="prompt" id="promptLabel" aria-hidden="true"></span>
+          <input type="text" id="terminalInput" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false">
+        </form>
+      </div>
+
+      <div class="nano" id="nano" hidden role="dialog" aria-modal="true" aria-labelledby="nanoFile">
+        <div class="nano-head"><span>GNU nano 7.2</span><b id="nanoFile">fichero</b><span id="nanoMod"></span></div>
+        <label for="nanoText" class="sr-only">Contenido del fichero. Ctrl+O guarda, Ctrl+X sale, Ctrl+K corta la línea, Ctrl+U pega.</label>
+        <textarea id="nanoText" spellcheck="false" autocapitalize="off" autocorrect="off"></textarea>
+        <div class="nano-msg" id="nanoMsg" role="status" aria-live="polite"></div>
+        <div class="nano-keys" id="nanoKeys">
+          <button type="button" data-nano="save"><kbd>^O</kbd>Guardar</button>
+          <button type="button" data-nano="exit"><kbd>^X</kbd>Salir</button>
+          <button type="button" data-nano="cut"><kbd>^K</kbd>Cortar línea</button>
+          <button type="button" data-nano="paste"><kbd>^U</kbd>Pegar</button>
+        </div>
+      </div>
+    </section>
+
+    <aside class="side" aria-label="Tarea actual">
+      <div id="missionSlot"></div>
+      <section class="log-card" aria-labelledby="logTitle">
+        <h2 id="logTitle">Registro de la semana</h2>
+        <ol class="mission-log" id="missionLog"></ol>
+      </section>
+    </aside>
+  </main>
+</div>
+
+<!-- ==========================================================
+     PANTALLA 3 · INFORME FINAL
+     ========================================================== -->
+<main id="screenDebrief" class="screen-debrief" hidden aria-labelledby="debriefTitle">
+  <div class="debrief-wrap">
+    <p class="eyebrow">Informe de la semana · TecnoAtlántica</p>
+    <h1 id="debriefTitle" class="debrief-title" tabindex="-1">Altas y bajas cerradas</h1>
+    <p class="debrief-msg" id="debriefMsg"></p>
+
+    <div class="stats-row">
+      <div class="stat-box xp"><span class="k">Experiencia</span><span class="v" id="dXp">0 XP</span></div>
+      <div class="stat-box lvl"><span class="k">Nivel alcanzado</span><span class="v" id="dLevel">Nivel 1</span></div>
+      <div class="stat-box"><span class="k">Tiempo</span><span class="v" id="dTime">00:00</span></div>
+      <div class="stat-box"><span class="k">Pistas usadas</span><span class="v" id="dHints">0</span></div>
+      <div class="stat-box"><span class="k">Tareas resueltas</span><span class="v" id="dDone">0</span></div>
+    </div>
+
+    <h2>Insignias</h2>
+    <ul class="badge-grid" id="badgeGrid"></ul>
+
+    <h2>Tareas de la semana</h2>
+    <div class="table-wrap">
+      <table class="report-table">
+        <thead>
+          <tr><th scope="col">Código</th><th scope="col">Tarea</th><th scope="col">Cómo se resolvió</th><th scope="col">XP</th></tr>
+        </thead>
+        <tbody id="reportBody"></tbody>
+      </table>
+    </div>
+
+    <h2>Decisiones arriesgadas</h2>
+    <ul class="risky-list" id="riskyList"></ul>
+
+    <div class="debrief-actions">
+      <button type="button" class="btn btn-primary btn-big" id="againBtn">↺ Jugar de nuevo</button>
+      <button type="button" class="btn" id="homeBtn">⌂ Volver a la portada</button>
+    </div>
+  </div>
+</main>
+
+<div class="toasts" id="toasts" aria-hidden="true"></div>
+<p class="sr-only" id="announcer" role="status" aria-live="polite"></p>
+
+<!-- ==========================================================
+     MODAL DE AYUDA
+     ========================================================== -->
+<div class="modal-overlay" id="helpModal" hidden>
+  <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
+    <div class="modal-head">
+      <h2 id="helpTitle">❓ Guía rápida de cuentas y grupos</h2>
+      <button type="button" class="btn btn-sm js-close-modal">✕ Cerrar</button>
+    </div>
+
+    <section>
+      <h3>Cómo se identifica a alguien</h3>
+      <p style="margin:0 0 0.6rem;font-size:0.87rem;">
+        Cada cuenta tiene un <strong>uid</strong> (número de usuario), un <strong>grupo principal</strong>
+        y, opcionalmente, <strong>grupos secundarios</strong>. Los permisos se resuelven con esos números,
+        no con el nombre. Y hay un detalle que despista siempre: el grupo principal
+        <em>no</em> aparece en la lista de miembros de <code>getent group</code>; para verlo hay que usar <code>id</code>.
+      </p>
+    </section>
+
+    <section>
+      <h3>Consultar</h3>
+      <dl>
+        <dt><code>getent passwd</code> · <code>getent passwd &lt;usuario&gt;</code></dt>
+        <dd>Cuentas del sistema. Cada línea: usuario, x, uid, gid, comentario, directorio personal y <strong>shell</strong>.</dd>
+        <dt><code>getent group</code> · <code>getent group &lt;grupo&gt;</code></dt>
+        <dd>Grupos y sus miembros secundarios.</dd>
+        <dt><code>id &lt;usuario&gt;</code> · <code>groups &lt;usuario&gt;</code></dt>
+        <dd>Todos los grupos de una persona, principal incluido.</dd>
+        <dt><code>passwd -S &lt;usuario&gt;</code></dt>
+        <dd>Estado de la cuenta: <code>P</code> con contraseña, <code>L</code> bloqueada, <code>NP</code> sin contraseña.</dd>
+      </dl>
+    </section>
+
+    <section>
+      <h3>Crear cuentas</h3>
+      <dl>
+        <dt><code>useradd -m -s /bin/bash -c "Nombre" &lt;usuario&gt;</code></dt>
+        <dd><code>-m</code> crea el directorio personal (<strong>sin ella no se crea</strong>), <code>-s</code> fija el intérprete y <code>-c</code> el comentario.</dd>
+        <dt><code>-g &lt;grupo&gt;</code> vs <code>-G &lt;g1,g2&gt;</code></dt>
+        <dd>Minúscula: grupo <strong>principal</strong>. Mayúscula: grupos <strong>secundarios</strong>. Confundirlas es el error más común.</dd>
+        <dt><code>-r</code> · <code>-s /usr/sbin/nologin</code></dt>
+        <dd>Cuenta de sistema, para servicios. Con <code>nologin</code> nadie puede iniciar sesión con ella.</dd>
+        <dt><code>passwd &lt;usuario&gt;</code></dt>
+        <dd>Le asigna contraseña. Sin ella, la cuenta existe pero no entra.</dd>
+      </dl>
+    </section>
+
+    <section>
+      <h3>Cambiar pertenencias</h3>
+      <dl>
+        <dt><code>usermod -aG &lt;grupo&gt; &lt;usuario&gt;</code></dt>
+        <dd><strong>Siempre con <code>-a</code>.</strong> Sin ella, <code>-G</code> sustituye la lista completa de grupos secundarios y saca a la persona de todos los demás.</dd>
+        <dt><code>gpasswd -a &lt;usuario&gt; &lt;grupo&gt;</code> · <code>gpasswd -d &lt;usuario&gt; &lt;grupo&gt;</code></dt>
+        <dd>Añade o quita un miembro sin tocar el resto de la cuenta. Ojo al orden: primero el usuario.</dd>
+        <dt><code>groupadd &lt;grupo&gt;</code> · <code>groupdel &lt;grupo&gt;</code></dt>
+        <dd>Crear y borrar grupos. No se puede borrar el grupo principal de una cuenta existente.</dd>
+      </dl>
+    </section>
+
+    <section>
+      <h3>Bajas</h3>
+      <dl>
+        <dt><code>usermod -L &lt;usuario&gt;</code> · <code>passwd -l &lt;usuario&gt;</code></dt>
+        <dd><strong>Bloquear.</strong> La cuenta no inicia sesión pero sigue existiendo y conserva la propiedad de sus ficheros. Es lo que se hace en una baja.</dd>
+        <dt><code>usermod -U &lt;usuario&gt;</code></dt>
+        <dd>Desbloquear.</dd>
+        <dt><code>userdel &lt;usuario&gt;</code> · <code>userdel -r &lt;usuario&gt;</code></dt>
+        <dd><strong>Eliminar.</strong> Con <code>-r</code> borra también el directorio personal. Sin <code>-r</code>, la carpeta se queda ahí y su dueño pasa a ser un número suelto.</dd>
+      </dl>
+    </section>
+
+    <section>
+      <h3>Y no lo olvides</h3>
+      <p style="margin:0;font-size:0.87rem;">
+        Casi todo esto necesita privilegios: <code>sudo &lt;orden&gt;</code>. Y cuando dudes de una opción,
+        <code>man useradd</code>, <code>man usermod</code> o <code>man gpasswd</code> están instalados en el propio sistema.
+      </p>
+    </section>
+
+    <section class="keys">
+      <h3>Atajos de teclado en la terminal</h3>
+      <p style="margin:0;font-size:0.87rem;">
+        <kbd>↑</kbd> <kbd>↓</kbd> historial · <kbd>Tab</kbd> autocompletar ·
+        <kbd>Ctrl</kbd>+<kbd>L</kbd> limpiar pantalla · <kbd>Ctrl</kbd>+<kbd>C</kbd> cancelar la línea.
+      </p>
+    </section>
+  </div>
+</div>
+
+<!-- Biblioteca común de los retos -->
+<script src="../shared/js/core.js"></script>
+<script src="../shared/js/terminal.js"></script>
+<script src="../shared/js/shell.js"></script>
+<script src="../shared/js/man.js"></script>
+<script src="../shared/js/modal.js"></script>
+<script src="../shared/js/editor.js"></script>
+<script src="../shared/js/game.js"></script>
+<script src="../shared/js/vfs.js"></script>
+<script src="../shared/js/sysmodel.js"></script>
+<script src="../shared/js/cmd-posix.js"></script>
+<script src="../shared/js/cmd-posix-admin.js"></script>
+<script src="../shared/js/sandbox.js"></script>
+<script src="../shared/data/man-linux.js"></script>
+<!-- Datos del reto -->
+<script src="data/config.js"></script>
+<script src="data/gamification.js"></script>
+<script src="data/missions.js"></script>
+<!-- Lógica y arranque -->
+<script src="js/missions.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

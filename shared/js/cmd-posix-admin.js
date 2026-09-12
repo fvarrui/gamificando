@@ -108,6 +108,7 @@
       if (name !== user().name && needRoot("passwd")) { return; }
       if (o.status) {
         pre(name + " " + (u.locked ? "L" : u.password ? "P" : "NP") + " " + new Date(ctx.now ? ctx.now() : Date.now()).toISOString().slice(0, 10) + " 0 99999 7 -1");
+        emit({ type: "passwd", name: name, status: true, locked: !!u.locked });
         return;
       }
       if (o.lock) { u.locked = true; pre("passwd: contraseña cambiada."); emit({ type: "passwd", name: name, locked: true }); return; }
@@ -172,12 +173,14 @@
           var g = sys.group(u.group);
           pre(u.name + ":x:" + u.uid + ":" + (g ? g.gid : 0) + ":" + u.comment + ":" + u.home + ":" + u.shell);
         });
+        emit({ type: "getent", db: "passwd", key: key || null, count: users.length });
         return;
       }
       if (db === "group") {
         var groups = key ? [sys.group(key)].filter(Boolean) : util.sortedKeys(sys.groups).map(function (n) { return sys.groups[n]; });
         if (!groups.length) { term.status.code = 2; return; }
         groups.forEach(function (g) { pre(g.name + ":x:" + g.gid + ":" + g.members.join(",")); });
+        emit({ type: "getent", db: "group", key: key || null, count: groups.length });
         return;
       }
       fail("getent: base de datos no admitida en el simulador: " + db);
