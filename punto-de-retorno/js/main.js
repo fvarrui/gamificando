@@ -51,6 +51,8 @@
         renderPhases();
         VG.renderRepo();
         term.renderPrompt();
+        /* La ficha se repinta con innerHTML: hay que volver a marcar los cameos */
+        if (RG.cameos) { RG.cameos.apply(RG.$("missionSlot")); }
       },
       report: function () { showDebrief(); }
     }
@@ -256,6 +258,7 @@
     game.renderRisky(RG.$("riskyList"),
       "Ninguna: ni secretos en el historial, ni push forzado, ni trabajo perdido. " + doneCount + " misiones resueltas por ti.");
 
+    if (RG.cameos) { RG.cameos.apply(RG.$("screenDebrief")); }
     RG.showScreen("debrief");
     RG.$("debriefTitle").focus();
   }
@@ -291,6 +294,7 @@
   });
 
   RG.Modal.bind();
+  if (RG.cameos) { RG.cameos.bind(); RG.cameos.apply(document.body); }
   buildPhaseOptions();
   game.renderStats();
   renderPhases();

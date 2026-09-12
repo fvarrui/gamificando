@@ -24,7 +24,7 @@ Qué esperar:
 |---|---|
 | `type="module"`, `import`, `export`, `fetch(` | **ninguna coincidencia** en los juegos: romperían `file://` (los guiones de `.claude/skills/` sí son módulos ES, pero se ejecutan con Node) |
 | `localStorage` / `sessionStorage` | **ninguna**: el progreso vive en memoria, por protección de datos |
-| URLs externas | solo las de los créditos y la del servidor Git ficticio; **sin CDN, sin fuentes web, sin analítica** |
+| URLs externas | solo las de los créditos, la del servidor Git ficticio y las de `es.wikipedia.org` de los cameos del reparto; **sin CDN, sin fuentes web, sin analítica** |
 | Rutas que empiezan por `/` | **ninguna**: todas relativas (`../shared/…`), o se romperán en Pages bajo `/usuario/repo/` |
 
 ## Comprobaciones manuales

@@ -42,6 +42,14 @@ apellido.
 | Carrie-Anne Moss · Jackie Chan | Las dos altas | `moss`, `chan` |
 | Brigitte Nielsen | La que se fue y dejó ficheros huérfanos | `nielsen` |
 
+**Huevo de pascua:** pulsar el nombre de un personaje abre su página de Wikipedia, pero **no debe
+parecer un enlace** (sin subrayado, sin color propio y sin cambio de cursor). Lo resuelve
+`shared/js/cameos.js` envolviendo los nombres en un `<span class="cameo" data-wiki="…">` con un
+único escuchador delegado, **nunca un `<a>`**: así es decoración y no navegación, el lector de
+pantalla lee el nombre como texto y no entra en el orden de tabulación. `#terminalOutput` queda
+excluido a propósito, para no romper la ilusión de consola. Como la ficha de tarea y el informe se
+pintan con `innerHTML`, hay que volver a llamar a `RG.cameos.apply()` después de cada repintado.
+
 No se cita ninguna etapa, ciclo ni módulo concretos (ni «Formación Profesional», ni «1.º DAM», ni nombres de módulos): los retos se etiquetan por **temas** (Linux, Windows, PowerShell, Consola, Ficheros, Permisos, ACL, Usuarios, Grupos, Servicios, systemd, Docker, Redes, Seguridad, Git, Trabajo en equipo) para que sirvan en cualquier contexto que los trabaje.
 
 Todo el texto de la interfaz, los comentarios y la documentación están en español, con tildes y signos correctos.

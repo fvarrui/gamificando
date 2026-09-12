@@ -21,6 +21,7 @@ const SUITES = [
   ['Arranque imposible', 'test-arranque-imposible.mjs'],
   ['Carga crítica', 'test-carga-critica.mjs'],
   ['Movimiento reducido', 'test-reducido.mjs'],
+  ['Cameos a Wikipedia', 'test-cameos.mjs'],
   ['Portada del repositorio', 'test-portada.mjs']
 ];
 

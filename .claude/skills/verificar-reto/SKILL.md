@@ -37,6 +37,7 @@ Cada guion devuelve código de salida 1 si falla alguna comprobación e imprime
 | `test-arranque-imposible.mjs` | Las 24 tareas de servicios y que *Disabled* impide arrancar incluso a mano |
 | `test-carga-critica.mjs` | Las 26 tareas de contenedores: volúmenes, puertos ocupados, `build` y Compose |
 | `test-reducido.mjs` | `prefers-reduced-motion` activado y la pregunta de guardado de nano |
+| `test-cameos.mjs` | Los nombres del reparto abren su Wikipedia sin parecer enlaces, y la terminal se queda fuera |
 | `test-portada.mjs` | La portada de GitHub Pages: que estén todos los retos y que cada uno cargue con rutas relativas |
 | `capturas.mjs` | Capturas de portada, juego y vista móvil de todos los retos |
 

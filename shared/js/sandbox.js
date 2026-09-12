@@ -294,7 +294,11 @@
           if (id) { id.classList.add("secure"); }
           term.sys("ok", "El informe final está listo. Pulsa «" + (labels.report || "📋 Ver informe final") + "» en la ficha lateral.");
         },
-        render: function () { renderPhases(); },
+        render: function () {
+          renderPhases();
+          /* La ficha se repinta con innerHTML: hay que volver a marcar los cameos */
+          if (RG.cameos) { RG.cameos.apply(RG.$("missionSlot")); }
+        },
         report: function () { S.showDebrief(); }
       }
     });
@@ -453,6 +457,7 @@
       });
 
       game.renderRisky(RG.$("riskyList"), texts.noRisky || ("Ninguna. " + doneCount + " tareas resueltas por ti, sin romper nada."));
+      if (RG.cameos) { RG.cameos.apply(RG.$("screenDebrief")); }
       RG.showScreen("debrief");
       RG.$("debriefTitle").focus();
     };
@@ -489,6 +494,7 @@
         goHome();
       });
       RG.Modal.bind();
+      if (RG.cameos) { RG.cameos.bind(); RG.cameos.apply(document.body); }
       buildPhaseOptions();
       S.resetState();
       game.renderStats();
