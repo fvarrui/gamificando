@@ -139,6 +139,16 @@
   border-bottom: 1px dotted var(--green-border);
 }
 .credits a:hover { color: var(--white); border-bottom-style: solid; }
+/* Enlace al repositorio: discreto, del color del propio pie */
+.credits .repo-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--text-dim);
+  border-bottom: none;
+}
+.credits .repo-link svg { width: 1em; height: 1em; flex: none; fill: currentColor; }
+.credits .repo-link:hover { color: var(--green); border-bottom: none; }
 
 /* ---------------- INFORME FINAL ---------------- */
 .debrief-title { font-size: clamp(1.7rem, 5vw, 2.6rem); line-height: 1.1; margin: 0 0 0.8rem; color: var(--white); }
