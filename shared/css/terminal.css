@@ -109,3 +109,15 @@
 }
 .input-line input:focus-visible { outline: none; }
 .input-line.disabled { opacity: 0.35; }
+
+/* En pantallas estrechas, un prompt largo (usuario@equipo:ruta$) empujaba
+   el campo fuera de la vista: se pasa a dos líneas y se escribe debajo. */
+@media (max-width: 560px) {
+  .input-line { flex-wrap: wrap; }
+  .input-line .prompt {
+    flex-basis: 100%;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+  .input-line input { width: 100%; }
+}

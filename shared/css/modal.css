@@ -36,7 +36,10 @@
 .modal-dialog dt { font-weight: bold; margin-top: 0.5rem; }
 .modal-dialog dd { margin: 0.15rem 0 0.3rem; font-size: 0.87rem; }
 .modal-dialog p { font-size: 0.87rem; }
-.help-table { width: 100%; border-collapse: collapse; font-size: 0.84rem; }
+/* En un móvil, una tabla de cuatro columnas no cabe: que scrolle ella
+   sola en horizontal, en vez de quedar cortada o empujar la página */
+.help-table { width: 100%; border-collapse: collapse; font-size: 0.84rem; display: block; overflow-x: auto; }
+@media (min-width: 561px) { .help-table { display: table; } }
 .help-table th, .help-table td { border: 1px solid var(--border); padding: 0.35rem 0.5rem; text-align: left; vertical-align: top; }
 .help-table th { color: var(--text-dim); background: var(--bg-card); }
 .keys kbd {

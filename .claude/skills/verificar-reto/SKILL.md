@@ -38,6 +38,7 @@ Cada guion devuelve código de salida 1 si falla alguna comprobación e imprime
 | `test-carga-critica.mjs` | Las 26 tareas de contenedores: volúmenes, puertos ocupados, `build` y Compose |
 | `test-reducido.mjs` | `prefers-reduced-motion` activado y la pregunta de guardado de nano |
 | `test-cameos.mjs` | Los nombres del reparto abren su Wikipedia sin parecer enlaces, y la terminal se queda fuera |
+| `test-responsive.mjs` | Ningún reto hace scroll horizontal a 360 ni a 400 px, en portada, guía de ayuda, partida e informe |
 | `test-portada.mjs` | La portada de GitHub Pages: que estén todos los retos y que cada uno cargue con rutas relativas |
 | `capturas.mjs` | Capturas de portada, juego y vista móvil de todos los retos |
 
@@ -72,8 +73,12 @@ Usa siempre `scripts/helpers.mjs` (`checker()` y `game(b)`), que ya resuelven lo
   salida correcta, mensaje de error, y que el comando no rompe la tarea en curso.
 - **Una tarea nueva o cambiada** → añade su código y su solución a `PASOS` (o `SOLUCIONES`, en Git)
   del guion del reto, y comprueba que la fase siguiente sigue preparándose bien.
-- **CSS o maquetación** → las comprobaciones de 400 px y de que en escritorio la página no hace
-  scroll; si dudas, saca una captura con `capturas.mjs` y míralas.
+- **CSS o maquetación** → `test-responsive.mjs` entero, y si dudas saca una captura con
+  `capturas.mjs` y míralas. Lo que se salta con más facilidad: un contenedor `flex` **sin
+  `flex-wrap`** cuyo contenido no cabe (la barra superior, la tira de fases, los indicadores)
+  empuja toda la rejilla más allá del ancho de la ventana, y en el navegador solo se nota si
+  reduces de verdad la ventana. Solo pueden scrollar en horizontal la terminal, `.table-wrap`,
+  `.final-graph` y `.help-table`.
 
 ## Antes de dar algo por bueno
 

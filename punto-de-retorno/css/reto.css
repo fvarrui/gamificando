@@ -133,11 +133,8 @@
   overflow-x: auto;
 }
 
-@media (max-width: 1100px) {
-  .game-main { --side-w: 360px; }
-  .mbar { display: none; }
-}
 @media (max-width: 900px) {
+  /* Lo propio de este reto: el panel con pestañas.
+     El progreso por fases lo resuelve ../shared/css/phases.css */
   .side-panel { overflow: visible; }
-  .progress { justify-content: flex-start; order: 3; flex-basis: 100%; flex-wrap: wrap; }
 }

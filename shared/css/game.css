@@ -220,4 +220,10 @@
   .game-main { grid-template-columns: minmax(0, 1fr); grid-template-rows: none; }
   .side { order: -1; overflow: visible; }
   .term-window { height: 70vh; }
+  /* Los grupos de la barra superior son flex sin envolver: si no se les
+     deja plegarse, el más ancho (el nombre del nivel) empuja toda la
+     rejilla más allá del ancho de la ventana. */
+  .topbar { gap: 0.4rem 0.9rem; }
+  .tb-id, .tb-stats { flex-wrap: wrap; }
+  .stat-level { white-space: normal; }
 }
