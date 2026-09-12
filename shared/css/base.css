@@ -64,6 +64,9 @@ code {
 .btn-primary:hover { border-color: var(--green); box-shadow: 0 0 18px rgba(61, 220, 132, 0.25); }
 .btn-sm { padding: 0.35rem 0.65rem; font-size: 0.8rem; }
 .btn-big { padding: 0.85rem 1.5rem; font-size: 1.05rem; }
+/* Botón con icono en SVG (logo de GitHub, por ejemplo) */
+.btn-icon { display: inline-flex; align-items: center; gap: 0.4rem; }
+.btn-icon svg { width: 1.15em; height: 1.15em; flex: none; fill: currentColor; }
 
 .eyebrow {
   color: var(--green);
